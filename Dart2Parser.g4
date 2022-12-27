@@ -25,3 +25,4 @@ boolExp : boolExp BooleanSign boolExp # BoolMathematicsLogic
         | OP boolExp CP # BoolBetweenBracket
         | Bool_value # Bool
         | IDENTIFIER # BoolVariable ;
+function : OP ;
