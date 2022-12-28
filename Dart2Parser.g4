@@ -42,9 +42,42 @@ function_body:varDefinition
              |boolVarDefnition
              |intIncrease
              ;
+print:PRINT OP elments CP;
+elments:DataType NAME ;
+
 def_if:IF_ OP condition+ CP  OBC if_body* CBC;
+
 condition: NAME |Bool_value |DIGIT OPCO DEGIT|NAME  OPCO NAME |NAME  OPCO DIGIT|DIGIT  OPCO NAME;
 if_body:varDefinition
        |boolVarDefnition
        |intIncrease
+       |def_else_if
+       |def_else
+       |print
        ;
+def_else:ELSE_ OP condition+ CP  OBC if_body* CBC;
+
+def_else_if:LSES_IF OP condition+ CP  OBC if_body* CBC;
+
+
+
+def_while:WHILE_ OP condition* CP OBC while_body* CBC;
+
+while_body:varDefinition
+          |boolVarDefnition
+          |intIncrease
+          |def_else_if
+          |def_else
+          | print
+          ;
+variables:DataType IDENTIFIER EQ DIGIT | IDENTIFIER OPCO DIGIT ;
+
+def_for:FOR_ OP for_condition CP OBC for_body CBC ;
+
+for_condition:variables SC variables SC intIncrease;
+
+for_body:def_for
+        |def_if
+        |print
+        ;
+
