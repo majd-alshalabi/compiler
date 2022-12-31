@@ -28,6 +28,7 @@ boolExp : boolExp BooleanSign boolExp # BoolMathematicsLogic
         | Bool_value # Bool
         | IDENTIFIER # BoolVariable ;
 //////////////////////////////////////
+
 def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) OBC class_body*  CBC;
 
 class_body:varDefinition
@@ -40,6 +41,7 @@ def_function_void:VOID_ IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC function_
 
 
 def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC function_body* RETURN_ IDENTIFIER SC CBC;
+
 function_body:varDefinition
              |boolVarDefnition
              |intIncrease
@@ -51,5 +53,6 @@ elseContent : content*;
 condition: condition ComparisonSign condition # MultiCondition
         | exp ComparisonNormalVarSign exp # ComparisonBetweenTwoNormalVar
         | boolExp # ConditionBool ;
+
 
 
