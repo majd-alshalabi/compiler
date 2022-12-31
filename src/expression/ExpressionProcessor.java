@@ -6,6 +6,8 @@ import expression.VariableDeclaration;
 import expression.ifs.ELSE;
 import expression.ifs.ELSEIF;
 import expression.ifs.IF;
+import expression.loops.ForLoop;
+import expression.loops.WhileLoop;
 import expression.math.*;
 import expression.variableValue.*;
 import org.antlr.v4.runtime.misc.Pair;
@@ -57,8 +59,8 @@ public class ExpressionProcessor {
         else if(e instanceof Addition)
         {
             Addition addition = (Addition) e;
-            VariableValue left = getEvaResult(addition.left(),level);
-            VariableValue right = getEvaResult(addition.right(),level);
+            VariableValue left = getEvaResult(addition.left,level);
+            VariableValue right = getEvaResult(addition.right,level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -81,8 +83,8 @@ public class ExpressionProcessor {
         else if(e instanceof Multiplication)
         {
             Multiplication multiplication = (Multiplication) e;
-            VariableValue left = getEvaResult(multiplication.left(),level);
-            VariableValue right = getEvaResult(multiplication.right(),level);
+            VariableValue left = getEvaResult(multiplication.left,level);
+            VariableValue right = getEvaResult(multiplication.right,level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -93,8 +95,8 @@ public class ExpressionProcessor {
         else if(e instanceof Divide)
         {
             Divide divide = (Divide) e;
-            VariableValue left = getEvaResult(divide.left(),level);
-            VariableValue right = getEvaResult(divide.right(),level);
+            VariableValue left = getEvaResult(divide.left,level);
+            VariableValue right = getEvaResult(divide.right,level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -105,8 +107,8 @@ public class ExpressionProcessor {
         else if(e instanceof Minus)
         {
             Minus minus = (Minus) e;
-            VariableValue left = getEvaResult(minus.left(),level);
-            VariableValue right = getEvaResult(minus.right(),level);
+            VariableValue left = getEvaResult(minus.left,level);
+            VariableValue right = getEvaResult(minus.right,level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -116,8 +118,8 @@ public class ExpressionProcessor {
         }
         else if(e instanceof OR or)
         {
-            VariableValue left = getEvaResult(or.left(),level);
-            VariableValue right = getEvaResult(or.right(),level);
+            VariableValue left = getEvaResult(or.left,level);
+            VariableValue right = getEvaResult(or.right,level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() | bool2.value());
@@ -125,8 +127,8 @@ public class ExpressionProcessor {
         }
         else if(e instanceof AND and)
         {
-            VariableValue left = getEvaResult(and.left(),level);
-            VariableValue right = getEvaResult(and.right(),level);
+            VariableValue left = getEvaResult(and.left,level);
+            VariableValue right = getEvaResult(and.right,level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() & bool2.value());
@@ -134,8 +136,8 @@ public class ExpressionProcessor {
         }
         else if(e instanceof XOR xor)
         {
-            VariableValue left = getEvaResult(xor.left(),level);
-            VariableValue right = getEvaResult(xor.right(),level);
+            VariableValue left = getEvaResult(xor.left,level);
+            VariableValue right = getEvaResult(xor.right,level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() ^ bool2.value());
@@ -172,6 +174,14 @@ public class ExpressionProcessor {
             else if(expression instanceof ELSE)
             {
                 evaInner(((ELSE) expression).expressionList,level + 1);
+            }
+            else if(expression instanceof ForLoop)
+            {
+                evaInner(((ForLoop) expression).expressionList(),level + 1);
+            }
+            else if(expression instanceof WhileLoop)
+            {
+                evaInner(((WhileLoop) expression).expressionList(),level + 1);
             }
         }
     }

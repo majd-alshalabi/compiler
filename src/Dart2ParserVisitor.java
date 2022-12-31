@@ -146,12 +146,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#function_body}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunction_body(Dart2Parser.Function_bodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#def_if}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -175,6 +169,32 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitElseContent(Dart2Parser.ElseContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_for}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_for(Dart2Parser.Def_forContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code for_Int_Increment}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_Int_Increment(Dart2Parser.For_Int_IncrementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code for_var_Eq}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_var_Eq(Dart2Parser.For_var_EqContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_while}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_while(Dart2Parser.Def_whileContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ConditionBool}
 	 * labeled alternative in {@link Dart2Parser#condition}.

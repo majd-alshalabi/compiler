@@ -32,7 +32,7 @@ String_type : 'String';
 Double_type : 'double';
 Bool_type: 'bool';
 Bool_value : TRUE_ | FALSE_;
-MathMaticalSign: PL | MINUS | ST | SL | PC;
+MathMaticalSign: PL | MINUS | ST | SL | PC ;
 BooleanSign: P | A | CIR;
 EQFORNORMALMATH: ME | PE| STE | PLE | SQSE | SE;
 EQFORBOOLEANMATH: AE | NE | POE | CIRE;

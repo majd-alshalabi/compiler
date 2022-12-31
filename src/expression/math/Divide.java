@@ -3,9 +3,11 @@ package expression.math;
 
         import expression.Expression;
 
-public record Divide(Expression left, Expression right) implements Expression {
-        @Override public String getType()
-        {
-                return "divide";
+public class Divide extends MathLogic {
+        public final Expression left,  right;
+
+        public Divide(Expression left, Expression right) {
+                this.left = left;
+                this.right = right;
         }
 }

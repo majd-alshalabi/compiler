@@ -4,6 +4,8 @@ import expression.ifs.ELSE;
 import expression.ifs.ELSEIF;
 import expression.ifs.IF;
 import expression.ifs.NotAnyOfTheIfStatement;
+import expression.loops.ForLoop;
+import expression.loops.WhileLoop;
 import expression.math.*;
 import expression.Expression;
 import expression.Variable;
@@ -254,7 +256,7 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
             }
             return temp;
         }
-        else
+        else if(Objects.equals(math, "/"))
         {
             Divide temp = new Divide(left,right);
             if(getEvaResult(temp) == null)
@@ -265,6 +267,18 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
             }
             return temp;
         }
+        else if(Objects.equals(math, "%"))
+        {
+            Remainder temp = new Remainder(left,right);
+            if(getEvaResult(temp) == null)
+            {
+                int line = token.getLine();
+                int column = token.getCharPositionInLine() + 1;
+                semanticErrors.add("Error : type mismatch" + "( line : " + line + ", column : " + column + ")");
+            }
+            return temp;
+        }
+        else return null;
 
     }
 
@@ -290,8 +304,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof Addition addition)
         {
-            VariableValue left = getEvaResult(addition.left());
-            VariableValue right = getEvaResult(addition.right());
+            VariableValue left = getEvaResult(addition.left);
+            VariableValue right = getEvaResult(addition.right);
             if(left instanceof NumberValue num1 && right instanceof NumberValue num2)
             {
                 value = new NumberValue(num1.number() + num2.number());
@@ -307,8 +321,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof Multiplication multiplication)
         {
-            VariableValue left = getEvaResult(multiplication.left());
-            VariableValue right = getEvaResult(multiplication.right());
+            VariableValue left = getEvaResult(multiplication.left);
+            VariableValue right = getEvaResult(multiplication.right);
             if(left instanceof NumberValue num1 && right instanceof NumberValue num2)
             {
                 value = new NumberValue(num1.number() * num2.number());
@@ -316,8 +330,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof Divide divide)
         {
-            VariableValue left = getEvaResult(divide.left());
-            VariableValue right = getEvaResult(divide.right());
+            VariableValue left = getEvaResult(divide.left);
+            VariableValue right = getEvaResult(divide.right);
             if(left instanceof NumberValue num1 && right instanceof NumberValue num2)
             {
                 value = new NumberValue(num1.number() / num2.number());
@@ -325,17 +339,26 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof Minus minus)
         {
-            VariableValue left = getEvaResult(minus.left());
-            VariableValue right = getEvaResult(minus.right());
+            VariableValue left = getEvaResult(minus.left);
+            VariableValue right = getEvaResult(minus.right);
             if(left instanceof NumberValue num1 && right instanceof NumberValue num2)
             {
                 value = new NumberValue(num1.number() - num2.number());
             }
         }
+        else if(e instanceof Remainder remainder)
+        {
+            VariableValue left = getEvaResult(remainder.left);
+            VariableValue right = getEvaResult(remainder.right);
+            if(left instanceof NumberValue num1 && right instanceof NumberValue num2)
+            {
+                value = new NumberValue(num1.number() % num2.number());
+            }
+        }
         else if(e instanceof OR or)
         {
-            VariableValue left = getEvaResult(or.left());
-            VariableValue right = getEvaResult(or.right());
+            VariableValue left = getEvaResult(or.left);
+            VariableValue right = getEvaResult(or.right);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() | bool2.value());
@@ -343,8 +366,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof AND and)
         {
-            VariableValue left = getEvaResult(and.left());
-            VariableValue right = getEvaResult(and.right());
+            VariableValue left = getEvaResult(and.left);
+            VariableValue right = getEvaResult(and.right);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() & bool2.value());
@@ -352,8 +375,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         }
         else if(e instanceof XOR xor)
         {
-            VariableValue left = getEvaResult(xor.left());
-            VariableValue right = getEvaResult(xor.right());
+            VariableValue left = getEvaResult(xor.left);
+            VariableValue right = getEvaResult(xor.right);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() ^ bool2.value());
@@ -703,8 +726,8 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         return new BooleanValue(false);
     }
     @Override public Expression visitComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx) {
-        Expression left = visit(ctx.getChild(0));
-        Expression right = visit(ctx.getChild(2));
+        Expression left = getEvaResult(visit(ctx.getChild(0)));
+        Expression right = getEvaResult(visit(ctx.getChild(2)));
         String sign = ctx.getChild(1).getText();
         Token token = ctx.ComparisonNormalVarSign().getSymbol();
         int line = token.getLine();
@@ -836,6 +859,148 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
 
         }
         return new NotAnyOfTheIfStatement();
+    }
+
+    @Override public Expression visitDef_for(Dart2Parser.Def_forContext ctx) {
+        VariableDeclaration initialVar = (VariableDeclaration) visit(ctx.varDefinition());
+        boolean condition = ((BooleanValue) visit(ctx.condition())).value();
+        List<Expression> expressions = new ArrayList<>();
+        while (condition)
+        {
+            for (int i = 0; i < ctx.content().size(); i++) {
+                Expression expression = visit(ctx.content(i));
+                expressions.add(expression);
+            }
+            expressions.forEach(expression ->{
+                if(expression instanceof VariableDeclaration)
+                {
+                    for (VariableDeclaration variableDeclaration:variables) {
+                        if(variableDeclaration.id() == ((VariableDeclaration) expression).id())
+                        {
+                            variables.remove(variableDeclaration);
+                            break;
+                        }
+                    }
+
+                }
+            });
+            visit(ctx.for_Increment());
+            condition = ((BooleanValue) visit(ctx.condition())).value();
+        }
+        for (VariableDeclaration variableDeclaration:variables) {
+            if(variableDeclaration.id() == initialVar.id())
+            {
+                variables.remove(variableDeclaration);
+                break;
+            }
+        }
+        return new ForLoop(expressions);
+    }
+
+    @Override public Expression visitFor_Int_Increment(Dart2Parser.For_Int_IncrementContext ctx) {
+        Variable var = new Variable(ctx.getChild(0).getText());
+        boolean isIncrease = Objects.equals(ctx.getChild(1).getText(), "++");
+        Token token = ctx.IDENTIFIER().getSymbol();
+        final boolean[] check = {false};
+        Expression equal = null;
+        for (int i = 0 ; i < variables.size() ; i ++)
+        {
+            VariableDeclaration temp = variables.get(i);
+            if(Objects.equals(temp.id().id(), var.id())) {
+                if(!Objects.equals(temp.dataType(), "int") && !Objects.equals(temp.dataType(), "double"))
+                {
+                    int line = token.getLine();
+                    int column = token.getCharPositionInLine() + 1;
+                    semanticErrors.add("Error : variable " + var.id() + " isn't of type integer " + "( line : " + line + ", column : " + column + ")");
+                }
+                else
+                {
+                    if(Objects.equals(temp.dataType(), "int") ) {
+                        int current = ((NumberValue) temp.value()).number();
+                        equal = new NumberValue(current + (isIncrease ? 1 : -1));
+                        variables.set(i, new VariableDeclaration(temp.id(), temp.dataType(), equal));
+                    }else if(Objects.equals(temp.dataType(), "double") )
+                    {
+                        double current = ((DoubleValue) temp.value()).value();
+                        equal = new DoubleValue(current + (isIncrease ? 1 : -1));
+                        variables.set(i, new VariableDeclaration(temp.id(), temp.dataType(), equal));
+                    }
+                }
+                check[0] = true;
+            }
+        }
+        if(!check[0])
+        {
+            int line = token.getLine();
+            int column = token.getCharPositionInLine() + 1;
+            semanticErrors.add("Error : variable " + var.id() + " isn't define " + "(" + line + "," + column + ")");
+        }
+        return new VariableEQ(var , equal);
+    }
+    @Override public Expression visitFor_var_Eq(Dart2Parser.For_var_EqContext ctx) {
+        Variable var = new Variable(ctx.getChild(0).getText());
+        String equalType = ctx.getChild(1).getText();
+        Token token = ctx.IDENTIFIER().getSymbol();
+        String type = "";
+        Expression equal = null;
+        final boolean[] check = {false};
+        for (int i = 0 ; i < variables.size() ; i ++)
+        {
+            VariableDeclaration temp = variables.get(i);
+            if(Objects.equals(temp.id().id(), var.id())) {
+                if(ctx.getChildCount() > 2)
+                {
+                    equal = differentTypeOfEqual(Objects.equals(equalType, "+=") ? MathType.plus : Objects.equals(equalType, "-=")
+                                    ? MathType.minus : Objects.equals(equalType, "*=")
+                                    ? MathType.multi : Objects.equals(equalType, "/=")
+                                    ? MathType.divide : MathType.equal
+                            ,variables.get(i).value(),visit(ctx.getChild(2))
+                            ,(ctx.EQ() == null ? ctx.EQFORNORMALMATH() : ctx.EQ()).getSymbol());
+                }
+                variables.set(i,new VariableDeclaration(temp.id() , temp.dataType() , equal));
+                check[0] = true;
+                type = temp.dataType();
+            }
+        }
+        if(!check[0])
+        {
+            int line = token.getLine();
+            int column = token.getCharPositionInLine() + 1;
+            semanticErrors.add("Error : variable " + var.id() + " isn't define " + "(" + line + "," + column + ")");
+        }
+
+        if(equal != null && !Objects.equals(type, ""))
+        {
+            checkMismatch((ctx.EQ() == null ? ctx.EQFORNORMALMATH() : ctx.EQ()).getSymbol(),type,equal, var.id());
+        }
+        return new VariableEQ(var , equal);
+    }
+
+    @Override public Expression visitDef_while(Dart2Parser.Def_whileContext ctx) {
+        boolean condition = ((BooleanValue) visit(ctx.condition())).value();
+        List<Expression> expressions = new ArrayList<>();
+        while (condition)
+        {
+            for (int i = 0; i < ctx.content().size(); i++) {
+                Expression expression = visit(ctx.content(i));
+                expressions.add(expression);
+            }
+            expressions.forEach(expression ->{
+                if(expression instanceof VariableDeclaration)
+                {
+                    for (VariableDeclaration variableDeclaration:variables) {
+                        if(variableDeclaration.id() == ((VariableDeclaration) expression).id())
+                        {
+                            variables.remove(variableDeclaration);
+                            break;
+                        }
+                    }
+
+                }
+            });
+            condition = ((BooleanValue) visit(ctx.condition())).value();
+        }
+        return new WhileLoop(expressions);
     }
 
 }
