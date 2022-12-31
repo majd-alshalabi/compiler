@@ -1,11 +1,13 @@
+
 package expression.math;
 
 import expression.Expression;
 
-public record OR(Expression left, Expression right) implements Expression {
+public class OR extends MathLogic {
+    public final Expression left,  right;
 
-    @Override
-    public String getType() {
-        return "OR";
+    public OR(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
     }
 }

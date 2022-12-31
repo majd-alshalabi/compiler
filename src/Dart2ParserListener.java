@@ -237,16 +237,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#function_body}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunction_body(Dart2Parser.Function_bodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#function_body}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunction_body(Dart2Parser.Function_bodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#def_if}.
 	 * @param ctx the parse tree
 	 */
@@ -286,6 +276,50 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElseContent(Dart2Parser.ElseContentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_for}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_for(Dart2Parser.Def_forContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_for}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_for(Dart2Parser.Def_forContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code for_Int_Increment}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_Int_Increment(Dart2Parser.For_Int_IncrementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code for_Int_Increment}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_Int_Increment(Dart2Parser.For_Int_IncrementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code for_var_Eq}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_var_Eq(Dart2Parser.For_var_EqContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code for_var_Eq}
+	 * labeled alternative in {@link Dart2Parser#for_Increment}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_var_Eq(Dart2Parser.For_var_EqContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_while}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_while(Dart2Parser.Def_whileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_while}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_while(Dart2Parser.Def_whileContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ConditionBool}
 	 * labeled alternative in {@link Dart2Parser#condition}.

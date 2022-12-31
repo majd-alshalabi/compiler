@@ -1,10 +1,13 @@
+
 package expression.math;
 
 import expression.Expression;
 
-public record XOR(Expression left, Expression right) implements Expression {
-    @Override
-    public String getType() {
-        return "xor";
+public class XOR extends MathLogic {
+    public final Expression left,  right;
+
+    public XOR(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
     }
 }

@@ -1,10 +1,13 @@
+
 package expression.math;
 
 import expression.Expression;
 
-public record Minus(Expression left, Expression right) implements Expression {
-    @Override public String getType()
-    {
-        return "minus";
+public class Minus extends MathLogic {
+    public final Expression left,  right;
+
+    public Minus(Expression left, Expression right) {
+        this.left = left;
+        this.right = right;
     }
 }
