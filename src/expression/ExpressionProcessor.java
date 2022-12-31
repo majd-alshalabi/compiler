@@ -3,8 +3,12 @@ package expression;
 import expression.Expression;
 import expression.Variable;
 import expression.VariableDeclaration;
+import expression.ifs.ELSE;
+import expression.ifs.ELSEIF;
+import expression.ifs.IF;
 import expression.math.*;
 import expression.variableValue.*;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +18,7 @@ import java.util.Map;
 public class ExpressionProcessor {
 
     List<Expression> li ;
-    public Map<String , VariableValue> values ;
+    public Map<String , Pair<VariableValue , Integer > > values ;
 
     public ExpressionProcessor(List<Expression> li)
     {
@@ -24,31 +28,10 @@ public class ExpressionProcessor {
 
     public List<String> getResult(){
         List<String> evaluation  = new ArrayList<>();
-        for (Expression expression: li) {
-//            System.out.println(expression);
-            if(expression instanceof VariableDeclaration)
-            {
-                VariableDeclaration e = (VariableDeclaration) expression;
-                VariableValue temp = getEvaResult(e.value());
-//                System.out.println(temp);
-                values.put(e.id().id(),temp);
-            }
-            else if(expression instanceof VariableEQ){
-                VariableEQ e = (VariableEQ) expression;
-                VariableValue temp = getEvaResult(e.value());
-//                System.out.println(temp);
-                values.replace(e.id().id(),temp);
-            }
-            else
-            {
-                String input = expression.toString();
-                VariableValue result = getEvaResult(expression);
-                evaluation.add(input + " is " + result);
-            }
-        }
+        evaInner(li,0);
         return evaluation ;
     }
-    private VariableValue getEvaResult(Expression e){
+    private VariableValue getEvaResult(Expression e , int level){
         VariableValue value = null;
         if(e instanceof NumberValue)
         {
@@ -69,13 +52,13 @@ public class ExpressionProcessor {
         else if(e instanceof Variable)
         {
             Variable v = (Variable) e;
-            value = values.get(v.id());
+            value = values.get(v.id()).a;
         }
         else if(e instanceof Addition)
         {
             Addition addition = (Addition) e;
-            VariableValue left = getEvaResult(addition.left());
-            VariableValue right = getEvaResult(addition.right());
+            VariableValue left = getEvaResult(addition.left(),level);
+            VariableValue right = getEvaResult(addition.right(),level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -98,8 +81,8 @@ public class ExpressionProcessor {
         else if(e instanceof Multiplication)
         {
             Multiplication multiplication = (Multiplication) e;
-            VariableValue left = getEvaResult(multiplication.left());
-            VariableValue right = getEvaResult(multiplication.right());
+            VariableValue left = getEvaResult(multiplication.left(),level);
+            VariableValue right = getEvaResult(multiplication.right(),level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -110,8 +93,8 @@ public class ExpressionProcessor {
         else if(e instanceof Divide)
         {
             Divide divide = (Divide) e;
-            VariableValue left = getEvaResult(divide.left());
-            VariableValue right = getEvaResult(divide.right());
+            VariableValue left = getEvaResult(divide.left(),level);
+            VariableValue right = getEvaResult(divide.right(),level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -122,8 +105,8 @@ public class ExpressionProcessor {
         else if(e instanceof Minus)
         {
             Minus minus = (Minus) e;
-            VariableValue left = getEvaResult(minus.left());
-            VariableValue right = getEvaResult(minus.right());
+            VariableValue left = getEvaResult(minus.left(),level);
+            VariableValue right = getEvaResult(minus.right(),level);
             if(left instanceof NumberValue && right instanceof NumberValue)
             {
                 NumberValue num1 = (NumberValue)left;
@@ -133,8 +116,8 @@ public class ExpressionProcessor {
         }
         else if(e instanceof OR or)
         {
-            VariableValue left = getEvaResult(or.left());
-            VariableValue right = getEvaResult(or.right());
+            VariableValue left = getEvaResult(or.left(),level);
+            VariableValue right = getEvaResult(or.right(),level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() | bool2.value());
@@ -142,8 +125,8 @@ public class ExpressionProcessor {
         }
         else if(e instanceof AND and)
         {
-            VariableValue left = getEvaResult(and.left());
-            VariableValue right = getEvaResult(and.right());
+            VariableValue left = getEvaResult(and.left(),level);
+            VariableValue right = getEvaResult(and.right(),level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() & bool2.value());
@@ -151,13 +134,45 @@ public class ExpressionProcessor {
         }
         else if(e instanceof XOR xor)
         {
-            VariableValue left = getEvaResult(xor.left());
-            VariableValue right = getEvaResult(xor.right());
+            VariableValue left = getEvaResult(xor.left(),level);
+            VariableValue right = getEvaResult(xor.right(),level);
             if(left instanceof BooleanValue bool1 && right instanceof BooleanValue bool2)
             {
                 value = new BooleanValue(bool1.value() ^ bool2.value());
             }
         }
         return value;
+    }
+
+    public void evaInner(List<Expression> expressionList , int level){
+        for (Expression expression:
+             expressionList) {
+            if(expression instanceof VariableDeclaration)
+            {
+                VariableDeclaration e = (VariableDeclaration) expression;
+                VariableValue temp = getEvaResult(e.value(),level);
+//                System.out.println(temp);
+                /// TODO handle same variable name in multi s
+                values.put(e.id().id(),new Pair<>(temp , level));
+            }
+            else if(expression instanceof VariableEQ){
+                VariableEQ e = (VariableEQ) expression;
+                VariableValue temp = getEvaResult(e.value(),level);
+//                System.out.println(temp);
+                values.replace(e.id().id(),new Pair<>(temp ,  values.get(e.id().id()).b));
+            }
+            else if(expression instanceof IF)
+            {
+                evaInner(((IF) expression).expressionList(),level + 1);
+            }
+            else if(expression instanceof ELSEIF)
+            {
+                evaInner(((ELSEIF) expression).expressionList,level + 1);
+            }
+            else if(expression instanceof ELSE)
+            {
+                evaInner(((ELSE) expression).expressionList,level + 1);
+            }
+        }
     }
 }

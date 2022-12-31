@@ -196,4 +196,130 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBoolBetweenBracket(Dart2Parser.BoolBetweenBracketContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_class}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_class(Dart2Parser.Def_classContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_class}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_class(Dart2Parser.Def_classContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#class_body}.
+	 * @param ctx the parse tree
+	 */
+	void enterClass_body(Dart2Parser.Class_bodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#class_body}.
+	 * @param ctx the parse tree
+	 */
+	void exitClass_body(Dart2Parser.Class_bodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_function_void}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_function_void(Dart2Parser.Def_function_voidContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_function_void}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_function_void(Dart2Parser.Def_function_voidContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_function_datatype}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_function_datatype}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#function_body}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_body(Dart2Parser.Function_bodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#function_body}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_body(Dart2Parser.Function_bodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_if}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_if(Dart2Parser.Def_ifContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_if}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_if(Dart2Parser.Def_ifContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfContent(Dart2Parser.IfContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfContent(Dart2Parser.IfContentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseIfContent(Dart2Parser.ElseIfContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseIfContent(Dart2Parser.ElseIfContentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#elseContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseContent(Dart2Parser.ElseContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#elseContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseContent(Dart2Parser.ElseContentContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ConditionBool}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterConditionBool(Dart2Parser.ConditionBoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ConditionBool}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitConditionBool(Dart2Parser.ConditionBoolContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ComparisonBetweenTwoNormalVar}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ComparisonBetweenTwoNormalVar}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MultiCondition}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiCondition(Dart2Parser.MultiConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MultiCondition}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiCondition(Dart2Parser.MultiConditionContext ctx);
 }

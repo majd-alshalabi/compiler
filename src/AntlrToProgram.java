@@ -20,7 +20,8 @@ public class AntlrToProgram extends Dart2ParserBaseVisitor<Program>{
         AntlrToExpression antlrToExpression = new AntlrToExpression(semanticError);
         for(int i = 0 ; i < ctx.getChildCount() ; i++)
         {
-            program.addToTheExpressionList(antlrToExpression.visit(ctx.getChild(i)));
+            Expression child = antlrToExpression.visit(ctx.getChild(i));
+            program.addToTheExpressionList(child);
         }
         return program;
     }

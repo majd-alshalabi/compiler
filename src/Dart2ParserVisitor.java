@@ -121,4 +121,79 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBoolBetweenBracket(Dart2Parser.BoolBetweenBracketContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_class}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_class(Dart2Parser.Def_classContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#class_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClass_body(Dart2Parser.Class_bodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_function_void}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_function_void(Dart2Parser.Def_function_voidContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_function_datatype}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#function_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunction_body(Dart2Parser.Function_bodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_if}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_if(Dart2Parser.Def_ifContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfContent(Dart2Parser.IfContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseIfContent(Dart2Parser.ElseIfContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#elseContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseContent(Dart2Parser.ElseContentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConditionBool}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionBool(Dart2Parser.ConditionBoolContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ComparisonBetweenTwoNormalVar}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiCondition}
+	 * labeled alternative in {@link Dart2Parser#condition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiCondition(Dart2Parser.MultiConditionContext ctx);
 }

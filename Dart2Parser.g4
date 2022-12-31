@@ -8,7 +8,9 @@ content: varDefinition
         | varEQ
         | intIncrease
         | boolVarDefnition
-        | boolVarEq ;
+        | boolVarEq
+        | def_if
+        ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
 varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
 intIncrease: IDENTIFIER (PLPL | MM)  SC ;
@@ -26,25 +28,34 @@ boolExp : boolExp BooleanSign boolExp # BoolMathematicsLogic
         | Bool_value # Bool
         | IDENTIFIER # BoolVariable ;
 //////////////////////////////////////
-def_class:CLASS_ NAME ( | EXTENDS_ NAME ) OBC class_body*  CBC;
+def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) OBC class_body*  CBC;
 
 class_body:varDefinition
          |boolVarDefnition
          |def_function_datatype
          |def_function_void
-          ;
+         ;
 
-def_function_void:VOID_ NAME OP (DataType NAME C*)* CP OBC function_body* CBC;
+def_function_void:VOID_ IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC function_body* CBC;
 
 
-def_function_datatype:DataType NAME OP (DataType NAME C*)* CP OBC function_body* RETURN_ NAME SC CBC;
+def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC function_body* RETURN_ IDENTIFIER SC CBC;
 function_body:varDefinition
              |boolVarDefnition
              |intIncrease
              ;
-def_if:IF_ OP condition+ CP  OBC if_body* CBC;
-condition: NAME |Bool_value |DIGIT OPCO DEGIT|NAME  OPCO NAME |NAME  OPCO DIGIT|DIGIT  OPCO NAME;
-if_body:varDefinition
-       |boolVarDefnition
-       |intIncrease
-       ;
+def_if:IF_ OP condition CP  OBC ifContent CBC (ELSE_ IF_ OP condition CP  OBC elseIfContent CBC)* (ELSE_ OBC elseContent CBC)?;
+ifContent :  (varDefinition
+            | varEQ
+            | intIncrease
+            | boolVarDefnition
+            | boolVarEq
+            | def_if)*
+            ;
+elseIfContent : content*;
+elseContent : content*;
+condition: condition ComparisonSign condition # MultiCondition
+        | exp ComparisonNormalVarSign exp # ComparisonBetweenTwoNormalVar
+        | boolExp # ConditionBool ;
+
+

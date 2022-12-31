@@ -1,5 +1,9 @@
 import constant.MathType;
 import expression.VariableEQ;
+import expression.ifs.ELSE;
+import expression.ifs.ELSEIF;
+import expression.ifs.IF;
+import expression.ifs.NotAnyOfTheIfStatement;
 import expression.math.*;
 import expression.Expression;
 import expression.Variable;
@@ -24,7 +28,30 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
     /// the whole project
     @Override
     public Expression visitContent(Dart2Parser.ContentContext ctx) {
-        return super.visitContent(ctx);
+        Expression expression = super.visitContent(ctx);
+//        if(expression instanceof IF)
+//        {
+//            ((IF) expression).expressionList().forEach(expression1 -> {
+//                if(expression1 instanceof VariableDeclaration)
+//                {
+//                    variables.remove(expression1);
+//                }
+//                else if(expression1 instanceof VariableEQ)
+//                {
+//                    for (VariableDeclaration variableDeclaration:
+//                         variables) {
+//                        if(variableDeclaration.id() == ((VariableEQ) expression1).id())
+//                        {
+//                            VariableDeclaration temp = new VariableDeclaration(variableDeclaration.id() , variableDeclaration.dataType() , ((VariableEQ) expression1).id());
+//                            variables.remove(variableDeclaration);
+//                            variables.add(temp);
+//                            break;
+//                        }
+//                    }
+//                }
+//            });
+//        }
+        return expression;
     }
 
 
@@ -652,6 +679,163 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
             semanticErrors.add("Error : " + value2.getType() + " is not settable for type " + value.getType() + " ( line : "+ line + " , column : " +column + ")");
         }
         return value;
+    }
+
+    @Override public Expression visitMultiCondition(Dart2Parser.MultiConditionContext ctx) {
+        Expression left = visit(ctx.getChild(0));
+        Expression right = visit(ctx.getChild(2));
+        String sign = ctx.getChild(1).getText();
+        Token token = ctx.ComparisonSign().getSymbol();
+        int line = token.getLine();
+        int column = token.getCharPositionInLine();
+        if(left instanceof BooleanValue && right instanceof BooleanValue)
+        {
+            if(Objects.equals(sign, "&&")) return new BooleanValue(((BooleanValue) left).value() && ((BooleanValue) right).value());
+            else if(Objects.equals(sign, "||")) return new BooleanValue(((BooleanValue) left).value() || ((BooleanValue) right).value());
+            else
+            {
+                semanticErrors.add("Error : un define comparison sign " + " ( line : "+ line + " , column : " +column + ")");
+            }
+        }
+        else {
+            semanticErrors.add("Error : var must be of type bool " + " ( line : "+ line + " , column : " +column + ")");
+        }
+        return new BooleanValue(false);
+    }
+    @Override public Expression visitComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx) {
+        Expression left = visit(ctx.getChild(0));
+        Expression right = visit(ctx.getChild(2));
+        String sign = ctx.getChild(1).getText();
+        Token token = ctx.ComparisonNormalVarSign().getSymbol();
+        int line = token.getLine();
+        int column = token.getCharPositionInLine();
+        if(left.getClass() == right.getClass())
+        {
+            if(left instanceof NumberValue)
+            {
+                if(Objects.equals(sign, "==")) return new BooleanValue(((NumberValue) left).number() == ((NumberValue) right).number());
+                if(Objects.equals(sign, "<=")) return new BooleanValue(((NumberValue) left).number() <= ((NumberValue) right).number());
+                if(Objects.equals(sign, ">=")) return new BooleanValue(((NumberValue) left).number() >= ((NumberValue) right).number());
+                if(Objects.equals(sign, "<")) return new BooleanValue(((NumberValue) left).number() < ((NumberValue) right).number());
+                if(Objects.equals(sign, ">")) return new BooleanValue(((NumberValue) left).number() > ((NumberValue) right).number());
+            }
+            else if(left instanceof StringValue)
+            {
+                if(Objects.equals(sign, "==")) return new BooleanValue(Objects.equals(((StringValue) left).value(), ((StringValue) right).value()));
+                else
+                {
+                    semanticErrors.add("Error : un define sign between string " + "( " + line + " , " + column + " )");
+                }
+            }else if(left instanceof DoubleValue)
+            {
+                if(Objects.equals(sign, "==")) return new BooleanValue(((DoubleValue) left).value() == ((DoubleValue) right).value());
+                if(Objects.equals(sign, "<=")) return new BooleanValue(((DoubleValue) left).value() <= ((DoubleValue) right).value());
+                if(Objects.equals(sign, ">=")) return new BooleanValue(((DoubleValue) left).value() >= ((DoubleValue) right).value());
+                if(Objects.equals(sign, "<")) return new BooleanValue(((DoubleValue) left).value() < ((DoubleValue) right).value());
+                if(Objects.equals(sign, ">")) return new BooleanValue(((DoubleValue) left).value() > ((DoubleValue) right).value());
+            }
+            else {
+                semanticErrors.add("Error : data type miss match in " + "( " + line + " , " + column + " )");
+            }
+        }
+        else {
+            semanticErrors.add("Error : un equal data type can not be compared" + "( " + line + " , " + column + " )");
+        }
+        return new BooleanValue(false);
+    }
+
+    @Override public Expression visitConditionBool(Dart2Parser.ConditionBoolContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    ///////////////////////////////////////////////////// IFFFFFFFFFF
+
+    @Override public Expression visitDef_if(Dart2Parser.Def_ifContext ctx) {
+        boolean condition = ((BooleanValue)visit(ctx.condition(0))).value();
+        if(!condition)
+        {
+            boolean doElseCondition = true;
+            for(int i = 1 ; i < ctx.condition().size()  ; i++)
+            {
+                boolean elseIfCondition = ((BooleanValue)visit(ctx.condition(i))).value();
+                if(elseIfCondition)doElseCondition = false;
+                if(elseIfCondition)
+                {
+                    List<Expression> expressions = new ArrayList<>();
+                    for(int j = 0 ; j < ctx.elseIfContent(i - 1).content().size() ; j++)
+                    {
+                        expressions.add(visitContent(ctx.elseIfContent(i - 1).content(j)));
+                    }
+                    expressions.forEach(expression ->{
+                        if(expression instanceof VariableDeclaration)
+                        {
+                            for (VariableDeclaration variableDeclaration:variables) {
+                                if(variableDeclaration.id() == ((VariableDeclaration) expression).id())
+                                {
+                                    variables.remove(variableDeclaration);
+                                    break;
+                                }
+                            }
+
+                        }
+                    });
+                    return new ELSEIF(expressions);
+                }
+            }
+            if(doElseCondition)
+            {
+                if(ctx.elseContent() != null) {
+                    List<Expression> expressions = new ArrayList<>();
+                    for(int i = 0 ; i < ctx.elseContent().content().size() ; i++)
+                    {
+                        expressions.add(visitContent(ctx.elseContent().content(i)));
+                    }
+                    expressions.forEach(expression ->{
+                        if(expression instanceof VariableDeclaration)
+                        {
+                            for (VariableDeclaration variableDeclaration:variables) {
+                                if(variableDeclaration.id() == ((VariableDeclaration) expression).id())
+                                {
+                                    variables.remove(variableDeclaration);
+                                    break;
+                                }
+                            }
+
+                        }
+                    });
+                    return new ELSE(expressions);
+                }
+                else
+                {
+                    return new NotAnyOfTheIfStatement();
+                }
+            }
+        }
+        else
+        {
+            List<Expression> expressions = new ArrayList<>();
+            for(int i = 0 ; i < ctx.ifContent().children.size() ; i++)
+            {
+                Expression temp = visit(ctx.ifContent().children.get(i)) ;
+                expressions.add(temp);
+            }
+            expressions.forEach(expression ->{
+                if(expression instanceof VariableDeclaration)
+                {
+                    for (VariableDeclaration variableDeclaration:variables) {
+                        if(variableDeclaration.id() == ((VariableDeclaration) expression).id())
+                        {
+                            variables.remove(variableDeclaration);
+                            break;
+                        }
+                    }
+
+                }
+            });
+            return new IF(expressions);
+
+        }
+        return new NotAnyOfTheIfStatement();
     }
 
 }
