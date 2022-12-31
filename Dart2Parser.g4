@@ -45,13 +45,7 @@ function_body:varDefinition
              |intIncrease
              ;
 def_if:IF_ OP condition CP  OBC ifContent CBC (ELSE_ IF_ OP condition CP  OBC elseIfContent CBC)* (ELSE_ OBC elseContent CBC)?;
-ifContent :  (varDefinition
-            | varEQ
-            | intIncrease
-            | boolVarDefnition
-            | boolVarEq
-            | def_if)*
-            ;
+ifContent : content*;
 elseIfContent : content*;
 elseContent : content*;
 condition: condition ComparisonSign condition # MultiCondition
