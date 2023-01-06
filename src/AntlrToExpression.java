@@ -11,6 +11,7 @@ import expression.Expression;
 import expression.Variable;
 import expression.VariableDeclaration;
 import expression.variableValue.*;
+import expression.widgets.*;
 import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
@@ -30,30 +31,7 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
     /// the whole project
     @Override
     public Expression visitContent(Dart2Parser.ContentContext ctx) {
-        Expression expression = super.visitContent(ctx);
-//        if(expression instanceof IF)
-//        {
-//            ((IF) expression).expressionList().forEach(expression1 -> {
-//                if(expression1 instanceof VariableDeclaration)
-//                {
-//                    variables.remove(expression1);
-//                }
-//                else if(expression1 instanceof VariableEQ)
-//                {
-//                    for (VariableDeclaration variableDeclaration:
-//                         variables) {
-//                        if(variableDeclaration.id() == ((VariableEQ) expression1).id())
-//                        {
-//                            VariableDeclaration temp = new VariableDeclaration(variableDeclaration.id() , variableDeclaration.dataType() , ((VariableEQ) expression1).id());
-//                            variables.remove(variableDeclaration);
-//                            variables.add(temp);
-//                            break;
-//                        }
-//                    }
-//                }
-//            });
-//        }
-        return expression;
+        return super.visitContent(ctx);
     }
 
 
@@ -505,7 +483,7 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         return value;
     }
 
-    @Override public Expression visitDouble(Dart2Parser.DoubleContext ctx) {
+    @Override public Expression visitDOUBLE(Dart2Parser.DOUBLEContext ctx) {
         String x = ctx.getChild(0).getText();
         double number = Double.parseDouble(x);
         return new DoubleValue(number);
@@ -1003,5 +981,93 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         return new WhileLoop(expressions);
     }
 
-}
+
+
+
+    //// widgets
+    @Override public Expression visitWidget(Dart2Parser.WidgetContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override public Expression visitDefContainer(Dart2Parser.DefContainerContext ctx) {
+        return visit(ctx.containerBody());
+    }
+
+    @Override public Expression visitContainerBody(Dart2Parser.ContainerBodyContext ctx) {
+        Container container = new Container();
+        if(ctx.CHILD_() != null)
+        {
+            container.widget = (Widget) visit(ctx.CHILD_());
+        }
+        if(ctx.WIDTH_() != null)
+        {
+            container.width = visit(ctx.WIDTH_());
+        }
+        if(ctx.HEIGHT_() != null)
+        {
+            container.height = visit(ctx.HEIGHT_());
+        }
+        return container;
+    }
+    @Override public Expression visitExpandedBody(Dart2Parser.ExpandedBodyContext ctx) {
+        Expanded expanded = new Expanded();
+        if(ctx.CHILD_() != null)
+        {
+            expanded.widget = (Widget) visit(ctx.CHILD_());
+        }
+        return expanded;
+    }
+    @Override public Expression visitDefColumn(Dart2Parser.DefColumnContext ctx) {
+        Column column = new Column();
+        column.widgets = (ListOfWidgets) visit(ctx.layoutBody());
+        return column;
+    }
+
+    @Override public Expression visitDefRow(Dart2Parser.DefRowContext ctx) {
+        Row row = new Row();
+        row.widgets = (ListOfWidgets) visit(ctx.layoutBody());
+        return row;
+    }
+    @Override public Expression visitListView(Dart2Parser.ListViewContext ctx) {
+        ListView listView = new ListView();
+        listView.widgets = (ListOfWidgets) visit(ctx.layoutBody());
+        return listView;
+    }
+    @Override public Expression visitLayoutBody(Dart2Parser.LayoutBodyContext ctx) {
+        ListOfWidgets listOfWidgets = new ListOfWidgets();
+        ctx.widget().forEach(widgetContext -> {
+            listOfWidgets.widgetList.add((Widget) visit(widgetContext));
+        });
+        return listOfWidgets;
+    }
+    @Override public Expression visitText(Dart2Parser.TextContext ctx) {
+        Text text = new Text();
+        text.expression = visit(ctx.exp());
+        return text;
+    }
+    @Override public Expression visitImageBody(Dart2Parser.ImageBodyContext ctx) {
+        Image image = new Image();
+        if(ctx.assetImage() != null)
+        {
+            image.widget = (Widget) visit(ctx.assetImage());
+        }
+        if(ctx.WIDTH_() != null)
+        {
+            image.width = visit(ctx.WIDTH_());
+        }
+        if(ctx.HEIGHT_() != null)
+        {
+            image.height = visit(ctx.HEIGHT_());
+        }
+        return image;
+    }
+    @Override public Expression visitAssetImage(Dart2Parser.AssetImageContext ctx) {
+        AssetImage assetImage = new AssetImage(visit(ctx.exp()));
+        return assetImage;
+    }
+
+
+
+
+    }
 
