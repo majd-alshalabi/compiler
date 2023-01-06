@@ -59,6 +59,13 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBetweenBracket(Dart2Parser.BetweenBracketContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Null}
+	 * labeled alternative in {@link Dart2Parser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNull(Dart2Parser.NullContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Variable}
 	 * labeled alternative in {@link Dart2Parser#exp}.
 	 * @param ctx the parse tree
@@ -80,19 +87,19 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMathematicsLogic(Dart2Parser.MathematicsLogicContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code DOUBLE}
+	 * labeled alternative in {@link Dart2Parser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDOUBLE(Dart2Parser.DOUBLEContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code String}
 	 * labeled alternative in {@link Dart2Parser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitString(Dart2Parser.StringContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code Double}
-	 * labeled alternative in {@link Dart2Parser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDouble(Dart2Parser.DoubleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code BoolMathematicsLogic}
 	 * labeled alternative in {@link Dart2Parser#boolExp}.
@@ -122,11 +129,35 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolBetweenBracket(Dart2Parser.BoolBetweenBracketContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(Dart2Parser.ValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#print}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrint(Dart2Parser.PrintContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#elements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElements(Dart2Parser.ElementsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#def_class}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDef_class(Dart2Parser.Def_classContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#importClass}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportClass(Dart2Parser.ImportClassContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#class_body}.
 	 * @param ctx the parse tree
@@ -216,4 +247,226 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMultiCondition(Dart2Parser.MultiConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_object}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_object(Dart2Parser.Def_objectContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_switch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_switch(Dart2Parser.Def_switchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#switch_body}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitch_body(Dart2Parser.Switch_bodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defArray}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefArray(Dart2Parser.DefArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defSet}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefSet(Dart2Parser.DefSetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defMap}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefMap(Dart2Parser.DefMapContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#assignOneElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignOneElement(Dart2Parser.AssignOneElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defConst}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefConst(Dart2Parser.DefConstContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defFinal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefFinal(Dart2Parser.DefFinalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defLate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefLate(Dart2Parser.DefLateContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defDynamic}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefDynamic(Dart2Parser.DefDynamicContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defEnum}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefEnum(Dart2Parser.DefEnumContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#widget}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWidget(Dart2Parser.WidgetContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defColumn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefColumn(Dart2Parser.DefColumnContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defRow}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefRow(Dart2Parser.DefRowContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defContainer}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefContainer(Dart2Parser.DefContainerContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defExpanded}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefExpanded(Dart2Parser.DefExpandedContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#containerBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContainerBody(Dart2Parser.ContainerBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#expandedBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpandedBody(Dart2Parser.ExpandedBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#listView}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListView(Dart2Parser.ListViewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#layoutBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLayoutBody(Dart2Parser.LayoutBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#text}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitText(Dart2Parser.TextContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textField}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextField(Dart2Parser.TextFieldContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldProperties}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldProperties(Dart2Parser.TextFieldPropertiesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldTextProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldTextProperty(Dart2Parser.TextFieldTextPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldControllerProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldControllerProperty(Dart2Parser.TextFieldControllerPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldDecorationProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldDecorationProperty(Dart2Parser.TextFieldDecorationPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inputDecorationProperties}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputDecorationProperties(Dart2Parser.InputDecorationPropertiesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inputDecorationLabelTextProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputDecorationLabelTextProperty(Dart2Parser.InputDecorationLabelTextPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inputDecorationHintTextProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputDecorationHintTextProperty(Dart2Parser.InputDecorationHintTextPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inputDecorationHelperTextProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputDecorationHelperTextProperty(Dart2Parser.InputDecorationHelperTextPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inputDecorationIconProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputDecorationIconProperty(Dart2Parser.InputDecorationIconPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldOnChangedProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldOnChangedProperty(Dart2Parser.TextFieldOnChangedPropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#textFieldOnEditingCompleteProperty}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTextFieldOnEditingCompleteProperty(Dart2Parser.TextFieldOnEditingCompletePropertyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#image}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImage(Dart2Parser.ImageContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#imageBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImageBody(Dart2Parser.ImageBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#assetImage}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssetImage(Dart2Parser.AssetImageContext ctx);
 }

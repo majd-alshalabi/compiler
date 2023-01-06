@@ -10,6 +10,9 @@ import expression.loops.ForLoop;
 import expression.loops.WhileLoop;
 import expression.math.*;
 import expression.variableValue.*;
+import expression.widgets.Column;
+import expression.widgets.Container;
+import expression.widgets.Widget;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
@@ -149,16 +152,14 @@ public class ExpressionProcessor {
     public void evaInner(List<Expression> expressionList , int level){
         for (Expression expression:
              expressionList) {
-            if(expression instanceof VariableDeclaration)
+            if(expression instanceof VariableDeclaration e)
             {
-                VariableDeclaration e = (VariableDeclaration) expression;
                 VariableValue temp = getEvaResult(e.value(),level);
 //                System.out.println(temp);
                 /// TODO handle same variable name in multi s
                 values.put(e.id().id(),new Pair<>(temp , level));
             }
-            else if(expression instanceof VariableEQ){
-                VariableEQ e = (VariableEQ) expression;
+            else if(expression instanceof VariableEQ e){
                 VariableValue temp = getEvaResult(e.value(),level);
 //                System.out.println(temp);
                 values.replace(e.id().id(),new Pair<>(temp ,  values.get(e.id().id()).b));
@@ -183,6 +184,16 @@ public class ExpressionProcessor {
             {
                 evaInner(((WhileLoop) expression).expressionList(),level + 1);
             }
+            else if(expression instanceof Column){
+                List<Expression> temp = new ArrayList<>(((Column) expression).widgets.widgetList);
+                evaInner(temp,level + 1);
+            }
+            else if(expression instanceof Container){
+                List<Expression> temp = new ArrayList<>();
+                temp.add(((Container) expression).widget);
+                evaInner(temp,level + 1);
+            }
+
         }
     }
 }
