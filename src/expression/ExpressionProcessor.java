@@ -11,7 +11,6 @@ import expression.loops.WhileLoop;
 import expression.math.*;
 import expression.variableValue.*;
 import expression.widgets.Column;
-import expression.widgets.Container;
 import expression.widgets.Widget;
 import org.antlr.v4.runtime.misc.Pair;
 
@@ -184,16 +183,6 @@ public class ExpressionProcessor {
             {
                 evaInner(((WhileLoop) expression).expressionList(),level + 1);
             }
-            else if(expression instanceof Column){
-                List<Expression> temp = new ArrayList<>(((Column) expression).widgets.widgetList);
-                evaInner(temp,level + 1);
-            }
-            else if(expression instanceof Container){
-                List<Expression> temp = new ArrayList<>();
-                temp.add(((Container) expression).widget);
-                evaInner(temp,level + 1);
-            }
-
         }
     }
 }

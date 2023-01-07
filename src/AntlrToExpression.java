@@ -1,5 +1,6 @@
 import constant.MathType;
 import expression.VariableEQ;
+import expression.array.Array;
 import expression.ifs.ELSE;
 import expression.ifs.ELSEIF;
 import expression.ifs.IF;
@@ -748,6 +749,14 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
     @Override public Expression visitConditionBool(Dart2Parser.ConditionBoolContext ctx) {
         return visitChildren(ctx);
     }
+    @Override public Expression visitDefArray(Dart2Parser.DefArrayContext ctx) {
+        Array array = new Array();
+        ctx.exp().forEach(expContext -> {
+            Expression expression = visit(expContext);
+            array.expressions.add(expression);
+        });
+        return array;
+    }
 
     ///////////////////////////////////////////////////// IFFFFFFFFFF
 
@@ -1062,8 +1071,7 @@ public class AntlrToExpression extends Dart2ParserBaseVisitor<Expression>{
         return image;
     }
     @Override public Expression visitAssetImage(Dart2Parser.AssetImageContext ctx) {
-        AssetImage assetImage = new AssetImage(visit(ctx.exp()));
-        return assetImage;
+        return new AssetImage(visit(ctx.exp()));
     }
 
 
