@@ -114,15 +114,12 @@ switch_body:varDefinition
             |intIncrease
             ;
 
-defArray:
-    DataType IDENTIFIER OB NUMBER CB EQ NEW_ DataType OB NUMBER* CB
-    |DataType IDENTIFIER OB NUMBER CB EQ OBC (value C*)* CBC
-    |DataType IDENTIFIER OB  NUMBER CB EQ OB (value C*)* CB
+defArray: LIST_ IDENTIFIER EQ OB (exp C)* CB SC
     ;
 
 defSet : VAR_ IDENTIFIER EQ OB (value C*)* CB SC
         |VAR_ IDENTIFIER EQ LT DataType GT OB (value C*)* CB SC
-        |SET_ ComparisonNormalVarSign DataType ComparisonNormalVarSign IDENTIFIER EQ OB (value C*)* CB SC
+        |SET_ IDENTIFIER EQ OB (value C*)* CB SC
         |FINAL_ IDENTIFIER EQ CONST_ OB (value C*)* CB SC
         ;
 
