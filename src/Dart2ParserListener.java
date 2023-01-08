@@ -589,16 +589,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitContainerBody(Dart2Parser.ContainerBodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#expandedBody}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpandedBody(Dart2Parser.ExpandedBodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#expandedBody}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpandedBody(Dart2Parser.ExpandedBodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#listView}.
 	 * @param ctx the parse tree
 	 */
@@ -608,6 +598,16 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitListView(Dart2Parser.ListViewContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#listViewBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterListViewBody(Dart2Parser.ListViewBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#listViewBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitListViewBody(Dart2Parser.ListViewBodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#layoutBody}.
 	 * @param ctx the parse tree
@@ -759,16 +759,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitImage(Dart2Parser.ImageContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#imageBody}.
-	 * @param ctx the parse tree
-	 */
-	void enterImageBody(Dart2Parser.ImageBodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#imageBody}.
-	 * @param ctx the parse tree
-	 */
-	void exitImageBody(Dart2Parser.ImageBodyContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#assetImage}.
 	 * @param ctx the parse tree
 	 */
@@ -778,4 +768,14 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssetImage(Dart2Parser.AssetImageContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#imageBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterImageBody(Dart2Parser.ImageBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#imageBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitImageBody(Dart2Parser.ImageBodyContext ctx);
 }

@@ -1,15 +1,20 @@
 package ASTClasses.DartClasses.Class;
 
+import ASTClasses.DartClasses.Boolean.boolVarDefnition;
+import ASTClasses.DartClasses.Content.varDefinition;
+import ASTClasses.DartClasses.Function.def_function_datatype;
+import ASTClasses.DartClasses.Function.def_function_void;
+
 public class class_body {
 //    class_body:varDefinition
 //         |boolVarDefnition
 //         |def_function_datatype
 //         |def_function_void
 //         ;
-    private ASTClasses.DartClasses.Content.varDefinition varDefinition;
-    private ASTClasses.DartClasses.Boolean.boolVarDefnition boolVarDefnition;
-    private ASTClasses.DartClasses.Function.def_function_datatype def_function_datatype;
-    private ASTClasses.DartClasses.Function.def_function_void def_function_void;
+    private varDefinition varDefinition;
+    private boolVarDefnition boolVarDefnition;
+    private def_function_datatype def_function_datatype;
+    private def_function_void def_function_void;
 
     public ASTClasses.DartClasses.Content.varDefinition getVarDefinition() {
         return varDefinition;

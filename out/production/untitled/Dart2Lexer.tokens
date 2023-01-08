@@ -1,5 +1,5 @@
-DataType=1
-LIST_=2
+Main=1
+DataType=2
 Int_type=3
 String_type=4
 Double_type=5
@@ -175,7 +175,7 @@ IDENTIFIER=174
 WHITESPACE=175
 SINGLE_LINE_COMMENT=176
 MULTI_LINE_COMMENT=177
-'List'=2
+'main()'=1
 'int'=3
 'String'=4
 'double'=5

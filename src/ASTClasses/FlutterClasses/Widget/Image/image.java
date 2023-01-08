@@ -1,12 +1,13 @@
 package ASTClasses.FlutterClasses.Widget.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class image {
 //    image : IMAGE_ OP assetImage C? (imageBody C*)* CP ;
     private String IMAGE_;
     private assetImage assetImage;
-    private List<imageBody> imageBody;
+    private List<imageBody> imageBody=new ArrayList<>();;
 
     public String getIMAGE_() {
         return IMAGE_;

@@ -1,5 +1,7 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.value;
+
 public class assignOneElement {
 //    assignOneElement : IDENTIFIER OB value CB EQ value SC;
 private String IDENTIFIER;

@@ -1,5 +1,7 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.value;
+
 public class defMap {
 
 // : (VAR_ IDENTIFIER EQ OBC (value CO value C*)* CBC SC)

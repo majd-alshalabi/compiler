@@ -6,6 +6,7 @@ import ASTClasses.DartClasses.Content.For.def_for;
 import ASTClasses.DartClasses.Content.IF.def_if;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import ASTClasses.FlutterClasses.widget;
 
 public class content {
 //    content: varDefinition
@@ -29,6 +30,7 @@ public class content {
 //        | defLate
 //        | defDynamic
 //        | defEnum
+//        | widget
 //        ;
 
     private varDefinition varDefinition;
@@ -52,6 +54,15 @@ public class content {
     private defLate defLate;
     private defDynamic defDynamic;
     private defEnum defEnum;
+    private widget widget;
+
+    public ASTClasses.FlutterClasses.widget getWidget() {
+        return widget;
+    }
+
+    public void setWidget(widget widget) {
+        this.widget = widget;
+    }
 
     public ASTClasses.DartClasses.Content.varDefinition getVarDefinition() {
         return varDefinition;

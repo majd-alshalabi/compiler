@@ -1,5 +1,8 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.Boolean.boolVarDefnition;
+import ASTClasses.DartClasses.exp;
+
 public class defConst {
 
 //    defConst : CONST_ (varDefinition | boolVarDefnition | defArray)

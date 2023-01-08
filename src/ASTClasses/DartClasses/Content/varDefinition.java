@@ -1,10 +1,12 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.exp;
+
 public class varDefinition {
 //    varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
     private String DataType;
     private String IDENTIFIER;
-    private ASTClasses.DartClasses.exp exp ;
+    private exp exp ;
 
     public String getDataType() {
         return DataType;
@@ -22,7 +24,7 @@ public class varDefinition {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public ASTClasses.DartClasses.exp getExp() {
+    public exp getExp() {
         return exp;
     }
 

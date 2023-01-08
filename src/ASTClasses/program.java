@@ -30,11 +30,11 @@ public class program {
         this.def_class = def_class;
     }
 
-    public List<ASTClasses.DartClasses.Function.def_function_void> getDef_function_void() {
+    public List<def_function_void> getDef_function_void() {
         return def_function_void;
     }
 
-    public void setDef_function_void(List<ASTClasses.DartClasses.Function.def_function_void> def_function_void) {
+    public void setDef_function_void(List<def_function_void> def_function_void) {
         this.def_function_void = def_function_void;
     }
 
