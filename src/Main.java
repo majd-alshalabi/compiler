@@ -1,4 +1,5 @@
 import ASTClasses.program;
+import SymbolTable.SymbolTable;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -24,9 +25,9 @@ public class Main {
             astVisitor.visit(program);
 
 
-//            SymbolTable symbolTable = new SymbolTable();
-//            SymbolTableVisitor symbolTableVisitor = new SymbolTableVisitor(symbolTable);
-//            symbolTableVisitor.visit(program);
+            SymbolTable symbolTable = new SymbolTable();
+            SymbolTableVisitor symbolTableVisitor = new SymbolTableVisitor(symbolTable);
+            symbolTableVisitor.visit(program);
 
         } catch (IOException e) {
             e.printStackTrace();

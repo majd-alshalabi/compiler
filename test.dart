@@ -1,5 +1,5 @@
 class MainClass {
-  void main(int x, int y, String t) {
+  void main(int x, int y) {
     Row(
       children: [
         Column(

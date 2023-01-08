@@ -4,7 +4,6 @@ Program:
 		void:main
 			int:x
 			int:y
-			String:t
 		Row:
 		children:
 		Column:
