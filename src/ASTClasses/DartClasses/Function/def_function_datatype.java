@@ -6,25 +6,25 @@ import java.util.List;
 
 public class def_function_datatype {
 //    def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC content* RETURN_ exp SC CBC;
-    private String DataType;
-    private String IDENTIFIER;
+    private List<String> DataType;
+    private List<String> IDENTIFIER;
     private List<content> content;
     private String RETURN_;
     private ASTClasses.DartClasses.exp exp;
 
-    public String getDataType() {
+    public List<String> getDataType() {
         return DataType;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(List<String> dataType) {
         DataType = dataType;
     }
 
-    public String getIDENTIFIER() {
+    public List<String> getIDENTIFIER() {
         return IDENTIFIER;
     }
 
-    public void setIDENTIFIER(String IDENTIFIER) {
+    public void setIDENTIFIER(List<String> IDENTIFIER) {
         this.IDENTIFIER = IDENTIFIER;
     }
 

@@ -1,9 +1,11 @@
 package ASTClasses.FlutterClasses.Widget.textfield;
 
+import java.util.List;
+
 public class textField {
 //   /*/ TextField OP (textFieldProperties)+ CP ;
     private String TExtField;
-    private  textFieldProperties textFieldProperties;
+    private List<textFieldProperties> textFieldProperties;
 
     public String getTExtField() {
         return TExtField;
@@ -13,11 +15,11 @@ public class textField {
         this.TExtField = TExtField;
     }
 
-    public ASTClasses.FlutterClasses.Widget.textfield.textFieldProperties getTextFieldProperties() {
+    public List<ASTClasses.FlutterClasses.Widget.textfield.textFieldProperties> getTextFieldProperties() {
         return textFieldProperties;
     }
 
-    public void setTextFieldProperties(ASTClasses.FlutterClasses.Widget.textfield.textFieldProperties textFieldProperties) {
+    public void setTextFieldProperties(List<ASTClasses.FlutterClasses.Widget.textfield.textFieldProperties> textFieldProperties) {
         this.textFieldProperties = textFieldProperties;
     }
 }

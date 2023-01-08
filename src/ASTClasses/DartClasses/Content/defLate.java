@@ -1,5 +1,8 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.Boolean.boolVarDefnition;
+import ASTClasses.DartClasses.exp;
+
 public class defLate {
 //    defLate :  LATE_ (varDefinition | varDefinition | defArray)
  private String LATE_;

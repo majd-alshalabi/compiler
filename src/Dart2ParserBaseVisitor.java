@@ -401,14 +401,14 @@ public class Dart2ParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpandedBody(Dart2Parser.ExpandedBodyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitListView(Dart2Parser.ListViewContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListView(Dart2Parser.ListViewContext ctx) { return visitChildren(ctx); }
+	@Override public T visitListViewBody(Dart2Parser.ListViewBodyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -520,12 +520,12 @@ public class Dart2ParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitImageBody(Dart2Parser.ImageBodyContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssetImage(Dart2Parser.AssetImageContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssetImage(Dart2Parser.AssetImageContext ctx) { return visitChildren(ctx); }
+	@Override public T visitImageBody(Dart2Parser.ImageBodyContext ctx) { return visitChildren(ctx); }
 }

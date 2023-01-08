@@ -4,7 +4,7 @@ parser grammar Dart2Parser;
 options { tokenVocab=Dart2Lexer; }
 
 //program : def_class def_function_void def_function_datatype import
-program : content* ;
+program : importClass*  def_class (def_function_void | def_function_datatype)* ;
 
 content: varDefinition
         | varEQ
@@ -17,6 +17,8 @@ content: varDefinition
         | defArray
         | def_switch
         | def_object
+        | def_function_void
+        | def_function_datatype
         | defSet
         | defMap
         | assignOneElement
@@ -25,6 +27,7 @@ content: varDefinition
         | defLate
         | defDynamic
         | defEnum
+        |print
         | widget
         ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
@@ -54,8 +57,8 @@ print: PRINT OP (elements C*)* CP SC;
 elements : value | IDENTIFIER;
 
 //////////////////////////////////////
-def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
-          |importClass*
+def_class:(CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
+          )|importClass*
 ;
 
 importClass: IMPORT_ SingleLineString SC;
@@ -104,6 +107,7 @@ condition: condition ComparisonSign condition # MultiCondition
 
 def_object : (DataType IDENTIFIER EQ NEW_ DataType OP (DataType IDENTIFIER C*)* CP SC)
            | (DataType IDENTIFIER EQ DataType OP (DataType IDENTIFIER C*)* CP SC)
+           | (WIDGET IDENTIFIER EQ widget SC)
             ;
 
 def_switch:
@@ -114,12 +118,15 @@ switch_body:varDefinition
             |intIncrease
             ;
 
-defArray: LIST_ IDENTIFIER EQ OB (exp C)* CB SC
+defArray:
+    DataType IDENTIFIER OB NUMBER CB EQ NEW_ DataType OB NUMBER* CB
+    |DataType IDENTIFIER OB NUMBER CB EQ OBC (value C*)* CBC
+    |DataType IDENTIFIER OB  NUMBER CB EQ OB (value C*)* CB
     ;
 
 defSet : VAR_ IDENTIFIER EQ OB (value C*)* CB SC
         |VAR_ IDENTIFIER EQ LT DataType GT OB (value C*)* CB SC
-        |SET_ IDENTIFIER EQ OB (value C*)* CB SC
+        |SET_ ComparisonNormalVarSign DataType ComparisonNormalVarSign IDENTIFIER EQ OB (value C*)* CB SC
         |FINAL_ IDENTIFIER EQ CONST_ OB (value C*)* CB SC
         ;
 
@@ -149,25 +156,29 @@ widget : listView | defColumn | defRow | textField | text
 | defContainer | defExpanded | image
 ;
 
-defColumn : COLUMN_ OP layoutBody CP (C | SC)?;
-defRow : ROW_ OP layoutBody CP (C | SC)?;
-defContainer : CONTAINER_ OP containerBody CP (C | SC)?;
-defExpanded : EXPANDED_ OP expandedBody CP (C | SC)?;
+defColumn : COLUMN_ OP layoutBody* CP C?;
+defRow : ROW_ OP layoutBody* CP C?;
+defContainer : CONTAINER_ OP containerBody* CP C?;
+defExpanded : EXPANDED_ OP (CHILD_ CO widget C)? CP C?;
 
-containerBody : (CHILD_ CO widget C)?
-                (WIDTH_ CO exp C)?
-                (HEIGHT_ CO exp C)?
-;
-expandedBody : (CHILD_ CO widget C)?
+containerBody : CHILD_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? (widget C*)?
+               | PADDING_ CO PADDING_value C*
+               | WIDTH_ CO NUMBER C*
 ;
 
-listView : LISTVIEW_  OP layoutBody CP (C | SC)?;
 
+listView : LISTVIEW_  OP listViewBody* CP C?;
 
-layoutBody : (CHILDREN_ CO OB (widget C)* CB)?
+listViewBody : layoutBody+
+            | CONTROLLER CO IDENTIFIER C*
 ;
 
-text: TEXT_ OP exp  CP ;
+
+layoutBody : CHILDREN_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? OB (widget C*)* CB C*
+            | MainAxisAlignment_ CO MainAxisAlignment_value C*
+;
+
+text: TEXT_ OP SingleLineString  CP C?;
 
 textField: TextField OP (textFieldProperties)+ CP ;
 
@@ -204,12 +215,11 @@ textFieldOnEditingCompleteProperty: ONEDITINGCOMPLETE CO IDENTIFIER;
 // -- Image -- //
 // -- Date :  3/1/2023 -- //
 
-image : IMAGE_ OP imageBody CP ;
-imageBody :  (assetImage C)?
-            (WIDTH_ CO exp C)?
-            (HEIGHT_ CO exp C)?
+image : IMAGE_ OP assetImage C? (imageBody C*)* CP C*;
+assetImage : IMAGE CO ASSETIMAGE_ OP SingleLineString CP ;
+imageBody :  (WIDTH_ CO NUMBER C*)
+           | (HEIGHT_ CO NUMBER C*)
  ;
-assetImage : IMAGE CO ASSETIMAGE_ OP exp CP ;
 
 
 

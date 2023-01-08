@@ -1,5 +1,7 @@
 package ASTClasses.FlutterClasses.Widget.Container;
 
+import ASTClasses.FlutterClasses.widget;
+
 public class containerBody {
 //    containerBody : CHILD_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? (widget C*)?
 //               | PADDING_ CO PADDING_value C*

@@ -25,9 +25,9 @@
  */
 lexer grammar Dart2Lexer;
 
+Main: 'main()';
 DataType : Int_type | String_type | Double_type ;
 
-LIST_ : 'List';
 Int_type : 'int';
 String_type : 'String';
 Double_type : 'double';

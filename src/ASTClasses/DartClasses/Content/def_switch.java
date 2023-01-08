@@ -6,4 +6,28 @@ public class def_switch {
     private String SWITCH_;
     private String IDENTIFIER;
     private String CASE_;
+
+    public String getSWITCH_() {
+        return SWITCH_;
+    }
+
+    public void setSWITCH_(String SWITCH_) {
+        this.SWITCH_ = SWITCH_;
+    }
+
+    public String getIDENTIFIER() {
+        return IDENTIFIER;
+    }
+
+    public void setIDENTIFIER(String IDENTIFIER) {
+        this.IDENTIFIER = IDENTIFIER;
+    }
+
+    public String getCASE_() {
+        return CASE_;
+    }
+
+    public void setCASE_(String CASE_) {
+        this.CASE_ = CASE_;
+    }
 }

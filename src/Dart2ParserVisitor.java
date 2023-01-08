@@ -356,17 +356,17 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitContainerBody(Dart2Parser.ContainerBodyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#expandedBody}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpandedBody(Dart2Parser.ExpandedBodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#listView}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitListView(Dart2Parser.ListViewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#listViewBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListViewBody(Dart2Parser.ListViewBodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#layoutBody}.
 	 * @param ctx the parse tree
@@ -458,15 +458,15 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImage(Dart2Parser.ImageContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#imageBody}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImageBody(Dart2Parser.ImageBodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#assetImage}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssetImage(Dart2Parser.AssetImageContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#imageBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImageBody(Dart2Parser.ImageBodyContext ctx);
 }

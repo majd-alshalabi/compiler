@@ -1,5 +1,7 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.value;
+
 import java.util.List;
 
 public class defEnum {

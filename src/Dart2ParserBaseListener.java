@@ -675,18 +675,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpandedBody(Dart2Parser.ExpandedBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpandedBody(Dart2Parser.ExpandedBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterListView(Dart2Parser.ListViewContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -694,6 +682,18 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitListView(Dart2Parser.ListViewContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterListViewBody(Dart2Parser.ListViewBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitListViewBody(Dart2Parser.ListViewBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -879,18 +879,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImageBody(Dart2Parser.ImageBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImageBody(Dart2Parser.ImageBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAssetImage(Dart2Parser.AssetImageContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -898,6 +886,18 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssetImage(Dart2Parser.AssetImageContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImageBody(Dart2Parser.ImageBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImageBody(Dart2Parser.ImageBodyContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

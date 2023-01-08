@@ -1,5 +1,7 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.exp;
+
 public class defDynamic {
 //    defDynamic : DYNAMIC_ IDENTIFIER (EQ exp |) SC;
 

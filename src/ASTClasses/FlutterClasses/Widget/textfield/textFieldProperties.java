@@ -7,11 +7,11 @@ public class textFieldProperties {
 //                   | textFieldDecorationProperty
 //                   | textFieldOnChangedProperty
 //                   | textFieldOnEditingCompleteProperty
-private   textFieldTextProperty textFieldTextProperty;
+private textFieldTextProperty textFieldTextProperty;
 private textFieldControllerProperty textFieldControllerProperty;
 private textFieldDecorationProperty textFieldDecorationProperty;
-private  textFieldOnChangedProperty textFieldOnChangedProperty;
-private  textFieldOnEditingCompleteProperty textFieldOnEditingCompleteProperty;
+private textFieldOnChangedProperty textFieldOnChangedProperty;
+private textFieldOnEditingCompleteProperty textFieldOnEditingCompleteProperty;
 
     public ASTClasses.FlutterClasses.Widget.textfield.textFieldTextProperty getTextFieldTextProperty() {
         return textFieldTextProperty;

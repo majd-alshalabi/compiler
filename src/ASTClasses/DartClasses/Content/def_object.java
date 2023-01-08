@@ -1,5 +1,7 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.FlutterClasses.widget;
+
 public class def_object {
     public String getDataType() {
         return DataType;

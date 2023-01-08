@@ -5,7 +5,7 @@ import java.util.List;
 public class def_class {
 //    def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC;
     private String CLASS_;
-    private String IDENTIFIER;
+    private List<String> IDENTIFIER;
     private String EXTENDS_;
     private String WITH_;
     private List<class_body> class_body;
@@ -27,11 +27,11 @@ public class def_class {
         this.CLASS_ = CLASS_;
     }
 
-    public String getIDENTIFIER() {
+    public List<String> getIDENTIFIER() {
         return IDENTIFIER;
     }
 
-    public void setIDENTIFIER(String IDENTIFIER) {
+    public void setIDENTIFIER(List<String> IDENTIFIER) {
         this.IDENTIFIER = IDENTIFIER;
     }
 

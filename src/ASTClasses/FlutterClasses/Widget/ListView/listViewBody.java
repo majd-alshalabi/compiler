@@ -1,5 +1,7 @@
 package ASTClasses.FlutterClasses.Widget.ListView;
 
+import ASTClasses.FlutterClasses.Widget.layoutBody;
+
 import java.util.List;
 
 public class listViewBody {
@@ -7,15 +9,15 @@ public class listViewBody {
 //            | CONTROLLER CO IDENTIFIER C*
 //;
 
-    private List<ASTClasses.FlutterClasses.Widget.layoutBody> layoutBody;
+    private List<layoutBody> layoutBody;
     private String CONTROLLER;
     private String IDENTIFIER;
 
-    public List<ASTClasses.FlutterClasses.Widget.layoutBody> getLayoutBody() {
+    public List<layoutBody> getLayoutBody() {
         return layoutBody;
     }
 
-    public void setLayoutBody(List<ASTClasses.FlutterClasses.Widget.layoutBody> layoutBody) {
+    public void setLayoutBody(List<layoutBody> layoutBody) {
         this.layoutBody = layoutBody;
     }
 
