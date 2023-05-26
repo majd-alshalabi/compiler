@@ -57,8 +57,8 @@ print: PRINT OP (elements C*)* CP SC;
 elements : value | IDENTIFIER;
 
 //////////////////////////////////////
-def_class:(CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
-          )|importClass*
+def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
+
 ;
 
 importClass: IMPORT_ SingleLineString SC;
@@ -175,7 +175,7 @@ listViewBody : layoutBody+
 
 
 layoutBody : CHILDREN_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? OB (widget C*)* CB C*
-            | MainAxisAlignment_ CO MainAxisAlignment_value C*
+
 ;
 
 text: TEXT_ OP SingleLineString  CP C?;

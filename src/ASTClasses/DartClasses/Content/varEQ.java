@@ -5,7 +5,7 @@ import ASTClasses.DartClasses.exp;
 public class varEQ {
 //    varEQ : IDENTIFIER ((EQFORNORMALMATH | EQ) exp | ) SC;
     private String IDENTIFIER;
-    private exp exp;
+    private String exp;
 
     public String getIDENTIFIER() {
         return IDENTIFIER;
@@ -15,11 +15,11 @@ public class varEQ {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public ASTClasses.DartClasses.exp getExp() {
+    public String getExp() {
         return exp;
     }
 
-    public void setExp(ASTClasses.DartClasses.exp exp) {
+    public void setExp(String exp) {
         this.exp = exp;
     }
 }

@@ -1,27 +1,40 @@
 Program:
 	 {
 		class:MainClass
+		void:function
+			boolxx((xx|x)|x)
+			null
 		void:main
-			int:x
-			int:y
-		Row:
-		children:
-		Column:
-		children:
-		Image:
-		image:AssetImage("sdfsdf"):
-		width:10
-		Text("whatsapp"),:
-		Text("Whatsapp desc."),:
-		Column:
-		children:
-		Column:
-		children:
-		Text("whatsapp"),:
-		Column:
-		children:
-		Text("whatsapp"),:
-		Column:
-		children:
-		Text("whatsapp"),:
+				int:x
+				Row:
+					children:[
+							Column:
+								children:[
+										"asgdads":
+										Image:
+											Image:
+											"grass.webp":
+											width:10
+										"whatsapp":
+										"Whatsapp desc.":
+								]
+							Column:
+								children:[
+										Column:
+											children:[
+													"whatsapp":
+											]
+										TextField:
+												controller:
+												controller1:
+										Column:
+											children:[
+													"whatsapp":
+											]
+										Column:
+											children:[
+													"whatsapp":
+											]
+								]
+					]
 	}

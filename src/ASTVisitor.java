@@ -12,6 +12,7 @@ import ASTClasses.DartClasses.Content.IF.elseIfContent;
 import ASTClasses.DartClasses.Content.IF.ifContent;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import  java.util.concurrent.ThreadLocalRandom;
 import ASTClasses.DartClasses.exp;
 import ASTClasses.DartClasses.value;
 import ASTClasses.FlutterClasses.Widget.Container.containerBody;
@@ -29,42 +30,42 @@ import ASTClasses.FlutterClasses.Widget.text;
 import ASTClasses.FlutterClasses.Widget.textfield.*;
 import ASTClasses.FlutterClasses.widget;
 import ASTClasses.program;
+import SymbolTable.symbolTableClasses.*;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class ASTVisitor {
 
-    File output = new File("test.dart");
-
+    SymbolTable symbolTable = new SymbolTable();
+    FileWriter fw ;
     public void visit(program program) {
         String space = "\t\t";
         try {
-            FileWriter fw = new FileWriter("output.txt");
-            visit("Program:" + "\n\t {", fw);
+            fw = new FileWriter("output.txt");
+            writeToFile("Program:" + "\n\t {");
             if(program.getImportClass() != null) {
                 for (int i = 0; i < program.getImportClass().size(); i++) {
-                    visit(program.getImportClass().get(i), space, fw);
+                    visit(program.getImportClass().get(i), space + '\t');
                 }
             }
             if(program.getDef_function_void() != null)
             {
                 for (int i = 0; i < program.getDef_function_void().size(); i++) {
-                    visit(program.getDef_function_void().get(i), space, fw);
+                    visit(program.getDef_function_void().get(i), space + '\t',0,-1);
                 }
             }
             if(program.getDef_class() != null)
             {
-                visit( program.getDef_class() ,space, fw);
+                visit( program.getDef_class() ,space);
             }
             if(program.getDef_function_datatype().size() > 0)
             {
                 for (int i = 0; i < program.getDef_function_datatype().size(); i++) {
-                    visit(program.getDef_function_datatype().get(i), space, fw);
+                    visit(program.getDef_function_datatype().get(i), space + '\t',-1,0);
                 }
             }
-            visit("\n\t}", fw);
+            writeToFile("\n\t}");
             fw.flush();
             fw.close();
         } catch (IOException e) {
@@ -73,93 +74,107 @@ public class ASTVisitor {
     }
 
     //Dart ----------------------------------------------------------------------
-    public void visit(def_class def_class, String Space, FileWriter fw) {
-        visit("\n" + Space + def_class.getCLASS_()+":"+def_class.getIDENTIFIER().get(0) , fw);
+    public void visit(def_class def_class, String Space) {
+        final int classId = ThreadLocalRandom.current().nextInt();
+        writeToFile("\n" + Space + def_class.getCLASS_()+":"+def_class.getIDENTIFIER().get(0));
+        addToSymbolTable(-1,new SymbolTableObject(SymbolTableRowType.Class,def_class.getIDENTIFIER().get(0),new SymbolTableObjectClassValue( 0 , classId ,-1)));
         if (def_class.getEXTENDS_() != null) {
-            visit("\n" + Space + def_class.getEXTENDS_()+":"+def_class.getIDENTIFIER().get(1), fw);
+            writeToFile("\n" + Space + def_class.getEXTENDS_()+":"+def_class.getIDENTIFIER().get(1));
         }
         if (def_class.getWITH_() != null) {
-            visit("\n" + Space + def_class.getWITH_(), fw);
+            writeToFile("\n" + Space + def_class.getWITH_());
             for(int i = 2 ; i<def_class.getIDENTIFIER().size() ; i++){
-                visit("\n" + Space + def_class.getIDENTIFIER().get(i) , fw);
+                writeToFile("\n" + Space + def_class.getIDENTIFIER().get(i));
             }
         }
         if (def_class.getClass_body() != null) {
             for (int i = 0; i < def_class.getClass_body() .size(); i++) {
-                visit(def_class.getClass_body().get(i), Space, fw);
-            }
-        }
-        if (def_class.getImportClass() != null) {
-            for (int i = 0; i < def_class.getImportClass() .size(); i++) {
-                visit(def_class.getImportClass().get(i), Space, fw);
+                visit(def_class.getClass_body().get(i), Space , classId,0);
             }
         }
     }
 
 
-    public void visit(importClass importClass, String Space, FileWriter fw) {
+    public void visit(importClass importClass, String Space) {
         if(importClass.getIMPORT_() != null){
-            visit("\n" + Space +  importClass.getIMPORT_()+":"+importClass.getSingleLineString() , fw);
+            writeToFile("\n" + Space +  importClass.getIMPORT_()+":"+importClass.getSingleLineString());
         }
     }
-    public void visit(class_body class_body, String Space, FileWriter fw) {
+    public void visit(class_body class_body, String Space , int parentId , int scope) {
         if (class_body.getVarDefinition() != null) {
-            visit(class_body.getVarDefinition(), Space, fw);
+            visit(class_body.getVarDefinition(), Space , parentId , scope);
         }
         if (class_body.getBoolVarDefnition() != null) {
-            visit(class_body.getBoolVarDefnition(), Space, fw);
+            visit(class_body.getBoolVarDefnition(), Space,parentId , scope);
         }
         if (class_body.getDef_function_datatype()!= null) {
-            visit(class_body.getDef_function_datatype(), Space, fw);
+            visit(class_body.getDef_function_datatype(), Space,parentId,scope);
         }
         if (class_body.getDef_function_void()!= null) {
-            visit(class_body.getDef_function_void(), Space, fw);
+            visit(class_body.getDef_function_void(), Space,parentId,scope);
         }
     }
 
-    public void visit(boolVarDefnition boolVarDefnition, String Space, FileWriter fw) {
-        visit("\n" + Space + boolVarDefnition.getBool_type() + boolVarDefnition.getIDENTIFIER()+ boolVarDefnition.getBoolExp(), fw);
+    public void visit(boolVarDefnition boolVarDefnition, String Space , int parentId , int scope ) {
+        final int id = ThreadLocalRandom.current().nextInt();
 
+        writeToFile("\n" + Space + boolVarDefnition.getBool_type() + boolVarDefnition.getIDENTIFIER()+ boolVarDefnition.getBoolExp());
+        addToSymbolTable(parentId ,new SymbolTableObject( SymbolTableRowType.VarDefinition,boolVarDefnition.getIDENTIFIER(),new SymbolTableObjectBoolVarDefinitionValue(scope + 1,id,parentId,boolVarDefnition.getBoolExp())) );
 
     }
-    public void visit(varDefinition varDefinition, String Space, FileWriter fw) {
-        visit("\n\t" + Space + varDefinition.getDataType() +":"+ varDefinition.getIDENTIFIER(), fw);
-        if (varDefinition. getExp() != null) {
-            visit(varDefinition. getExp(), Space, fw);
-        }
+    public void visit(varDefinition varDefinition, String Space , int parenId , int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
+
+        writeToFile("\n\t" + Space + varDefinition.getDataType() +":"+ varDefinition.getIDENTIFIER());
+        System.out.println(varDefinition.getExp());
+        System.out.println("dsfsdaf");
+        System.out.println(varDefinition.getExp());
+
+        addToSymbolTable(parenId,new SymbolTableObject(SymbolTableRowType.VarDefinition,varDefinition.getIDENTIFIER(),new SymbolTableObjectVarDefinitionValue(scope,id,parenId,varDefinition. getExp())));
+//        if (varDefinition. getExp() != null) {
+//            visit(varDefinition. getExp(), Space);
+//        }
     }
 
-    public void visit(def_function_datatype def_function_datatype, String Space, FileWriter fw) {
+    public void visit(def_function_datatype def_function_datatype, String Space , int parentId , int scope) {
         if(def_function_datatype.getDataType() != null){
-            visit("\n" + Space + def_function_datatype.getDataType().get(0) + ":" + def_function_datatype.getIDENTIFIER().get(0), fw);
+            final int id = ThreadLocalRandom.current().nextInt();
+
+            writeToFile("\n" + Space + def_function_datatype.getDataType().get(0) + ":" + def_function_datatype.getIDENTIFIER().get(0));
+            addToSymbolTable(parentId ,new SymbolTableObject(SymbolTableRowType.Function,def_function_datatype.getIDENTIFIER().get(0), new SymbolTableObjectFunctionValue(scope,id,parentId)) );
             if(def_function_datatype.getDataType().size() > 1){
                 System.out.print("\n"+Space+"\tattribute: (");
                 for (int i = 1; i < def_function_datatype.getDataType().size(); i++) {
-                    visit("\n\t" + Space + def_function_datatype.getDataType().get(i) +":"+ def_function_datatype.getIDENTIFIER().get(i), fw);
+                    writeToFile("\n\t" + Space + def_function_datatype.getDataType().get(i) +":"+ def_function_datatype.getIDENTIFIER().get(i));
+                    addToSymbolTable(parentId ,new SymbolTableObject(SymbolTableRowType.Function,def_function_datatype.getIDENTIFIER().get(0), new SymbolTableObjectFunctionValue(scope,id,parentId)));
                 }
                 System.out.print("\n"+Space+"\t)");
             }
             if (def_function_datatype.getContent() != null) {
                 System.out.print("\n"+Space+"\tbody: {");
                 for (int i = 0; i < def_function_datatype.getContent() .size(); i++) {
-                    visit(def_function_datatype.getContent().get(i), Space, fw);
+                    visit(def_function_datatype.getContent().get(i), Space,id,scope + 1);
                 }
                 System.out.print("\n"+Space+"\t}");
             }
-            visit("\n\t" + Space + def_function_datatype.getRETURN_()+":"+def_function_datatype.getExp(), fw);
+            writeToFile("\n\t" + Space + def_function_datatype.getRETURN_()+":"+def_function_datatype.getExp());
         }
     }
 
-    public void visit(def_function_void def_function_void, String Space, FileWriter fw) {
+    public void visit(def_function_void def_function_void, String Space,int parentId, int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
         if(def_function_void.getVOID_() != null) {
-            visit("\n" + Space + def_function_void.getVOID_() + ":" + def_function_void.getIDENTIFIER().get(0), fw);
+            writeToFile("\n" + Space + def_function_void.getVOID_() + ":" + def_function_void.getIDENTIFIER().get(0));
+            addToSymbolTable(parentId ,new SymbolTableObject(SymbolTableRowType.Function,def_function_void.getIDENTIFIER().get(0), new SymbolTableObjectFunctionValue(scope,id,parentId)));
         }
 
-        if(def_function_void.getDataType().size() > 0){
+        if(def_function_void.getDataType().size() > 0) {
             System.out.print("\n"+Space+"\tattribute: (");
             for (int i = 0; i < def_function_void.getDataType().size(); i++) {
-//                System.out.println(i);
-                visit("\n\t" + Space + def_function_void.getDataType().get(i) +":"+ def_function_void.getIDENTIFIER().get(i+1), fw);
+                final int id2 = ThreadLocalRandom.current().nextInt();
+
+                writeToFile("\n\t\t" + Space + def_function_void.getDataType().get(i) +":"+ def_function_void.getIDENTIFIER().get(i+1));
+                addToSymbolTable(id,new SymbolTableObject(SymbolTableRowType.VarDefinition,def_function_void.getIDENTIFIER().get(i+1),new SymbolTableObjectVarDefinitionValue(scope,id2,id,null)));
             }
             System.out.print("\n"+Space+"\t)");
         }
@@ -167,707 +182,626 @@ public class ASTVisitor {
         if (def_function_void.getContent().size() > 0) {
             System.out.print("\n"+Space+"\tbody: {");
             for (int i = 0; i < def_function_void.getContent() .size(); i++) {
-                visit(def_function_void.getContent().get(i), Space, fw);
+                visit(def_function_void.getContent().get(i), Space + '\t',id,scope + 1);
             }
             System.out.print("\n"+Space+"\t}");
         }
     }
 
-    public void visit(exp exp, String Space, FileWriter fw) {
-        visit("\n", fw);
+    public void visit(exp exp, String Space) {
+        writeToFile("\n");
         if (exp. getExp() != null) {
-            visit(exp. getExp(), Space, fw);
+            visit(exp. getExp(), Space);
         }
-        visit("\n" + Space + exp.getDOUBLE() , fw);
-        visit("\n" + Space + exp.getIDENTIFIER() , fw);
-        visit("\n" + Space + exp.getMathMaticalSign() , fw);
-        visit("\n" + Space + exp.getNUMBER() , fw);
-        visit("\n" + Space + exp.getSingleLineString() , fw);
-        visit("\n" + Space + exp.getNULL_() , fw);
+        writeToFile("\n" + Space + exp.getDOUBLE() );
+        writeToFile("\n" + Space + exp.getIDENTIFIER() );
+        writeToFile("\n" + Space + exp.getMathMaticalSign());
+        writeToFile("\n" + Space + exp.getNUMBER());
+        writeToFile("\n" + Space + exp.getSingleLineString());
+        writeToFile("\n" + Space + exp.getNULL_() );
 
     }
-    public void visit(content content, String Space, FileWriter fw) {
+    public void visit(content content, String Space,int parentId , int scope ) {
         if (content.getVarDefinition()  != null) {
-            visit(content.getVarDefinition() , Space, fw);
+
+            visit(content.getVarDefinition() , Space,parentId,scope);
         }
         if (content.getVarEQ()  != null) {
-            visit(content. getVarEQ() , Space, fw);
+            visit(content. getVarEQ() , Space,parentId , scope);
         }
         if (content.getIntIncrease()  != null) {
-            visit(content. getIntIncrease() , Space, fw);
+            visit(content. getIntIncrease() , Space);
         }
         if (content.getBoolVarDefnition()  != null) {
-            visit(content. getBoolVarDefnition(), Space, fw);
+            visit(content. getBoolVarDefnition(), Space,parentId , scope);
         }
         if (content.getBoolVarEq()  != null) {
-            visit(content. getBoolVarEq(), Space, fw);
+            visit(content. getBoolVarEq(), Space,parentId ,scope);
         }
         if (content.getDef_if()  != null) {
-            visit(content. getDef_if(), Space, fw);
+            visit(content. getDef_if(), Space,parentId,scope);
         }
         if (content. getDef_for()  != null) {
-            visit(content.  getDef_for(), Space, fw);
+            visit(content.  getDef_for(), Space , parentId , scope);
         }
         if (content. getDef_while()  != null) {
-            visit(content.  getDef_while(), Space, fw);
+            visit(content.  getDef_while(), Space , parentId , scope);
         }
         if (content. getDefArray()  != null) {
-            visit(content.  getDefArray(), Space, fw);
+            visit(content.  getDefArray(), Space);
         }
         if (content. getDef_switch()  != null) {
-            visit(content.  getDef_switch(), Space, fw);
+            visit(content.  getDef_switch(), Space);
         }
         if (content. getDef_object()  != null) {
-            visit(content.  getDef_object(), Space, fw);
+            visit(content.  getDef_object(), Space);
         }
         if (content. getDef_function_void()  != null) {
-            visit(content.  getDef_function_void(), Space, fw);
+            visit(content.  getDef_function_void(), Space ,parentId, scope);
         }
         if (content. getDef_function_datatype()  != null) {
-            visit(content.  getDef_function_datatype(), Space, fw);
-        }
-        if (content. getDefSet()  != null) {
-            visit(content.  getDefSet(), Space, fw);
-        }
-        if (content. getDefMap()  != null) {
-            visit(content.  getDefMap(), Space, fw);
-        }
-        if (content. getAssignOneElement()  != null) {
-            visit(content.  getAssignOneElement(), Space, fw);
-        }
-        if (content. getDefConst()  != null) {
-            visit(content.  getDefConst(), Space, fw);
-        }
-        if (content. getDefFinal()  != null) {
-            visit(content.  getDefFinal(), Space, fw);
-        }
-        if (content. getDefLate()  != null) {
-            visit(content. getDefLate(), Space, fw);
-        }
-        if (content. getDefDynamic()  != null) {
-            visit(content. getDefDynamic(), Space, fw);
-        }
-        if (content. getDefEnum()  != null) {
-            visit(content. getDefEnum(), Space, fw);
+            visit(content.  getDef_function_datatype(), Space,parentId,scope);
         }
         if(content.getWidget() != null){
-            visit(content.getWidget(), Space, fw);
+            visit(content.getWidget(), Space,parentId,scope);
         }
 
     }
-    public void visit(varEQ varEQ, String Space, FileWriter fw) {
-        visit("\n" + Space + varEQ. getIDENTIFIER() , fw);
-        if (varEQ . getExp()  != null) {
-            visit(varEQ . getExp(), Space, fw);
-        }
+    public void visit(varEQ varEQ, String Space,int parentId, int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
 
+        writeToFile("\n" + Space + varEQ. getIDENTIFIER());
+        addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.VarDefinition,varEQ.getIDENTIFIER(),new SymbolTableObjectVarEqualValue(scope,id,parentId,"")));
+//        if (varEQ.getExp()  != null) {
+//            visit(varEQ.getExp(), Space);
+//        }
     }
-    public void visit(intIncrease intIncrease, String Space, FileWriter fw) {
+    public void visit(intIncrease intIncrease, String Space) {
         if(intIncrease.getIDENTIFIER() !=null) {
-            visit(intIncrease.getIDENTIFIER() , fw);
+            writeToFile(intIncrease.getIDENTIFIER());
         }
-        visit("\n" + Space +intIncrease .getPLPL() , fw);
-        visit("\n" + Space +intIncrease .getMM() , fw);
+        writeToFile("\n" + Space +intIncrease .getPLPL());
+        writeToFile("\n" + Space +intIncrease .getMM());
 
     }
-    public void visit(boolVarEq boolVarEq, String Space, FileWriter fw) {
+    public void visit(boolVarEq boolVarEq, String Space , int parentId , int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
 
-        visit("\n" + Space +boolVarEq .getIDENTIFIER() , fw);
-        visit("\n" + Space +boolVarEq .getBoolExp() , fw);
-
+        writeToFile("\n" + Space +boolVarEq .getIDENTIFIER());
+        addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.VarEqual,boolVarEq .getIDENTIFIER(),new SymbolTableObjectVarEqualValue(scope,id,parentId,boolVarEq .getBoolExp())));
     }
-    public void visit(def_if def_if, String Space, FileWriter fw) {
+    public void visit(def_if def_if, String Space , int parentId, int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
 
-        visit("\n" + Space + def_if.getIF_(), fw);
         if (def_if . getCondition()  != null) {
-            visit(def_if . getCondition(), Space, fw);
+            visit(def_if . getCondition(), Space , id ,scope);
         }
+        writeToFile("\n" + Space + def_if.getIF_());
+
         if (def_if . getIfContent()  != null) {
-            visit(def_if .getIfContent() , Space, fw);
+            visit(def_if .getIfContent() , Space, id ,scope);
         }
-        visit("\n" + Space + def_if.getELSE_(), fw);
+        writeToFile("\n" + Space + def_if.getELSE_());
         if (def_if . getElseIfContent()  != null) {
-            visit(def_if . getElseIfContent(), Space, fw);
+            visit(def_if . getElseIfContent(), Space , parentId , scope + 1);
         }
 
     }
-    public void visit(condition condition, String Space, FileWriter fw) {
+    public void visit(condition condition, String Space , int parentId , int scope) {
 
         if (condition . getCondition()  != null) {
-            visit(condition. getCondition(), Space, fw);
+            visit(condition. getCondition(), Space,parentId , scope);
         }
         if (condition  . getExp()  != null) {
-            visit(condition  .getExp() , Space, fw);
+            visit(condition  .getExp() , Space);
         }
         if (condition. getBoolExp()  != null) {
-            visit( condition. getBoolExp(), Space, fw);
+            visit( condition. getBoolExp(), Space,parentId , scope);
         }
 
     }
-    public void visit(boolExp boolExp, String Space, FileWriter fw) {
+    public void visit(boolExp boolExp, String Space, int parentId, int scope) {
+        final int id = ThreadLocalRandom.current().nextInt();
 
         if (boolExp . getBoolExp()  != null) {
-            visit(boolExp . getBoolExp(), Space, fw);
+            visit(boolExp . getBoolExp(), Space,parentId,scope);
         }
-        visit("\n" + Space + boolExp .getBooleanSign() , fw);
-        visit("\n" + Space + boolExp .getBool_value(), fw);
-        visit("\n" + Space + boolExp .getIDENTIFIER() ,fw);
+        writeToFile("\n" + Space + boolExp .getBooleanSign());
+        writeToFile("\n" + Space + boolExp .getBool_value());
+        writeToFile("\n" + Space + boolExp .getIDENTIFIER());
 
     }
-    public void visit(ifContent ifContent, String Space, FileWriter fw) {
+    public void visit(ifContent ifContent, String Space , int parentId , int scope ) {
 
         if (ifContent . getContent()  != null) {
             for (int i = 0; i < ifContent . getContent() .size(); i++) {
-                visit(ifContent . getContent().get(i), Space, fw);
+                visit(ifContent . getContent().get(i), Space,parentId , scope + 1);
             }
         }
 
 
     }
-    public void visit(elseIfContent elseIfContent, String Space, FileWriter fw) {
+    public void visit(elseIfContent elseIfContent, String Space , int parentId , int scope ) {
 
         if (elseIfContent. getContent()  != null) {
             for (int i = 0; i < elseIfContent . getContent() .size(); i++) {
-                visit(elseIfContent . getContent().get(i), Space, fw);
+                visit(elseIfContent . getContent().get(i), Space , parentId , scope);
             }
         }
 
 
     }
-    public void visit(def_for def_for, String Space, FileWriter fw) {
-        visit("\n" + Space + def_for . getFOR_(), fw);
+    public void visit(def_for def_for, String Space , int parentId, int scope ) {
+        writeToFile("\n" + Space + def_for . getFOR_());
         if (def_for. getVarDefinition()  != null) {
-            visit(def_for. getVarDefinition(), Space, fw);
+            visit(def_for. getVarDefinition(), Space , parentId , scope);
         }
         if (def_for. getCondition()  != null) {
-            visit(def_for. getCondition(), Space, fw);
+            visit(def_for. getCondition(), Space , parentId , scope);
         }
         if (def_for. getFor_Increment()  != null) {
-            visit(def_for. getFor_Increment(), Space, fw);
+            visit(def_for. getFor_Increment(), Space);
         }
         if (def_for.getContent()  != null) {
             for (int i = 0; i < def_for.getContent() .size(); i++) {
-                visit(def_for.getContent().get(i), Space, fw);
+                visit(def_for.getContent().get(i), Space , parentId , scope);
             }
         }
 
 
     }
-    public void visit(for_Increment for_Increment, String Space, FileWriter fw) {
-        visit("\n" + Space + for_Increment .getIDENTIFIER() , fw);
+    public void visit(for_Increment for_Increment, String Space) {
+        writeToFile("\n" + Space + for_Increment .getIDENTIFIER());
         if (for_Increment. getExp() != null) {
-            visit(for_Increment. getExp(), Space, fw);
+            visit(for_Increment. getExp(), Space);
         }
 
 
     }
-    public void visit(def_while def_while, String Space, FileWriter fw) {
-        visit("\n" + Space + def_while .getWHILE_() , fw);
+    public void visit(def_while def_while, String Space , int parentId , int scope ) {
+        writeToFile("\n" + Space + def_while .getWHILE_());
         if (def_while. getCondition()!= null) {
-            visit(def_while. getCondition(), Space, fw);
+            visit(def_while. getCondition(), Space, parentId , scope);
         }
         if (def_while.getContent()  != null) {
             for (int i = 0; i < def_while.getContent().size(); i++) {
-                visit(def_while.getContent().get(i), Space, fw);
+                visit(def_while.getContent().get(i), Space, parentId , scope +1  );
             }
         }
 
     }
-    public void visit(defArray defArray, String Space, FileWriter fw) {
-        visit("\n" + Space + defArray .getDataType() +defArray .getIDENTIFIER(), fw);
-        visit("\n" + Space + defArray .getNUMBERS()+defArray .getNEW_(), fw);
+    public void visit(defArray defArray, String Space) {
+        writeToFile("\n" + Space + defArray .getDataType() +defArray .getIDENTIFIER());
+        writeToFile("\n" + Space + defArray .getNUMBERS()+defArray .getNEW_());
 
         if (defArray.getValue()  != null){
             for (int i = 0; i < defArray.getValue().size(); i++) {
-                visit(defArray.getValue().get(i), Space, fw);
+                visit(defArray.getValue().get(i), Space);
             }
         }
 
 
     }
-    public void visit(value value , String Space, FileWriter fw) {
-        visit("\n" + Space + value .getSingleLineString() , fw);
-        visit("\n" + Space + value .getDOUBLE() , fw);
-        visit("\n" + Space + value .getNUMBER(), fw);
+    public void visit(value value , String Space) {
+        writeToFile("\n" + Space + value .getSingleLineString());
+        writeToFile("\n" + Space + value .getDOUBLE());
+        writeToFile("\n" + Space + value .getNUMBER());
     }
-    public void visit(def_switch def_switch , String Space, FileWriter fw) {
-        visit("\n" + Space + def_switch .getSWITCH_() , fw);
-        visit("\n" + Space + def_switch.getIDENTIFIER() , fw);
-        visit("\n" + Space + def_switch.getCASE_(), fw);
+    public void visit(def_switch def_switch , String Space) {
+        writeToFile("\n" + Space + def_switch .getSWITCH_());
+        writeToFile("\n" + Space + def_switch.getIDENTIFIER());
+        writeToFile("\n" + Space + def_switch.getCASE_());
 
     }
-    public void visit(def_object def_object , String Space, FileWriter fw) {
-        visit("\n" + Space + def_object .getDataType() , fw);
-        visit("\n" + Space + def_object.getIDENTIFIER() , fw);
-        visit("\n" + Space + def_object.getNEW_(), fw);
-        visit("\n" + Space + def_object.getWIDGET(), fw);
+    public void visit(def_object def_object , String Space) {
+        writeToFile("\n" + Space + def_object .getDataType() );
+        writeToFile("\n" + Space + def_object.getIDENTIFIER() );
+        writeToFile("\n" + Space + def_object.getNEW_());
+        writeToFile("\n" + Space + def_object.getWIDGET());
        /* if (def_object. getWidget()!= null) {
-            visit(def_object. getWidget(), Space, fw);
+            visit(def_object. getWidget(), Space);
         }*/
-    }
-    public void visit(defSet DefSet, String Space, FileWriter fw) {
-        visit("\n" + Space + DefSet .getVAR_() , fw);
-        visit("\n" + Space + DefSet.getIDENTIFIER() , fw);
-        if (DefSet. getValue()!= null) {
-            visit(DefSet. getValue(), Space, fw);
-        }
-        visit("\n" + Space + DefSet.getDataType(), fw);
-        visit("\n" + Space + DefSet.getSET_(), fw);
-        visit("\n" + Space + DefSet.getFINAL_(), fw);
-        visit("\n" + Space + DefSet.getCONST_(), fw);
-    }
-    public void visit(defMap defMap, String Space, FileWriter fw) {
-        visit("\n" + Space + defMap .getVAR_() , fw);
-        visit("\n" + Space + defMap.getIDENTIFIER() , fw);
-        if (defMap. getValue()!= null) {
-            visit(defMap. getValue(), Space, fw);
-        }
-        visit("\n" + Space + defMap.getMAP_(), fw);
-        visit("\n" + Space + defMap.getDataType(), fw);
-    }
-    public void visit(assignOneElement assignOneElement, String Space, FileWriter fw) {
-        visit("\n" + Space + assignOneElement .getIDENTIFIER() , fw);
-
-    }
-    public void visit(defConst getDefConst, String Space, FileWriter fw) {
-        visit("\n" + Space + getDefConst.getCONST_() , fw);
-        if (getDefConst. getExp()!= null) {
-            visit(getDefConst .getExp(), Space, fw);
-        }
-        if (getDefConst. getVarDefinition()!= null) {
-            visit(getDefConst .getVarDefinition(), Space, fw);
-        }
-        if (getDefConst. getBoolVarDefnition()!= null) {
-            visit(getDefConst .getBoolVarDefnition(), Space, fw);
-        }
-        if (getDefConst. getDefArray()!= null) {
-            visit(getDefConst .getDefArray(), Space, fw);
-        }
-    }
-    public void visit(defFinal defFinal, String Space, FileWriter fw) {
-        visit("\n" + Space + defFinal . getFINAL_() , fw);
-        if (defFinal. getVarDefinition()!= null) {
-            visit(defFinal .getVarDefinition(), Space, fw);
-        }
-        if (defFinal. getBoolVarDefnition()!= null) {
-            visit(defFinal .getBoolVarDefnition(), Space, fw);
-        }
-        if (defFinal. getDefArray()!= null) {
-            visit(defFinal .getDefArray(), Space, fw);
-        }
-        if (defFinal. getExp()!= null) {
-            visit(defFinal .getExp(), Space, fw);
-        }
-        visit("\n" + Space + defFinal .getIDENTIFIER() , fw);
-
-    }
-    public void visit(defLate defLate , String Space, FileWriter fw) {
-        visit("\n" + Space + defLate .getLATE_() , fw);
-        if (defLate. getVarDefinition()!= null) {
-            visit(defLate .getVarDefinition(), Space, fw);
-        }
-        if (defLate. getBoolVarDefnition()!= null) {
-            visit(defLate .getBoolVarDefnition(), Space, fw);
-        }
-        if (defLate. getDefArray()!= null) {
-            visit(defLate .getDefArray(), Space, fw);
-        }
-        if (defLate.getExp() != null) {
-            visit(defLate .getExp(), Space, fw);
-        }
-        visit("\n" + Space + defLate .getIDENTIFIER() , fw);
-    }
-    public void visit(defDynamic defDynamic, String Space, FileWriter fw) {
-        visit("\n" + Space + defDynamic .getIDENTIFIER() , fw);
-        visit("\n" + Space + defDynamic . getDYNAMIC_(), fw);
-        if (defDynamic.getExp() != null) {
-            visit(defDynamic .getExp(), Space, fw);
-        }
-    }
-    public void visit(defEnum  defEnum, String Space, FileWriter fw) {
-        visit("\n" + Space + defEnum .getIDENTIFIER() , fw);
-        visit("\n" + Space + defEnum . getENUM_(), fw);
-        if (defEnum.getValue() != null) {
-            for (int i = 0; i < defEnum .getValue().size(); i++) {
-                visit(defEnum .getValue().get(i), Space, fw);
-            }
-
-        }
     }
     //EndDart ----------------------------------------------------------------------
 
 
 
     //FlutterClasses ----------------------------------------------------------------------
-    public void visit(widget widget, String space, FileWriter fw) {
+    public void visit(widget widget, String space , int parentId , int scope) {
         if (widget.getDefColumn() != null) {
-            visit(widget.getDefColumn(), space, fw);
+            visit(widget.getDefColumn(), space + '\t'  , parentId ,  scope + 1);
         }
         if (widget.getDefContainer() != null) {
-            visit(widget.getDefContainer(), space, fw);
+            visit(widget.getDefContainer(), space + '\t' , parentId ,  scope + 1);
         }
         if (widget.getDefExpanded() != null) {
-            visit(widget.getDefExpanded(), space, fw);
+            visit(widget.getDefExpanded(), space + '\t' , parentId , scope + 1);
         }
         if (widget.getText() != null) {
-            visit(widget.getText(), space, fw);
+            visit(widget.getText(), space + '\t' , parentId , scope + 1 );
         }
         if (widget.getDefRow() != null) {
-            visit(widget.getDefRow(), space, fw);
+            visit(widget.getDefRow(), space + '\t' , parentId ,scope + 1);
         }
         if (widget.getImage() != null) {
-            visit(widget.getImage(), space, fw);
+            visit(widget.getImage(), space + '\t' , parentId ,scope + 1);
         }
         if (widget.getListView() != null) {
-            visit(widget.getListView(), space, fw);
+            visit(widget.getListView(), space + '\t' , parentId , scope + 1);
         }
         if (widget.getTextField() != null) {
-            visit(widget.getTextField(), space, fw);
+            visit(widget.getTextField(), space + '\t' , parentId ,scope + 1 );
         }
     }
 
         //Container ----------------------------------------------------------------------
-        public void visit(defContainer defContainer, String space, FileWriter fw) {
+        public void visit(defContainer defContainer, String space  , int parentId , int scope ) {
             if (defContainer.getCONTAINER_() != null) {
-                visit("\n" + space + defContainer.getCONTAINER_() + ":", fw);
+                writeToFile("\n" + space + defContainer.getCONTAINER_() + ":");
             }
+            final int id = ThreadLocalRandom.current().nextInt();
 
             if (defContainer.getContainerBody() != null) {
                 for (int i = 0; i < defContainer.getContainerBody().size(); i++) {
-                    visit(defContainer.getContainerBody().get(i), space, fw);
+                    visit(defContainer.getContainerBody().get(i), space + '\t' , id ,scope);
                 }
             }
         }
 
-        public void visit(defExpanded defExpanded, String space, FileWriter fw) {
+        public void visit(defExpanded defExpanded, String space ,int parentId , int scope) {
             if (defExpanded.getEXPANDED_() != null) {
-                visit("\n" + space + defExpanded.getEXPANDED_() + ":", fw);
+                writeToFile("\n" + space + defExpanded.getEXPANDED_() + ":");
             }
+            final int id = ThreadLocalRandom.current().nextInt();
 
             if (defExpanded.getContainerBody() != null) {
                 for (int i = 0; i < defExpanded.getContainerBody().size(); i++) {
-                    visit(defExpanded.getContainerBody().get(i), space, fw);
+                    visit(defExpanded.getContainerBody().get(i), space + '\t',id,scope);
                 }
             }
         }
 
-        public void visit(containerBody containerBody, String space, FileWriter fw) {
+        public void visit(containerBody containerBody, String space,int parentId , int scope ) {
             if (containerBody.getCHILD_() != null) {
-                visit("\n" + space + containerBody.getCHILD_() + ":", fw);
+                writeToFile("\n" + space + containerBody.getCHILD_() + ":");
             }
             if (containerBody.getNUMBER() != null) {
-                visit("\n" + space + containerBody.getNUMBER() + ":", fw);
+                writeToFile("\n" + space + containerBody.getNUMBER() + ":");
             }
             if (containerBody.getPADDING_() != null) {
-                visit("\n" + space + containerBody.getPADDING_() + ":", fw);
+                writeToFile("\n" + space + containerBody.getPADDING_() + ":");
             }
             if (containerBody.getPADDING_value() != null) {
-                visit("\n" + space + containerBody.getPADDING_value() + ":", fw);
+                writeToFile("\n" + space + containerBody.getPADDING_value() + ":");
             }
             if (containerBody.getWIDGET() != null) {
-                visit("\n" + space + containerBody.getWIDGET() + ":", fw);
+                writeToFile("\n" + space + containerBody.getWIDGET() + ":");
             }
             if (containerBody.getWidget() != null) {
-                visit(containerBody.getWidget(), space, fw);
+                visit(containerBody.getWidget(), space + '\t',parentId,scope);
             }
             if (containerBody.getWIDTH_() != null) {
-                visit("\n" + space + containerBody.getWIDTH_() + ":", fw);
+                writeToFile("\n" + space + containerBody.getWIDTH_() + ":");
             }
         }
         //End Container ----------------------------------------------------------------------
 
         //Image ----------------------------------------------------------------------
-        public void visit(image image, String space, FileWriter fw) {
+        public void visit(image image, String space , int parentId , int scope ) {
+            final int id = ThreadLocalRandom.current().nextInt();
+
             if (image.getIMAGE_() != null) {
-                visit("\n" + space + image.getIMAGE_() + ":", fw);
+                writeToFile("\n" + space + image.getIMAGE_() + ":");
+                addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.Image,"Image",new SymbolTableObjectImageValue(scope,id,parentId)));
             }
 
             if (image.getAssetImage() != null) {
-                visit(image.getAssetImage(), space, fw);
+                visit(image.getAssetImage(), space + '\t' ,id,  parentId );
             }
+
 
             if (image.getImageBody() != null) {
                 for (int i = 0; i < image.getImageBody().size(); i++) {
-                    visit(image.getImageBody().get(i), space, fw);
+                    visit(image.getImageBody().get(i), space + '\t' , id , scope);
                 }
             }
         }
 
-        public void visit(assetImage assetImage, String space, FileWriter fw) {
+        public void visit(assetImage assetImage, String space ,int id , int parentId ) {
             if (assetImage.getIMAGE() != null) {
-                visit("\n" + space + assetImage.getIMAGE() + ":", fw);
+                writeToFile("\n" + space + assetImage.getIMAGE() + ":");
             }
 
             if (assetImage.getASSETIMAGE_() != null) {
-                visit("\n" + space + assetImage.getASSETIMAGE_() + ":", fw);
+                writeToFile("\n" + space + assetImage.getASSETIMAGE_() + ":");
             }
             if (assetImage.getSingleLineString() != null) {
-                visit("\n" + space + assetImage.getSingleLineString() + ":", fw);
+                writeToFile("\n" + space + assetImage.getSingleLineString() + ":");
+                updateAlreadyAddedImageValue(id , parentId,assetImage.getSingleLineString().substring(1,assetImage.getSingleLineString().length()-2));
             }
         }
 
-        public void visit(imageBody imageBody, String space, FileWriter fw) {
+        public void visit(imageBody imageBody, String space , int parentId , int scope ) {
             if (imageBody.getHEIGHT_() != null) {
-                visit("\n" + space + imageBody.getHEIGHT_() + ":", fw);
+                writeToFile("\n" + space + imageBody.getHEIGHT_() + ":");
             }
 
             if (imageBody.getNUMBER() != null) {
-                visit(imageBody.getNUMBER() , fw);
+                writeToFile(imageBody.getNUMBER() );
             }
             if (imageBody.getWIDTH_() != null) {
-                visit("\n" + space + imageBody.getWIDTH_() + ":", fw);
+                writeToFile("\n" + space + imageBody.getWIDTH_() + ":");
             }
         }
         //End Image ----------------------------------------------------------------------
 
         //ListView ----------------------------------------------------------------------
-        public void visit(listView listView, String space, FileWriter fw) {
+        public void visit(listView listView, String space , int parentId , int scope) {
             if (listView.getLISTVIEW_() != null) {
-                visit("\n" + space + listView.getLISTVIEW_() + ":", fw);
+                writeToFile("\n" + space + listView.getLISTVIEW_() + ":");
             }
+            final int id = ThreadLocalRandom.current().nextInt();
 
             if (listView.getListViewBody() != null) {
                 for (int i = 0; i < listView.getListViewBody().size(); i++) {
-                    visit(listView.getListViewBody().get(i), space, fw);
+                    visit(listView.getListViewBody().get(i), space + '\t' , id , scope);
                 }
             }
         }
 
-        public void visit(listViewBody listViewBody, String space, FileWriter fw) {
+        public void visit(listViewBody listViewBody, String space, int parentId , int scope) {
             if (listViewBody.getCONTROLLER() != null) {
-                visit("\n" + space + listViewBody.getCONTROLLER() + ":", fw);
+                writeToFile("\n" + space + listViewBody.getCONTROLLER() + ":");
             }
 
             if (listViewBody.getIDENTIFIER() != null) {
-                visit("\n" + space + listViewBody.getIDENTIFIER() + ":", fw);
+                writeToFile("\n" + space + listViewBody.getIDENTIFIER() + ":");
             }
             if (listViewBody.getLayoutBody() != null) {
                 for (int i = 0; i < listViewBody.getLayoutBody().size(); i++) {
-                    visit(listViewBody.getLayoutBody().get(i), space, fw);
+                    visit(listViewBody.getLayoutBody().get(i), space + '\t' , parentId , scope);
                 }
             }
         }
         //EndListView ----------------------------------------------------------------------
 
         //textfield ----------------------------------------------------------------------
-        public void visit(textField textField, String space, FileWriter fw) {
+        public void visit(textField textField, String space , int parentId , int scope) {
+            final int id = ThreadLocalRandom.current().nextInt();
+
             if (textField.getTExtField() != null) {
-                visit("\n" + space + textField.getTExtField() + ":", fw);
+                writeToFile("\n" + space + textField.getTExtField() + ":");
+                addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.TextField,"TextField",new SymbolTableObjectTextFieldValue(scope,id,parentId)));
             }
 
             if (textField.getTextFieldProperties() != null) {
                 for (int i = 0; i < textField.getTextFieldProperties().size(); i++) {
-                    visit(textField.getTextFieldProperties().get(i), space, fw);
+                    visit(textField.getTextFieldProperties().get(i), space + '\t' ,id , parentId ,scope );
                 }
 
             }
 
         }
 
-        public void visit(textFieldProperties textFieldProperties, String space, FileWriter fw) {
+        public void visit(textFieldProperties textFieldProperties, String space , int id , int parentId , int scope ) {
             if (textFieldProperties.getTextFieldControllerProperty() != null) {
-                visit(textFieldProperties.getTextFieldControllerProperty(), space, fw);
+                visit(textFieldProperties.getTextFieldControllerProperty(), space + '\t' , id , parentId, scope);
             }
-
             if (textFieldProperties.getTextFieldDecorationProperty() != null) {
-                visit(textFieldProperties.getTextFieldDecorationProperty(), space, fw);
+                visit(textFieldProperties.getTextFieldDecorationProperty(), space + '\t' , id ,parentId,scope);
             }
 
             if (textFieldProperties.getTextFieldTextProperty() != null) {
-                visit(textFieldProperties.getTextFieldTextProperty(), space, fw);
+                visit(textFieldProperties.getTextFieldTextProperty(), space + '\t' , id , parentId , scope);
             }
 
             if (textFieldProperties.getTextFieldOnChangedProperty() != null) {
-                visit(textFieldProperties.getTextFieldOnChangedProperty(), space, fw);
+                visit(textFieldProperties.getTextFieldOnChangedProperty(), space + '\t' , id , parentId ,scope);
             }
 
             if (textFieldProperties.getTextFieldOnEditingCompleteProperty() != null) {
-                visit(textFieldProperties.getTextFieldOnEditingCompleteProperty(), space, fw);
+                visit(textFieldProperties.getTextFieldOnEditingCompleteProperty(), space + '\t' , id , parentId ,scope);
             }
         }
 
-        public void visit(inputDecorationIconProperty inputDecorationIconProperty, String space, FileWriter fw) {
+        public void visit(inputDecorationIconProperty inputDecorationIconProperty, String space ,int id , int parentId , int scope ) {
             if (inputDecorationIconProperty.getICON() != null) {
-                visit("\n" + space + inputDecorationIconProperty.getICON() + ":", fw);
+                writeToFile("\n" + space + inputDecorationIconProperty.getICON() + ":");
             }
 
             if (inputDecorationIconProperty.getIDENTIFIER() != null) {
-                visit("\n" + space + inputDecorationIconProperty.getIDENTIFIER() + ":", fw);
+                writeToFile("\n" + space + inputDecorationIconProperty.getIDENTIFIER() + ":");
+                addToAlreadyAddedValueSymbolTable(id , parentId,new SymbolTableColumnAttribute(inputDecorationIconProperty.getICON(),inputDecorationIconProperty.getIDENTIFIER()));
             }
         }
 
-        public void visit(inputDecorationLabelTextProperty inputDecorationLabelTextProperty, String space, FileWriter fw) {
+        public void visit(inputDecorationLabelTextProperty inputDecorationLabelTextProperty, String space ,int id , int parentId , int scope ) {
             if (inputDecorationLabelTextProperty.getLABELTEXT() != null) {
-                visit("\n" + space + inputDecorationLabelTextProperty.getLABELTEXT() + ":", fw);
+                writeToFile("\n" + space + inputDecorationLabelTextProperty.getLABELTEXT() + ":");
             }
             if (inputDecorationLabelTextProperty.getSingleLineString() != null) {
-                visit("\n" + space + inputDecorationLabelTextProperty.getSingleLineString() + ":", fw);
+                writeToFile("\n" + space + inputDecorationLabelTextProperty.getSingleLineString() + ":");
+                addToAlreadyAddedValueSymbolTable(id , parentId,new SymbolTableColumnAttribute(inputDecorationLabelTextProperty.getLABELTEXT(),inputDecorationLabelTextProperty.getSingleLineString()));
+
             }
 
         }
 
-        public void visit(inputDecorationProperties inputDecorationProperties, String space, FileWriter fw) {
+        public void visit(inputDecorationProperties inputDecorationProperties, String space ,int id , int parentId , int scope ) {
             if (inputDecorationProperties.getInputDecorationHelperTextProperty() != null) {
-                visit(inputDecorationProperties.getInputDecorationLabelTextProperty(), space, fw);
+                visit(inputDecorationProperties.getInputDecorationLabelTextProperty(), space + '\t' ,id , parentId , scope);
             }
 
             if (inputDecorationProperties.getInputDecorationIconProperty() != null) {
-                visit(inputDecorationProperties.getInputDecorationIconProperty(), space, fw);
+                visit(inputDecorationProperties.getInputDecorationIconProperty(), space + '\t' ,id , parentId , scope);
             }
 
             if (inputDecorationProperties.getInputDecorationHelperTextProperty() != null) {
-                visit(inputDecorationProperties.getInputDecorationHelperTextProperty(), space, fw);
+                visit(inputDecorationProperties.getInputDecorationHelperTextProperty(), space + '\t' ,id , parentId ,scope);
             }
 
             if (inputDecorationProperties.getInputDecorationLabelTextProperty() != null) {
-                visit(inputDecorationProperties.getInputDecorationHintTextProperty(), space, fw);
+                visit(inputDecorationProperties.getInputDecorationHintTextProperty(), space + '\t' ,id , parentId ,scope);
             }
         }
 
-        public void visit(textFieldControllerProperty textFieldControllerProperty, String space, FileWriter fw) {
+        public void visit(textFieldControllerProperty textFieldControllerProperty, String space , int id , int parentId , int scope) {
             if (textFieldControllerProperty.getCONTROLLER() != null) {
-                visit("\n" + space + textFieldControllerProperty.getCONTROLLER() + ":", fw);
+                writeToFile("\n" + space + textFieldControllerProperty.getCONTROLLER() + ":");
             }
-
             if (textFieldControllerProperty.getIDENTIFIER() != null) {
-                visit("\n" + space + textFieldControllerProperty.getIDENTIFIER() + ":", fw);
+                writeToFile("\n" + space + textFieldControllerProperty.getIDENTIFIER() + ":");
+                addToAlreadyAddedValueSymbolTable(id , parentId,new SymbolTableColumnAttribute(textFieldControllerProperty.getCONTROLLER(),textFieldControllerProperty.getIDENTIFIER()));
+
             }
         }
 
-        public void visit(textFieldDecorationProperty textFieldDecorationProperty, String space, FileWriter fw) {
+        public void visit(textFieldDecorationProperty textFieldDecorationProperty, String space , int id , int parentId , int scope) {
         if (textFieldDecorationProperty.getDECORATION() != null) {
-            visit("\n" + space + textFieldDecorationProperty.getDECORATION() + ":", fw);
+            writeToFile("\n" + space + textFieldDecorationProperty.getDECORATION() + ":");
         }
 
         if (textFieldDecorationProperty.getInputDecorationProperties() != null) {
-            visit(textFieldDecorationProperty.getInputDecorationProperties(), space, fw);
+            visit(textFieldDecorationProperty.getInputDecorationProperties(), space + '\t' , id , parentId , scope);
+
         }
     }
 
-        public void visit(textFieldOnChangedProperty textFieldOnChangedProperty, String space, FileWriter fw) {
+        public void visit(textFieldOnChangedProperty textFieldOnChangedProperty, String space , int id , int parentId, int scope ) {
             if (textFieldOnChangedProperty.getIDENTIFIER() != null) {
-                visit("\n" + space + textFieldOnChangedProperty.getIDENTIFIER() + ":", fw);
+                writeToFile("\n" + space + textFieldOnChangedProperty.getIDENTIFIER() + ":");
             }
 
             if (textFieldOnChangedProperty.getONCHANGED() != null) {
-                visit("\n" + space + textFieldOnChangedProperty.getONCHANGED() + ":", fw);
+                writeToFile("\n" + space + textFieldOnChangedProperty.getONCHANGED() + ":");
             }
         }
 
-        public void visit(textFieldOnEditingCompleteProperty textFieldOnEditingCompleteProperty, String space, FileWriter fw) {
+        public void visit(textFieldOnEditingCompleteProperty textFieldOnEditingCompleteProperty, String space , int id , int parentId , int scope ) {
         if (textFieldOnEditingCompleteProperty.getIDENTIFIER() != null) {
-            visit("\n" + space + textFieldOnEditingCompleteProperty.getIDENTIFIER() + ":", fw);
+            writeToFile("\n" + space + textFieldOnEditingCompleteProperty.getIDENTIFIER() + ":");
         }
 
         if (textFieldOnEditingCompleteProperty.getONEDITINGCOMPLETE() != null) {
-            visit("\n" + space + textFieldOnEditingCompleteProperty.getONEDITINGCOMPLETE() + ":", fw);
+            writeToFile("\n" + space + textFieldOnEditingCompleteProperty.getONEDITINGCOMPLETE() + ":");
         }
     }
 
-        public void visit(textFieldTextProperty textFieldTextProperty, String space, FileWriter fw) {
+        public void visit(textFieldTextProperty textFieldTextProperty, String space , int id , int parentId , int scope ) {
             if (textFieldTextProperty.getText() != null) {
-                visit("\n" + space + textFieldTextProperty.getText() + ":", fw);
+                writeToFile("\n" + space + textFieldTextProperty.getText() + ":");
             }
 
             if (textFieldTextProperty.getSingleLineString() != null) {
-                visit("\n" + space + textFieldTextProperty.getSingleLineString() + ":", fw);
+                writeToFile("\n" + space + textFieldTextProperty.getSingleLineString() + ":");
             }
     }
 
-        public void visit(inputDecorationHelperTextProperty inputDecorationHelperTextProperty, String space, FileWriter fw) {
+        public void visit(inputDecorationHelperTextProperty inputDecorationHelperTextProperty, String space , int id , int parentId , int scope) {
             if (inputDecorationHelperTextProperty.getHELPERTEXT() != null) {
-                visit("\n" + space + inputDecorationHelperTextProperty.getHELPERTEXT() + ":", fw);
+                writeToFile("\n" + space + inputDecorationHelperTextProperty.getHELPERTEXT() + ":");
             }
 
             if (inputDecorationHelperTextProperty.getSingleLineString() != null) {
-                visit("\n" + space + inputDecorationHelperTextProperty.getSingleLineString() + ":", fw);
+                writeToFile("\n" + space + inputDecorationHelperTextProperty.getSingleLineString() + ":");
             }
         }
 
-        public void visit(inputDecorationHintTextProperty inputDecorationHintTextProperty, String space, FileWriter fw) {
+        public void visit(inputDecorationHintTextProperty inputDecorationHintTextProperty, String space , int id , int parentId , int scope ) {
         if (inputDecorationHintTextProperty.getHINTTEXT() != null) {
-            visit("\n" + space + inputDecorationHintTextProperty.getHINTTEXT() + ":", fw);
+            writeToFile("\n" + space + inputDecorationHintTextProperty.getHINTTEXT() + ":");
         }
 
         if (inputDecorationHintTextProperty.getSingleLineString() != null) {
-            visit("\n" + space + inputDecorationHintTextProperty.getSingleLineString() + ":", fw);
+            writeToFile("\n" + space + inputDecorationHintTextProperty.getSingleLineString() + ":");
         }
     }
 
         //Endtextfield ----------------------------------------------------------------------
 
 
-    public void visit(layoutBody layoutBody, String space, FileWriter fw) {
+    public void visit(layoutBody layoutBody, String space , int parentId , int scope) {
         if (layoutBody.getCHILDREN_() != null) {
-            visit("\n" + space + layoutBody.getCHILDREN_() + ":", fw);
-        }
-
-        if (layoutBody.getMainAxisAlignment_() != null) {
-            visit("\n" + space + layoutBody.getMainAxisAlignment_() + ":", fw);
-        }
-
-        if (layoutBody.getMainAxisAlignment_value() != null) {
-            visit("\n" + space + layoutBody.getMainAxisAlignment_value() + ":", fw);
+            writeToFile("\n" + space + layoutBody.getCHILDREN_() + ":[");
         }
 
         if (layoutBody.getWIDGET() != null) {
-            visit("\n" + space + layoutBody.getWIDGET() + ":", fw);
+            writeToFile("\n" + space + layoutBody.getWIDGET() + ":");
         }
 
         if (layoutBody.getWidget() != null) {
             for (int i = 0; i < layoutBody.getWidget().size(); i++) {
-                visit(layoutBody.getWidget().get(i), space, fw);
+                visit(layoutBody.getWidget().get(i), space + '\t', parentId , scope);
             }
+        }
+        if (layoutBody.getCHILDREN_() != null) {
+            writeToFile("\n" + space + "]");
         }
     }
 
-    public void visit(defRow defRow, String space, FileWriter fw) {
-//        System.out.println("we are here");
+    public void visit(defRow defRow, String space , int parentId , int scope ) {
+        final int id = ThreadLocalRandom.current().nextInt();
+
         if (defRow.getROW_() != null) {
-            visit("\n" + space + defRow.getROW_() + ":", fw);
+            writeToFile("\n" + space + defRow.getROW_() + ":");
+            addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.Row,"Row",new SymbolTableObjectRowValue(scope,id,parentId)));
         }
 
         if (defRow.getLayoutBody() != null) {
             for (int i = 0; i < defRow.getLayoutBody().size(); i++) {
-                visit(defRow.getLayoutBody().get(i), space, fw);
+                visit(defRow.getLayoutBody().get(i), space + '\t' , id , scope);
             }
         }
     }
 
-    public void visit(defColumn defColumn, String space, FileWriter fw) {
+    public void visit(defColumn defColumn, String space  ,int parentId , int scope ) {
+        final int id = ThreadLocalRandom.current().nextInt();
         if (defColumn.getCOLUMN_() != null) {
-            visit("\n" + space + defColumn.getCOLUMN_() + ":", fw);
+            writeToFile("\n" + space + defColumn.getCOLUMN_() + ":");
+            addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.Column,"Column",new SymbolTableObjectColumnValue(scope,id,parentId)));
+
         }
 
         if (defColumn.getLayoutBody() != null) {
             for (int i = 0; i < defColumn.getLayoutBody().size(); i++) {
-                visit(defColumn.getLayoutBody().get(i), space, fw);
+                visit(defColumn.getLayoutBody().get(i), space + '\t' , id , scope);
             }
         }
+
     }
 
-    public void visit(text text, String space, FileWriter fw) {
+    public void visit(text text, String space , int parentId , int scope ) {
+        final int id = ThreadLocalRandom.current().nextInt();
+
         if (text.getTEXT_() != null) {
-            visit("\n" + space + text.getTEXT_() + ":", fw);
+            writeToFile("\n" + space + text.getTEXT_() + ":");
         }
 
         if (text.getSingleLineString() != null) {
-            visit("\n" + space + text.getSingleLineString() + ":", fw);
+            writeToFile("\n" + space + text.getSingleLineString() + ":");
         }
+        addToSymbolTable(parentId,new SymbolTableObject(SymbolTableRowType.Text,"Text",new SymbolTableObjectTextValue(scope,id,parentId,text.getSingleLineString())));
+
     }
 
     //End FlutterClasses ----------------------------------------------------------------------
 
-    public void visit (String anyString, FileWriter fileWriter){
+    public void writeToFile(String anyString){
             try {
-
-                fileWriter.append(anyString);
+                fw.append(anyString);
 
             } catch (IOException e) {
                 System.out.println("error" + e.getMessage());
 
             }
             System.out.print(anyString);
+        }
+        public void addToSymbolTable(Integer parentId,  SymbolTableObject object){
+            symbolTable.addToList(parentId , object);
+        } public void addToAlreadyAddedValueSymbolTable(Integer id,Integer parentId,  SymbolTableColumnAttribute object){
+            symbolTable.addToAlreadyAddedValueSymbolTable(id , parentId ,object);
+        }public void updateAlreadyAddedImageValue(Integer id,Integer parentId,String assetName){
+            symbolTable.updateAlreadyAddedImageValue(id , parentId ,assetName);
         }
 
 }

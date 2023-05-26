@@ -1,10 +1,17 @@
+
+
 class MainClass {
-  void main(int x, int y) {
+  void function(){
+    bool xx = (( xx | x ) | x) ;
+    xx = true ;
+  }
+  void main(int x) {
     Row(
       children: [
         Column(
           children: [
-            Image(image : AssetImage("sdfsdf") , width : 10,),
+            Text("asgdads"),
+            Image(image : AssetImage("grass.webp") , width : 10,),
             Text("whatsapp"),
             Text("Whatsapp desc."),
           ],
@@ -15,6 +22,9 @@ class MainClass {
               children: [
                 Text("whatsapp"),
               ],
+            ),
+            TextField(
+                controller : controller1
             ),
             Column(
               children: [

@@ -94,7 +94,6 @@ public class myVisitor  extends  Base {
             for (int i = 0; i < ctx.importClass().size(); i++) {
                 importClass.add(visitImportClass(ctx.importClass(i)));
             }
-            def_class.setImportClass(importClass);
         }
 
         if (ctx.CLASS_() != null) {
@@ -158,9 +157,9 @@ public class myVisitor  extends  Base {
         if (ctx.IDENTIFIER() != null) {
             varDefinition.setIDENTIFIER(ctx.IDENTIFIER().getText());
         }
-      //  if (ctx.exp() != null) {
-        //    varDefinition.setExp(visitExp(ctx.exp()));
-        //}
+        if (ctx.exp() != null) {
+            varDefinition.setExp(ctx.exp().getText());
+        }
 
 
         return varDefinition;
@@ -291,8 +290,7 @@ public class myVisitor  extends  Base {
     @Override
     public varEQ visitVarEQ(Dart2Parser.VarEQContext ctx){
         varEQ varEQ=new varEQ();
-        /////////////////////
-        ////////////////////
+        varEQ.setExp(ctx.exp().getText());
         return varEQ;
     }
 
@@ -308,9 +306,7 @@ public class myVisitor  extends  Base {
     @Override
     public boolVarEq visitBoolVarEq(Dart2Parser.BoolVarEqContext ctx){
         boolVarEq  boolVarEq =new boolVarEq ();
-        /////////////
-
-        ///////////
+        boolVarEq.setBoolExp(ctx.boolExp().getText());
         return boolVarEq ;
     }
 
@@ -454,9 +450,9 @@ public class myVisitor  extends  Base {
         if (ctx.IDENTIFIER() != null) {
             boolVarDefnition.setIDENTIFIER(ctx.IDENTIFIER().getText());
         }
-       // if (ctx.boolExp() != null) {
-         //   boolVarDefnition.setBoolExp(visitBoolExp(ctx.boolExp()));
-        //}
+        if (ctx.boolExp() != null) {
+            boolVarDefnition.setBoolExp(ctx.boolExp().getText());
+        }
 
         return boolVarDefnition;
 
@@ -709,14 +705,6 @@ public class myVisitor  extends  Base {
             }
             layoutBody.setWidget(widget);
         }
-        if (ctx.MainAxisAlignment_() != null) {
-            layoutBody.setMainAxisAlignment_(ctx.MainAxisAlignment_().getText());
-
-        }
-        if (ctx.MainAxisAlignment_value() != null) {
-            layoutBody.setMainAxisAlignment_value(ctx.MainAxisAlignment_value().getText());
-
-        }
 
         return layoutBody;
     }
@@ -724,7 +712,7 @@ public class myVisitor  extends  Base {
     @Override
     public text visitText(Dart2Parser.TextContext ctx) {
         text myText = new text();
-        myText.setTEXT_(ctx.getText());
+        myText.setSingleLineString(ctx.getChild(2).getText());
         return  myText;
     }
 
@@ -781,7 +769,10 @@ public class myVisitor  extends  Base {
 
     @Override
     public textFieldControllerProperty visitTextFieldControllerProperty(Dart2Parser.TextFieldControllerPropertyContext ctx) {
-        return null;
+        textFieldControllerProperty controllerProperty = new textFieldControllerProperty();
+        controllerProperty.setCONTROLLER("controller");
+        controllerProperty.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        return controllerProperty;
     }
 
     @Override
@@ -821,7 +812,8 @@ public class myVisitor  extends  Base {
     @Override
     public assetImage visitAssetImage(Dart2Parser.AssetImageContext ctx) {
         assetImage myAssetImage = new assetImage();
-        myAssetImage.setIMAGE(ctx.getText());
+        myAssetImage.setSingleLineString(ctx.SingleLineString().getText());
+        myAssetImage.setIMAGE("Image");
         return myAssetImage;
     }
 

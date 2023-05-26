@@ -12,8 +12,6 @@ public class layoutBody {
     private String CHILDREN_;
     private String WIDGET;
     private List<ASTClasses.FlutterClasses.widget> widget;
-    private String MainAxisAlignment_;
-    private String MainAxisAlignment_value;
 
     public String getCHILDREN_() {
         return CHILDREN_;
@@ -39,19 +37,4 @@ public class layoutBody {
         this.widget = widget;
     }
 
-    public String getMainAxisAlignment_() {
-        return MainAxisAlignment_;
-    }
-
-    public void setMainAxisAlignment_(String mainAxisAlignment_) {
-        MainAxisAlignment_ = mainAxisAlignment_;
-    }
-
-    public String getMainAxisAlignment_value() {
-        return MainAxisAlignment_value;
-    }
-
-    public void setMainAxisAlignment_value(String mainAxisAlignment_value) {
-        MainAxisAlignment_value = mainAxisAlignment_value;
-    }
 }
