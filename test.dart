@@ -1,18 +1,15 @@
+class MainApp extends StatelessWidget {
+  int x;
 
-
-class MainClass {
-  void function(){
-    bool xx = (( xx | x ) | x) ;
-    xx = true ;
-  }
-  void main(int x) {
+  void build() {
     Row(
       children: [
         Column(
           children: [
-            Text("asgdads"),
-            Image(image : AssetImage("grass.webp") , width : 10,),
-            Text("whatsapp"),
+            TextField(controller : controlle1r),
+            InkWell(onPressed:(){
+            Navigator.push(context,MaterialPageRoute(builder: (context) => MainApp3()));
+            },child:Text("click me.")),
             Text("Whatsapp desc."),
           ],
         ),
@@ -23,9 +20,6 @@ class MainClass {
                 Text("whatsapp"),
               ],
             ),
-            TextField(
-                controller : controller1
-            ),
             Column(
               children: [
                 Text("whatsapp"),
@@ -38,6 +32,28 @@ class MainClass {
             ),
           ],
         ),
+      ],
+    )
+  }
+}
+
+class MainApp2 extends StatelessWidget {
+  void build() {
+    Row(
+      children: [
+        Text("majd alshalabi"),
+        Text("majd alshalabi2"),
+      ],
+    )
+  }
+}
+
+class MainApp3 extends StatelessWidget {
+  void build() {
+    Row(
+      children: [
+        Text("majd alshalabi"),
+        Text("majd alshalabi2"),
       ],
     )
   }

@@ -25,7 +25,6 @@
  */
 lexer grammar Dart2Lexer;
 
-Main: 'main()';
 DataType : Int_type | String_type | Double_type ;
 
 Int_type : 'int';
@@ -33,6 +32,11 @@ String_type : 'String';
 Double_type : 'double';
 Bool_type: 'bool';
 Widget_type : 'Widget';
+Navigator: 'Navigator.push';
+Context_:'context';
+MaterialPageRoute_:'MaterialPageRoute';
+Builder:'builder';
+EG: '=>';
 Bool_value : TRUE_ | FALSE_;
 MathMaticalSign: PL | MINUS | ST | SL | PC ;
 BooleanSign: P | A | CIR;
@@ -74,7 +78,6 @@ DD: '..';
 DDD: '...';
 DDDQ: '...?';
 EE: '==';
-EG: '=>';
 GT: '>';
 LT: '<';
 LTE: '<=';
@@ -150,6 +153,7 @@ HIDE_:'hide';
 HEIGHT_:'height';
 IF_:'if';
 IMAGE_:'Image';
+INKWELL_:'InkWell';
 IMAGE:'image';
 ASSETIMAGE_:'AssetImage';
 IMPLEMENTS_:'implements';
@@ -174,6 +178,7 @@ OF_:'of';
 ON_:'on';
 OPERATOR_:'operator';
 PADDING_:'padding';
+ONPRESSED:'onPressed';
 PADDING_value : 'EdgeInsets.symmetric(horizontal:10,vertical:50)';
 PART_:'part';
 REQUIRED_:'required';
@@ -195,7 +200,7 @@ TYPEDEF_:'typedef';
 VAR_:'var' WHITESPACE*;
 VOID_:'void';
 WHILE_:'while';
-WIDGET : Widget_type | COLUMN_ | ROW_ | TextField | LISTVIEW_ | CONTAINER_ | IMAGE_;
+WIDGET : Widget_type | COLUMN_ | ROW_ | TextField | LISTVIEW_ | CONTAINER_ | IMAGE_ | INKWELL_;
 WIDTH_:'width';
 WITH_:'with';
 YIELD_:'yield';
@@ -208,6 +213,10 @@ IDENTIFIER : IDENTIFIER_START IDENTIFIER_PART* ;
 WHITESPACE : ( '\t' | ' ' | NEWLINE )+  -> skip;
 SINGLE_LINE_COMMENT : '//' ~[\r\n]* -> skip ;
 MULTI_LINE_COMMENT : '/*' ( MULTI_LINE_COMMENT | . )*? '*/'  -> skip ;
+
+
+
+
 
 fragment EXPONENT : ( 'e' | 'E' ) ( '+' | '-' )? DIGIT+ ;
 fragment HEX_DIGIT : 'a' .. 'f' | 'A' .. 'F' | DIGIT ;

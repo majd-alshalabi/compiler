@@ -6,6 +6,7 @@ import ASTClasses.FlutterClasses.Widget.Image.image;
 import ASTClasses.FlutterClasses.Widget.ListView.listView;
 import ASTClasses.FlutterClasses.Widget.defColumn;
 import ASTClasses.FlutterClasses.Widget.defRow;
+import ASTClasses.FlutterClasses.Widget.inkWell.InkWell;
 import ASTClasses.FlutterClasses.Widget.text;
 import ASTClasses.FlutterClasses.Widget.textfield.textField;
 
@@ -22,6 +23,7 @@ public class widget {
     private defContainer defContainer;
     private defExpanded defExpanded;
     private image image;
+    private InkWell inkWell;
 
     public ASTClasses.FlutterClasses.Widget.ListView.listView getListView() {
         return listView;
@@ -91,5 +93,13 @@ public class widget {
 
     public void setImage(ASTClasses.FlutterClasses.Widget.Image.image image) {
         this.image = image;
+    }
+
+    public InkWell getInkWell() {
+        return inkWell;
+    }
+
+    public void setInkWell(InkWell inkWell) {
+        this.inkWell = inkWell;
     }
 }

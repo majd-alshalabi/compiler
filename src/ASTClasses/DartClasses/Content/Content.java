@@ -6,9 +6,10 @@ import ASTClasses.DartClasses.Content.For.def_for;
 import ASTClasses.DartClasses.Content.IF.def_if;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import ASTClasses.FlutterClasses.Widget.NavigationRule;
 import ASTClasses.FlutterClasses.widget;
 
-public class content {
+public class Content {
 //    content: varDefinition
 //        | varEQ
 //        | intIncrease
@@ -41,19 +42,13 @@ public class content {
     private def_if def_if;
     private def_for def_for;
     private def_while def_while;
-    private defArray defArray;
     private def_switch def_switch;
     private def_object def_object;
     private def_function_void def_function_void;
     private def_function_datatype def_function_datatype;
-    private defSet defSet;
-    private defMap defMap;
+
     private assignOneElement assignOneElement;
-    private defConst defConst;
-    private defFinal defFinal;
-    private defLate defLate;
-    private defDynamic defDynamic;
-    private defEnum defEnum;
+    private NavigationRule navigatorRule;
     private widget widget;
 
     public ASTClasses.FlutterClasses.widget getWidget() {
@@ -128,14 +123,6 @@ public class content {
         this.def_while = def_while;
     }
 
-    public ASTClasses.DartClasses.Content.defArray getDefArray() {
-        return defArray;
-    }
-
-    public void setDefArray(ASTClasses.DartClasses.Content.defArray defArray) {
-        this.defArray = defArray;
-    }
-
     public ASTClasses.DartClasses.Content.def_switch getDef_switch() {
         return def_switch;
     }
@@ -168,22 +155,6 @@ public class content {
         this.def_function_datatype = def_function_datatype;
     }
 
-    public ASTClasses.DartClasses.Content.defSet getDefSet() {
-        return defSet;
-    }
-
-    public void setDefSet(ASTClasses.DartClasses.Content.defSet defSet) {
-        this.defSet = defSet;
-    }
-
-    public ASTClasses.DartClasses.Content.defMap getDefMap() {
-        return defMap;
-    }
-
-    public void setDefMap(ASTClasses.DartClasses.Content.defMap defMap) {
-        this.defMap = defMap;
-    }
-
     public ASTClasses.DartClasses.Content.assignOneElement getAssignOneElement() {
         return assignOneElement;
     }
@@ -192,43 +163,11 @@ public class content {
         this.assignOneElement = assignOneElement;
     }
 
-    public ASTClasses.DartClasses.Content.defConst getDefConst() {
-        return defConst;
+    public NavigationRule getNavigatorRule() {
+        return navigatorRule;
     }
 
-    public void setDefConst(ASTClasses.DartClasses.Content.defConst defConst) {
-        this.defConst = defConst;
-    }
-
-    public ASTClasses.DartClasses.Content.defFinal getDefFinal() {
-        return defFinal;
-    }
-
-    public void setDefFinal(ASTClasses.DartClasses.Content.defFinal defFinal) {
-        this.defFinal = defFinal;
-    }
-
-    public ASTClasses.DartClasses.Content.defLate getDefLate() {
-        return defLate;
-    }
-
-    public void setDefLate(ASTClasses.DartClasses.Content.defLate defLate) {
-        this.defLate = defLate;
-    }
-
-    public ASTClasses.DartClasses.Content.defDynamic getDefDynamic() {
-        return defDynamic;
-    }
-
-    public void setDefDynamic(ASTClasses.DartClasses.Content.defDynamic defDynamic) {
-        this.defDynamic = defDynamic;
-    }
-
-    public ASTClasses.DartClasses.Content.defEnum getDefEnum() {
-        return defEnum;
-    }
-
-    public void setDefEnum(ASTClasses.DartClasses.Content.defEnum defEnum) {
-        this.defEnum = defEnum;
+    public void setNavigatorRule(NavigationRule navigatorRule) {
+        this.navigatorRule = navigatorRule;
     }
 }

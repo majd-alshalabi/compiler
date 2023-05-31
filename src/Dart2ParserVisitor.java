@@ -153,12 +153,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDef_class(Dart2Parser.Def_classContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#importClass}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportClass(Dart2Parser.ImportClassContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#class_body}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -266,60 +260,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSwitch_body(Dart2Parser.Switch_bodyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defArray}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefArray(Dart2Parser.DefArrayContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defSet}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefSet(Dart2Parser.DefSetContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defMap}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefMap(Dart2Parser.DefMapContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#assignOneElement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignOneElement(Dart2Parser.AssignOneElementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defConst}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefConst(Dart2Parser.DefConstContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defFinal}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefFinal(Dart2Parser.DefFinalContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defLate}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefLate(Dart2Parser.DefLateContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defDynamic}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefDynamic(Dart2Parser.DefDynamicContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defEnum}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefEnum(Dart2Parser.DefEnumContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#widget}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -344,17 +284,23 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefContainer(Dart2Parser.DefContainerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#defExpanded}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefExpanded(Dart2Parser.DefExpandedContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#containerBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitContainerBody(Dart2Parser.ContainerBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#defInkWell}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefInkWell(Dart2Parser.DefInkWellContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#inkWellBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInkWellBody(Dart2Parser.InkWellBodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#listView}.
 	 * @param ctx the parse tree
@@ -469,4 +415,10 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitImageBody(Dart2Parser.ImageBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#navigatorRule}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx);
 }

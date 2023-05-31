@@ -10,9 +10,12 @@ public enum SymbolTableRowType {
     IF,
     BoolExp,
     Column,
+    Navigator,
     Row,
     Text,
     TextField,
+    InkWell,
+    InkWellBody,
     Container,
     Image,
 }

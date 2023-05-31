@@ -1,21 +1,21 @@
 Program:
 	 {
-		class:MainClass
-		void:function
-			boolxx((xx|x)|x)
-			null
-		void:main
-				int:x
+		class:MainApp
+		extends:StatelessWidget
+			int:x
+		void:build
 				Row:
 					children:[
 							Column:
 								children:[
-										"asgdads":
-										Image:
-											Image:
-											"grass.webp":
-											width:10
-										"whatsapp":
+										TextField:
+												controller:
+												controlle1r:
+										InkWell:
+											onPressed :
+												Navigator:
+											child :
+												"click me.":
 										"Whatsapp desc.":
 								]
 							Column:
@@ -24,9 +24,6 @@ Program:
 											children:[
 													"whatsapp":
 											]
-										TextField:
-												controller:
-												controller1:
 										Column:
 											children:[
 													"whatsapp":
@@ -36,5 +33,21 @@ Program:
 													"whatsapp":
 											]
 								]
+					]
+		class:MainApp2
+		extends:StatelessWidget
+		void:build
+				Row:
+					children:[
+							"majd alshalabi":
+							"majd alshalabi2":
+					]
+		class:MainApp3
+		extends:StatelessWidget
+		void:build
+				Row:
+					children:[
+							"majd alshalabi":
+							"majd alshalabi2":
 					]
 	}

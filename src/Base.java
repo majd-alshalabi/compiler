@@ -112,11 +112,6 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitImportClass(Dart2Parser.ImportClassContext ctx) {
-        return super.visitImportClass(ctx);
-    }
-
-    @Override
     public Object visitClass_body(Dart2Parser.Class_bodyContext ctx) {
         return super.visitClass_body(ctx);
     }
@@ -204,52 +199,6 @@ public class Base extends Dart2ParserBaseVisitor
     public Object visitSwitch_body(Dart2Parser.Switch_bodyContext ctx) {
         return super.visitSwitch_body(ctx);
     }
-
-    @Override
-    public Object visitDefArray(Dart2Parser.DefArrayContext ctx) {
-        return super.visitDefArray(ctx);
-    }
-
-    @Override
-    public Object visitDefSet(Dart2Parser.DefSetContext ctx) {
-        return super.visitDefSet(ctx);
-    }
-
-    @Override
-    public Object visitDefMap(Dart2Parser.DefMapContext ctx) {
-        return super.visitDefMap(ctx);
-    }
-
-    @Override
-    public Object visitAssignOneElement(Dart2Parser.AssignOneElementContext ctx) {
-        return super.visitAssignOneElement(ctx);
-    }
-
-    @Override
-    public Object visitDefConst(Dart2Parser.DefConstContext ctx) {
-        return super.visitDefConst(ctx);
-    }
-
-    @Override
-    public Object visitDefFinal(Dart2Parser.DefFinalContext ctx) {
-        return super.visitDefFinal(ctx);
-    }
-
-    @Override
-    public Object visitDefLate(Dart2Parser.DefLateContext ctx) {
-        return super.visitDefLate(ctx);
-    }
-
-    @Override
-    public Object visitDefDynamic(Dart2Parser.DefDynamicContext ctx) {
-        return super.visitDefDynamic(ctx);
-    }
-
-    @Override
-    public Object visitDefEnum(Dart2Parser.DefEnumContext ctx) {
-        return super.visitDefEnum(ctx);
-    }
-
     @Override
     public Object visitWidget(Dart2Parser.WidgetContext ctx) {
         return super.visitWidget(ctx);
@@ -271,13 +220,18 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitDefExpanded(Dart2Parser.DefExpandedContext ctx) {
-        return super.visitDefExpanded(ctx);
+    public Object visitContainerBody(Dart2Parser.ContainerBodyContext ctx) {
+        return super.visitContainerBody(ctx);
     }
 
     @Override
-    public Object visitContainerBody(Dart2Parser.ContainerBodyContext ctx) {
-        return super.visitContainerBody(ctx);
+    public Object visitDefInkWell(Dart2Parser.DefInkWellContext ctx) {
+        return super.visitDefInkWell(ctx);
+    }
+
+    @Override
+    public Object visitInkWellBody(Dart2Parser.InkWellBodyContext ctx) {
+        return super.visitInkWellBody(ctx);
     }
 
     @Override
@@ -373,5 +327,10 @@ public class Base extends Dart2ParserBaseVisitor
     @Override
     public Object visitImageBody(Dart2Parser.ImageBodyContext ctx) {
         return super.visitImageBody(ctx);
+    }
+
+    @Override
+    public Object visitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) {
+        return super.visitNavigatorRule(ctx);
     }
 }

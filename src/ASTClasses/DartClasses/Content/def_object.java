@@ -52,3 +52,4 @@ public class def_object {
     private String WIDGET;
     private ASTClasses.FlutterClasses.widget widget;
 }
+

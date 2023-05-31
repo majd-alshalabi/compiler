@@ -1,9 +1,9 @@
 package ASTClasses.DartClasses;
 
 public class elements {
-//    elements : value | IDENTIFIER;
-private value value;
-private String  IDENTIFIER;
+    //    elements : value | IDENTIFIER;
+    private value value;
+    private String IDENTIFIER;
 
     public ASTClasses.DartClasses.value getValue() {
         return value;
