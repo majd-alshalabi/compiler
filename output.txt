@@ -1,28 +1,53 @@
 Program:
 	 {
-		class:MainClass
-		void:main
+		class:MainApp
+		extends:StatelessWidget
 			int:x
-			int:y
-			String:t
-		Row:
-		children:
-		Column:
-		children:
-		Image:
-		image:AssetImage("sdfsdf"):
-		width:10
-		Text("whatsapp"),:
-		Text("Whatsapp desc."),:
-		Column:
-		children:
-		Column:
-		children:
-		Text("whatsapp"),:
-		Column:
-		children:
-		Text("whatsapp"),:
-		Column:
-		children:
-		Text("whatsapp"),:
+		void:build
+				Row:
+					children:[
+							Column:
+								children:[
+										TextField:
+												controller:
+												controlle1r:
+										InkWell:
+											onPressed :
+												Navigator:
+											child :
+												"click me.":
+										"Whatsapp desc.":
+								]
+							Column:
+								children:[
+										Column:
+											children:[
+													"whatsapp":
+											]
+										Column:
+											children:[
+													"whatsapp":
+											]
+										Column:
+											children:[
+													"whatsapp":
+											]
+								]
+					]
+		class:MainApp2
+		extends:StatelessWidget
+		void:build
+				Row:
+					children:[
+							"majd alshalabi":
+							"majd alshalabi2":
+					]
+		class:MainApp3
+		extends:StatelessWidget
+		void:build
+				Row:
+					children:[
+							"majd alshalabi":
+							"majd alshalabi2":
+					]
 	}

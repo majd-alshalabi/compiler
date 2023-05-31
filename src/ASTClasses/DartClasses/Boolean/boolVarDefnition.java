@@ -4,7 +4,8 @@ public class boolVarDefnition {
 //boolVarDefnition: Bool_type IDENTIFIER (EQ boolExp | ) SC ;
     private String Bool_type;
     private String IDENTIFIER;
-    private boolExp boolExp;
+//    private boolExp boolExp;
+    private String boolExp;
 
     public String getBool_type() {
         return Bool_type;
@@ -22,11 +23,11 @@ public class boolVarDefnition {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public ASTClasses.DartClasses.Boolean.boolExp getBoolExp() {
+    public String getBoolExp() {
         return boolExp;
     }
 
-    public void setBoolExp(ASTClasses.DartClasses.Boolean.boolExp boolExp) {
+    public void setBoolExp(String boolExp) {
         this.boolExp = boolExp;
     }
 }

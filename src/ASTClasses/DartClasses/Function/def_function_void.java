@@ -1,8 +1,7 @@
 package ASTClasses.DartClasses.Function;
 
-import ASTClasses.DartClasses.Content.content;
+import ASTClasses.DartClasses.Content.Content;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class def_function_void {
@@ -10,7 +9,7 @@ public class def_function_void {
     private String VOID_;
     private List<String> IDENTIFIER;
     private List<String> DataType ;
-    private List<content> content ;
+    private List<Content> content ;
 
     public String getVOID_() {
         return VOID_;
@@ -36,11 +35,11 @@ public class def_function_void {
         DataType = dataType;
     }
 
-    public List<content> getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(List<content> content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
 }

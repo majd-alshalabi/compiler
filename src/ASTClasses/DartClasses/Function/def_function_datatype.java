@@ -1,6 +1,6 @@
 package ASTClasses.DartClasses.Function;
 
-import ASTClasses.DartClasses.Content.content;
+import ASTClasses.DartClasses.Content.Content;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class def_function_datatype {
 //    def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC content* RETURN_ exp SC CBC;
     private List<String> DataType;
     private List<String> IDENTIFIER;
-    private List<content> content;
+    private List<Content> content;
     private String RETURN_;
     private ASTClasses.DartClasses.exp exp;
 
@@ -28,11 +28,11 @@ public class def_function_datatype {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public List<ASTClasses.DartClasses.Content.content> getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(List<ASTClasses.DartClasses.Content.content> content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
 

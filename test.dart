@@ -1,11 +1,15 @@
-class MainClass {
-  void main(int x, int y, String t) {
+class MainApp extends StatelessWidget {
+  int x;
+
+  void build() {
     Row(
       children: [
         Column(
           children: [
-            Image(image : AssetImage("sdfsdf") , width : 10,),
-            Text("whatsapp"),
+            TextField(controller : controlle1r),
+            InkWell(onPressed:(){
+            Navigator.push(context,MaterialPageRoute(builder: (context) => MainApp3()));
+            },child:Text("click me.")),
             Text("Whatsapp desc."),
           ],
         ),
@@ -28,6 +32,28 @@ class MainClass {
             ),
           ],
         ),
+      ],
+    )
+  }
+}
+
+class MainApp2 extends StatelessWidget {
+  void build() {
+    Row(
+      children: [
+        Text("majd alshalabi"),
+        Text("majd alshalabi2"),
+      ],
+    )
+  }
+}
+
+class MainApp3 extends StatelessWidget {
+  void build() {
+    Row(
+      children: [
+        Text("majd alshalabi"),
+        Text("majd alshalabi2"),
       ],
     )
   }

@@ -1,7 +1,7 @@
 package ASTClasses.DartClasses.Content.For;
 
 import ASTClasses.DartClasses.Content.condition;
-import ASTClasses.DartClasses.Content.content;
+import ASTClasses.DartClasses.Content.Content;
 import ASTClasses.DartClasses.Content.varDefinition;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class def_for {
     private varDefinition varDefinition;
     private condition condition;
     private for_Increment for_Increment;
-    private List<content> content;
+    private List<Content> content;
 
     public String getFOR_() {
         return FOR_;
@@ -46,11 +46,11 @@ public class def_for {
         this.for_Increment = for_Increment;
     }
 
-    public List<ASTClasses.DartClasses.Content.content> getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(List<ASTClasses.DartClasses.Content.content> content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
 }

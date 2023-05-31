@@ -4,7 +4,7 @@ parser grammar Dart2Parser;
 options { tokenVocab=Dart2Lexer; }
 
 //program : def_class def_function_void def_function_datatype import
-program : importClass*  def_class (def_function_void | def_function_datatype)* ;
+program : (def_class)* ;
 
 content: varDefinition
         | varEQ
@@ -14,21 +14,22 @@ content: varDefinition
         | def_if
         | def_for
         | def_while
-        | defArray
+//        | defArray
         | def_switch
         | def_object
         | def_function_void
         | def_function_datatype
-        | defSet
-        | defMap
-        | assignOneElement
-        | defConst
-        | defFinal
-        | defLate
-        | defDynamic
-        | defEnum
+//        | defSet
+//        | defMap
+//        | assignOneElement
+//        | defConst
+//        | defFinal
+//        | defLate
+//        | defDynamic
+//        | defEnum
         |print
         | widget
+        | navigatorRule
         ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
 varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
@@ -57,11 +58,9 @@ print: PRINT OP (elements C*)* CP SC;
 elements : value | IDENTIFIER;
 
 //////////////////////////////////////
-def_class:(CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
-          )|importClass*
-;
+def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
 
-importClass: IMPORT_ SingleLineString SC;
+;
 
 class_body:varDefinition
          |boolVarDefnition
@@ -117,53 +116,56 @@ switch_body:varDefinition
             |boolVarDefnition
             |intIncrease
             ;
-
-defArray:
-    DataType IDENTIFIER OB NUMBER CB EQ NEW_ DataType OB NUMBER* CB
-    |DataType IDENTIFIER OB NUMBER CB EQ OBC (value C*)* CBC
-    |DataType IDENTIFIER OB  NUMBER CB EQ OB (value C*)* CB
-    ;
-
-defSet : VAR_ IDENTIFIER EQ OB (value C*)* CB SC
-        |VAR_ IDENTIFIER EQ LT DataType GT OB (value C*)* CB SC
-        |SET_ ComparisonNormalVarSign DataType ComparisonNormalVarSign IDENTIFIER EQ OB (value C*)* CB SC
-        |FINAL_ IDENTIFIER EQ CONST_ OB (value C*)* CB SC
-        ;
-
-defMap : (VAR_ IDENTIFIER EQ OBC (value CO value C*)* CBC SC)
-        | (VAR_ IDENTIFIER EQ MAP_ LT DataType C DataType GT OB CB)
-;
-assignOneElement : IDENTIFIER OB value CB EQ value SC;
-
-defConst : CONST_ (varDefinition | boolVarDefnition | defArray)
-         | CONST_ IDENTIFIER (EQ exp |) SC;
-defFinal : FINAL_ (varDefinition | boolVarDefnition | defArray)
-         | FINAL_ IDENTIFIER (EQ exp |) SC;
-defLate :  LATE_ (varDefinition | boolVarDefnition | defArray)
-         | LATE_ IDENTIFIER (EQ exp |) SC;
-
-defDynamic : DYNAMIC_ IDENTIFIER (EQ exp |) SC;
-
-
-// -- Enum / Column / Row / ListView / TextField -- //
-// -- Date :  2/1/2023 -- //
-
-defEnum : (ENUM_ IDENTIFIER OBC (value C*)* CBC SC )
-;
+//
+//defArray:
+//    DataType IDENTIFIER OB NUMBER CB EQ NEW_ DataType OB NUMBER* CB
+//    |DataType IDENTIFIER OB NUMBER CB EQ OBC (value C*)* CBC
+//    |DataType IDENTIFIER OB  NUMBER CB EQ OB (value C*)* CB
+//    ;
+//
+//defSet : VAR_ IDENTIFIER EQ OB (value C*)* CB SC
+//        |VAR_ IDENTIFIER EQ LT DataType GT OB (value C*)* CB SC
+//        |SET_ ComparisonNormalVarSign DataType ComparisonNormalVarSign IDENTIFIER EQ OB (value C*)* CB SC
+//        |FINAL_ IDENTIFIER EQ CONST_ OB (value C*)* CB SC
+//        ;
+//
+//defMap : (VAR_ IDENTIFIER EQ OBC (value CO value C*)* CBC SC)
+//        | (VAR_ IDENTIFIER EQ MAP_ LT DataType C DataType GT OB CB)
+//;
+//assignOneElement : IDENTIFIER OB value CB EQ value SC;
+//
+//defConst : CONST_ (varDefinition | boolVarDefnition | defArray)
+//         | CONST_ IDENTIFIER (EQ exp |) SC;
+//defFinal : FINAL_ (varDefinition | boolVarDefnition | defArray)
+//         | FINAL_ IDENTIFIER (EQ exp |) SC;
+//defLate :  LATE_ (varDefinition | boolVarDefnition | defArray)
+//         | LATE_ IDENTIFIER (EQ exp |) SC;
+//
+//defDynamic : DYNAMIC_ IDENTIFIER (EQ exp |) SC;
+//
+//
+//// -- Enum / Column / Row / ListView / TextField -- //
+//// -- Date :  2/1/2023 -- //
+//
+//defEnum : (ENUM_ IDENTIFIER OBC (value C*)* CBC SC )
+//;
 
 
 widget : listView | defColumn | defRow | textField | text
-| defContainer | defExpanded | image
+| defContainer | image | defInkWell
 ;
 
 defColumn : COLUMN_ OP layoutBody* CP C?;
 defRow : ROW_ OP layoutBody* CP C?;
 defContainer : CONTAINER_ OP containerBody* CP C?;
-defExpanded : EXPANDED_ OP (CHILD_ CO widget C)? CP C?;
 
 containerBody : CHILD_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? (widget C*)?
                | PADDING_ CO PADDING_value C*
                | WIDTH_ CO NUMBER C*
+;defInkWell : INKWELL_ OP inkWellBody* CP C?;
+
+inkWellBody : CHILD_ CO (widget C*)?
+               | ONPRESSED CO OP CP OBC content* CBC C*
 ;
 
 
@@ -175,7 +177,7 @@ listViewBody : layoutBody+
 
 
 layoutBody : CHILDREN_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? OB (widget C*)* CB C*
-            | MainAxisAlignment_ CO MainAxisAlignment_value C*
+
 ;
 
 text: TEXT_ OP SingleLineString  CP C?;
@@ -220,7 +222,11 @@ assetImage : IMAGE CO ASSETIMAGE_ OP SingleLineString CP ;
 imageBody :  (WIDTH_ CO NUMBER C*)
            | (HEIGHT_ CO NUMBER C*)
  ;
-
+ //Navigator.push(
+ //    context,
+ //    MaterialPageRoute(builder: (context) => const SecondRoute()),
+ //  );
+navigatorRule : Navigator OP Context_ C MaterialPageRoute_ OP Builder CO OP Context_ CP EG IDENTIFIER OP (DataType IDENTIFIER C*)* CP CP CP SC;
 
 
 

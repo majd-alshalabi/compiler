@@ -9,15 +9,7 @@ public class def_class {
     private String EXTENDS_;
     private String WITH_;
     private List<class_body> class_body;
-    private List<importClass> importClass;
 
-    public List<ASTClasses.DartClasses.Class.importClass> getImportClass() {
-        return importClass;
-    }
-
-    public void setImportClass(List<ASTClasses.DartClasses.Class.importClass> importClass) {
-        this.importClass = importClass;
-    }
 
     public String getCLASS_() {
         return CLASS_;

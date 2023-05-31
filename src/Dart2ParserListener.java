@@ -249,16 +249,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDef_class(Dart2Parser.Def_classContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#importClass}.
-	 * @param ctx the parse tree
-	 */
-	void enterImportClass(Dart2Parser.ImportClassContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#importClass}.
-	 * @param ctx the parse tree
-	 */
-	void exitImportClass(Dart2Parser.ImportClassContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#class_body}.
 	 * @param ctx the parse tree
 	 */
@@ -439,96 +429,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitSwitch_body(Dart2Parser.Switch_bodyContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defArray}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefArray(Dart2Parser.DefArrayContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defArray}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefArray(Dart2Parser.DefArrayContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defSet}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefSet(Dart2Parser.DefSetContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defSet}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefSet(Dart2Parser.DefSetContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defMap}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefMap(Dart2Parser.DefMapContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defMap}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefMap(Dart2Parser.DefMapContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#assignOneElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignOneElement(Dart2Parser.AssignOneElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#assignOneElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignOneElement(Dart2Parser.AssignOneElementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defConst}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefConst(Dart2Parser.DefConstContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defConst}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefConst(Dart2Parser.DefConstContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defFinal}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefFinal(Dart2Parser.DefFinalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defFinal}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefFinal(Dart2Parser.DefFinalContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defLate}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefLate(Dart2Parser.DefLateContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defLate}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefLate(Dart2Parser.DefLateContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defDynamic}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefDynamic(Dart2Parser.DefDynamicContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defDynamic}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefDynamic(Dart2Parser.DefDynamicContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defEnum}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefEnum(Dart2Parser.DefEnumContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defEnum}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefEnum(Dart2Parser.DefEnumContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#widget}.
 	 * @param ctx the parse tree
 	 */
@@ -569,16 +469,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDefContainer(Dart2Parser.DefContainerContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#defExpanded}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefExpanded(Dart2Parser.DefExpandedContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#defExpanded}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefExpanded(Dart2Parser.DefExpandedContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#containerBody}.
 	 * @param ctx the parse tree
 	 */
@@ -588,6 +478,26 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitContainerBody(Dart2Parser.ContainerBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#defInkWell}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefInkWell(Dart2Parser.DefInkWellContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#defInkWell}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefInkWell(Dart2Parser.DefInkWellContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#inkWellBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterInkWellBody(Dart2Parser.InkWellBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#inkWellBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitInkWellBody(Dart2Parser.InkWellBodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#listView}.
 	 * @param ctx the parse tree
@@ -778,4 +688,14 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitImageBody(Dart2Parser.ImageBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#navigatorRule}.
+	 * @param ctx the parse tree
+	 */
+	void enterNavigatorRule(Dart2Parser.NavigatorRuleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#navigatorRule}.
+	 * @param ctx the parse tree
+	 */
+	void exitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx);
 }

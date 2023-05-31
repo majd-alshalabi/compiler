@@ -6,7 +6,7 @@ public class def_while {
 //    def_while:WHILE_ OP condition CP OBC content* CBC;
     private String WHILE_;
     private condition condition;
-    private List<content> content;
+    private List<Content> content;
 
     public String getWHILE_() {
         return WHILE_;
@@ -24,11 +24,11 @@ public class def_while {
         this.condition = condition;
     }
 
-    public List<ASTClasses.DartClasses.Content.content> getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(List<ASTClasses.DartClasses.Content.content> content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
 }

@@ -6,7 +6,8 @@ public class varDefinition {
 //    varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
     private String DataType;
     private String IDENTIFIER;
-    private exp exp ;
+//    private exp exp ;
+    private String exp ;
 
     public String getDataType() {
         return DataType;
@@ -24,11 +25,11 @@ public class varDefinition {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public exp getExp() {
+    public String getExp() {
         return exp;
     }
 
-    public void setExp(ASTClasses.DartClasses.exp exp) {
+    public void setExp(String exp) {
         this.exp = exp;
     }
 }

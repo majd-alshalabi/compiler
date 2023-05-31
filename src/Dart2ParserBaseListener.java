@@ -279,18 +279,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImportClass(Dart2Parser.ImportClassContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImportClass(Dart2Parser.ImportClassContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterClass_body(Dart2Parser.Class_bodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -495,114 +483,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefArray(Dart2Parser.DefArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefArray(Dart2Parser.DefArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefSet(Dart2Parser.DefSetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefSet(Dart2Parser.DefSetContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefMap(Dart2Parser.DefMapContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefMap(Dart2Parser.DefMapContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignOneElement(Dart2Parser.AssignOneElementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignOneElement(Dart2Parser.AssignOneElementContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefConst(Dart2Parser.DefConstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefConst(Dart2Parser.DefConstContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefFinal(Dart2Parser.DefFinalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefFinal(Dart2Parser.DefFinalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefLate(Dart2Parser.DefLateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefLate(Dart2Parser.DefLateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefDynamic(Dart2Parser.DefDynamicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefDynamic(Dart2Parser.DefDynamicContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefEnum(Dart2Parser.DefEnumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefEnum(Dart2Parser.DefEnumContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterWidget(Dart2Parser.WidgetContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -651,18 +531,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefExpanded(Dart2Parser.DefExpandedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefExpanded(Dart2Parser.DefExpandedContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterContainerBody(Dart2Parser.ContainerBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -670,6 +538,30 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitContainerBody(Dart2Parser.ContainerBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefInkWell(Dart2Parser.DefInkWellContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefInkWell(Dart2Parser.DefInkWellContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInkWellBody(Dart2Parser.InkWellBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInkWellBody(Dart2Parser.InkWellBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -898,6 +790,18 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitImageBody(Dart2Parser.ImageBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
