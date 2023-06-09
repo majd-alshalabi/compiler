@@ -1,5 +1,4 @@
 import ASTClasses.program;
-import SymbolTable.symbolTableClasses.SymbolTable;
 import code_generation.CodeGeneration;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -25,7 +24,7 @@ public class Main {
             ASTVisitor astVisitor =new ASTVisitor();
             astVisitor.visit(program);
 
-            CodeGeneration codeGeneration = new CodeGeneration(astVisitor.symbolTable.getMap(), "codeGenerationFile");
+            CodeGeneration codeGeneration = new CodeGeneration(astVisitor.symbolTable.getMap());
             codeGeneration.generate();
         } catch (IOException e) {
             e.printStackTrace();

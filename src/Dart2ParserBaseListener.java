@@ -111,18 +111,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNull(Dart2Parser.NullContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNull(Dart2Parser.NullContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterVariable(Dart2Parser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -303,6 +291,18 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDef_build_function(Dart2Parser.Def_build_functionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDef_build_function(Dart2Parser.Def_build_functionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -327,37 +327,25 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfContent(Dart2Parser.IfContentContext ctx) { }
+	@Override public void enterDef_else_if(Dart2Parser.Def_else_ifContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfContent(Dart2Parser.IfContentContext ctx) { }
+	@Override public void exitDef_else_if(Dart2Parser.Def_else_ifContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElseIfContent(Dart2Parser.ElseIfContentContext ctx) { }
+	@Override public void enterDef_else(Dart2Parser.Def_elseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElseIfContent(Dart2Parser.ElseIfContentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElseContent(Dart2Parser.ElseContentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElseContent(Dart2Parser.ElseContentContext ctx) { }
+	@Override public void exitDef_else(Dart2Parser.Def_elseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -471,13 +459,25 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSwitch_body(Dart2Parser.Switch_bodyContext ctx) { }
+	@Override public void enterSwitch_case(Dart2Parser.Switch_caseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSwitch_body(Dart2Parser.Switch_bodyContext ctx) { }
+	@Override public void exitSwitch_case(Dart2Parser.Switch_caseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSwitch_defult(Dart2Parser.Switch_defultContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSwitch_defult(Dart2Parser.Switch_defultContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

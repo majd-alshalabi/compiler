@@ -3,6 +3,8 @@ package ASTClasses.DartClasses.Content;
 import ASTClasses.DartClasses.Boolean.boolVarDefnition;
 import ASTClasses.DartClasses.Boolean.boolVarEq;
 import ASTClasses.DartClasses.Content.For.def_for;
+import ASTClasses.DartClasses.Content.IF.def_else;
+import ASTClasses.DartClasses.Content.IF.def_else_if;
 import ASTClasses.DartClasses.Content.IF.def_if;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
@@ -40,6 +42,25 @@ public class Content {
     private boolVarDefnition boolVarDefnition ;
     private boolVarEq boolVarEq;
     private def_if def_if;
+
+    public ASTClasses.DartClasses.Content.IF.def_else_if getDef_else_if() {
+        return def_else_if;
+    }
+
+    public void setDef_else_if(ASTClasses.DartClasses.Content.IF.def_else_if def_else_if) {
+        this.def_else_if = def_else_if;
+    }
+
+    public ASTClasses.DartClasses.Content.IF.def_else getDef_else() {
+        return def_else;
+    }
+
+    public void setDef_else(ASTClasses.DartClasses.Content.IF.def_else def_else) {
+        this.def_else = def_else;
+    }
+
+    private def_else_if def_else_if;
+    private def_else def_else;
     private def_for def_for;
     private def_while def_while;
     private def_switch def_switch;

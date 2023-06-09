@@ -1,10 +1,20 @@
 package ASTClasses.DartClasses.Content;
 
+import ASTClasses.DartClasses.Content.For.IncrementType;
+
 public class intIncrease {
     //intIncrease: IDENTIFIER (PLPL | MM)  SC ;
     private String IDENTIFIER;
-    private String PLPL;
-    private String MM;
+
+    public IncrementType getType() {
+        return type;
+    }
+
+    public void setType(IncrementType type) {
+        this.type = type;
+    }
+
+    private IncrementType type;
 
     public String getIDENTIFIER() {
         return IDENTIFIER;
@@ -14,19 +24,4 @@ public class intIncrease {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public String getPLPL() {
-        return PLPL;
-    }
-
-    public void setPLPL(String PLPL) {
-        this.PLPL = PLPL;
-    }
-
-    public String getMM() {
-        return MM;
-    }
-
-    public void setMM(String MM) {
-        this.MM = MM;
-    }
 }

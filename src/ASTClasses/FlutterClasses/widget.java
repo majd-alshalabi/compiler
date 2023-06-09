@@ -21,7 +21,6 @@ public class widget {
     private textField textField;
     private text text;
     private defContainer defContainer;
-    private defExpanded defExpanded;
     private image image;
     private InkWell inkWell;
 
@@ -77,14 +76,6 @@ public class widget {
 
     public void setDefContainer(ASTClasses.FlutterClasses.Widget.Container.defContainer defContainer) {
         this.defContainer = defContainer;
-    }
-
-    public ASTClasses.FlutterClasses.Widget.Container.defExpanded getDefExpanded() {
-        return defExpanded;
-    }
-
-    public void setDefExpanded(ASTClasses.FlutterClasses.Widget.Container.defExpanded defExpanded) {
-        this.defExpanded = defExpanded;
     }
 
     public ASTClasses.FlutterClasses.Widget.Image.image getImage() {

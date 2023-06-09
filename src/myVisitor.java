@@ -1,12 +1,17 @@
+import ASTClasses.DartClasses.Boolean.boolExp;
 import ASTClasses.DartClasses.Boolean.boolVarDefnition;
 import ASTClasses.DartClasses.Boolean.boolVarEq;
 import ASTClasses.DartClasses.Class.class_body;
 import ASTClasses.DartClasses.Class.def_class;
 import ASTClasses.DartClasses.Content.*;
-import ASTClasses.DartClasses.Content.For.def_for;
+import ASTClasses.DartClasses.Content.For.*;
+import ASTClasses.DartClasses.Content.IF.def_else;
+import ASTClasses.DartClasses.Content.IF.def_else_if;
 import ASTClasses.DartClasses.Content.IF.def_if;
+import ASTClasses.DartClasses.Function.def_build_function;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import ASTClasses.DartClasses.exp;
 import ASTClasses.DartClasses.value;
 import ASTClasses.FlutterClasses.Widget.*;
 import ASTClasses.FlutterClasses.Widget.Container.containerBody;
@@ -27,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ASTClasses.program;
+import com.sun.jdi.Value;
 
 
 public class myVisitor extends Base {
@@ -40,8 +46,6 @@ public class myVisitor extends Base {
                 li.add(visitDef_class(ctx.def_class().get(i)));
             }
             program.setDef_class(li);
-        } else {
-            System.out.println("You are not print the defClass");
         }
         return program;
     }
@@ -50,23 +54,12 @@ public class myVisitor extends Base {
     public def_class visitDef_class(Dart2Parser.Def_classContext ctx) {
 
         def_class def_class = new def_class();
-        if (ctx.CLASS_() != null) {
-            def_class.setCLASS_(ctx.CLASS_().getText());
-        }
-
         if (ctx.IDENTIFIER() != null) {
             List<String> IDENTIFIER = new ArrayList<>();
             for (int i = 0; i < ctx.IDENTIFIER().size(); i++) {
                 IDENTIFIER.add(ctx.IDENTIFIER().get(i).getText());
             }
             def_class.setIDENTIFIER(IDENTIFIER);
-        }
-
-        if (ctx.EXTENDS_() != null) {
-            def_class.setEXTENDS_(ctx.EXTENDS_().getText());
-        }
-        if (ctx.WITH_() != null) {
-            def_class.setWITH_(ctx.WITH_().getText());
         }
 
         if (ctx.class_body() != null) {
@@ -96,6 +89,9 @@ public class myVisitor extends Base {
         if (ctx.def_function_void() != null) {
             class_body.setDef_function_void(visitDef_function_void(ctx.def_function_void()));
         }
+        if (ctx.def_build_function() != null) {
+            class_body.setDef_build_function(visitDef_build_function(ctx.def_build_function()));
+        }
 
         return class_body;
     }
@@ -112,7 +108,7 @@ public class myVisitor extends Base {
             varDefinition.setIDENTIFIER(ctx.IDENTIFIER().getText());
         }
         if (ctx.exp() != null) {
-            varDefinition.setExp(ctx.exp().getText());
+            varDefinition.setExp(visitExp(ctx.exp()));
         }
 
 
@@ -124,12 +120,30 @@ public class myVisitor extends Base {
 
         def_function_datatype def_function_datatype = new def_function_datatype();
 
-        // if (ctx. DataType() != null) {
-        //  def_function_datatype.setDataType(ctx. DataType().getText());
-        //}
-        //if (ctx. IDENTIFIER() != null) {
-        //  def_function_datatype.setIDENTIFIER(ctx. IDENTIFIER().getText());
-        //}
+        if (ctx.DataType() != null) {
+            List<String> DataType = new ArrayList<>();
+            for (int i = 0; i < ctx.DataType().size(); i++) {
+                DataType.add(ctx.DataType().get(i).getText());
+            }
+            def_function_datatype.setDataType(DataType);
+        }
+        if (ctx.IDENTIFIER() != null) {
+            List<String> IDENTIFIER = new ArrayList<>();
+            for (int i = 0; i < ctx.IDENTIFIER().size(); i++) {
+                IDENTIFIER.add(ctx.IDENTIFIER().get(i).getText());
+            }
+            def_function_datatype.setIDENTIFIER(IDENTIFIER);
+        }
+        if (ctx.content() != null) {
+            List<Content> content = new ArrayList<>();
+            for (int i = 0; i < ctx.content().size(); i++) {
+                content.add(visitContent(ctx.content(i)));
+            }
+            def_function_datatype.setContent(content);
+        }
+        if(ctx.exp() != null){
+            def_function_datatype.setExp(visitExp(ctx.exp()));
+        }
 
         return def_function_datatype;
 
@@ -138,9 +152,6 @@ public class myVisitor extends Base {
     @Override
     public def_function_void visitDef_function_void(Dart2Parser.Def_function_voidContext ctx) {
         def_function_void def_function_void = new def_function_void();
-        if (ctx.VOID_() != null) {
-            def_function_void.setVOID_(ctx.VOID_().getText());
-        }
         if (ctx.DataType() != null) {
             List<String> DataType = new ArrayList<>();
             for (int i = 0; i < ctx.DataType().size(); i++) {
@@ -166,6 +177,15 @@ public class myVisitor extends Base {
     }
 
     @Override
+    public def_build_function visitDef_build_function(Dart2Parser.Def_build_functionContext ctx) {
+        def_build_function def_build_function = new def_build_function();
+        if (ctx.widget() != null) {
+            def_build_function.setWidget(visitWidget(ctx.widget()));
+        }
+        return def_build_function;
+    }
+
+    @Override
     public Content visitContent(Dart2Parser.ContentContext ctx) {
         Content content = new Content();
 
@@ -188,14 +208,17 @@ public class myVisitor extends Base {
         if (ctx.def_if() != null) {
             content.setDef_if(visitDef_if(ctx.def_if()));
         }
+        if (ctx.def_else() != null) {
+            content.setDef_else(visitDef_else(ctx.def_else()));
+        }
+        if (ctx.def_else_if() != null) {
+            content.setDef_else_if(visitDef_else_if(ctx.def_else_if()));
+        }
         if (ctx.def_for() != null) {
             content.setDef_for(visitDef_for(ctx.def_for()));
         }
         if (ctx.def_while() != null) {
             content.setDef_while(visitDef_while(ctx.def_while()));
-        }
-        if (ctx.def_object() != null) {
-            content.setDef_object(visitDef_object(ctx.def_object()));
         }
         if (ctx.def_function_void() != null) {
             content.setDef_function_void(visitDef_function_void(ctx.def_function_void()));
@@ -203,11 +226,11 @@ public class myVisitor extends Base {
         if (ctx.def_function_datatype() != null) {
             content.setDef_function_datatype(visitDef_function_datatype(ctx.def_function_datatype()));
         }
-        if (ctx.widget() != null) {
-            content.setWidget(visitWidget(ctx.widget()));
-        }
         if (ctx.navigatorRule() != null) {
             content.setNavigatorRule(visitNavigatorRule(ctx.navigatorRule()));
+        }
+        if (ctx.def_switch() != null) {
+            content.setDef_switch(visitDef_switch(ctx.def_switch()));
         }
 
         return content;
@@ -216,60 +239,336 @@ public class myVisitor extends Base {
     @Override
     public varEQ visitVarEQ(Dart2Parser.VarEQContext ctx) {
         varEQ varEQ = new varEQ();
-        varEQ.setExp(ctx.exp().getText());
+        varEQ.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        varEQ.setExp(visitExp(ctx.exp()));
         return varEQ;
     }
 
     @Override
     public intIncrease visitIntIncrease(Dart2Parser.IntIncreaseContext ctx) {
         intIncrease intIncrease = new intIncrease();
-        /////////////
-
-        ///////////
+        intIncrease.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        intIncrease.setType((ctx.PLPL() != null ? IncrementType.PL : IncrementType.Minus));
         return intIncrease;
     }
 
     @Override
     public boolVarEq visitBoolVarEq(Dart2Parser.BoolVarEqContext ctx) {
         boolVarEq boolVarEq = new boolVarEq();
-        boolVarEq.setBoolExp(ctx.boolExp().getText());
+        boolVarEq.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        boolVarEq.setBoolExp(visitBoolExp(ctx.boolExp()));
+
         return boolVarEq;
+    }
+
+    public exp visitExp(Dart2Parser.ExpContext ctx) {
+        exp exp = new exp();
+        if (ctx instanceof Dart2Parser.BetweenBracketContext) {
+            exp = visitBetweenBracket((Dart2Parser.BetweenBracketContext) ctx);
+        } else if (ctx instanceof Dart2Parser.VariableContext) {
+            exp = visitVariable((Dart2Parser.VariableContext) ctx);
+        } else if (ctx instanceof Dart2Parser.NumberContext) {
+            exp = visitNumber((Dart2Parser.NumberContext) ctx);
+        } else if (ctx instanceof Dart2Parser.MathematicsLogicContext) {
+            exp = visitMathematicsLogic((Dart2Parser.MathematicsLogicContext) ctx);
+        } else if (ctx instanceof Dart2Parser.DOUBLEContext) {
+            exp = visitDOUBLE((Dart2Parser.DOUBLEContext) ctx);
+        } else if (ctx instanceof Dart2Parser.StringContext) {
+            exp = visitString((Dart2Parser.StringContext) ctx);
+        }
+        return exp;
+    }
+
+    public boolExp visitBoolExp(Dart2Parser.BoolExpContext ctx) {
+        boolExp exp = new boolExp();
+        if (ctx instanceof Dart2Parser.BoolMathematicsLogicContext) {
+            exp = visitBoolMathematicsLogic((Dart2Parser.BoolMathematicsLogicContext) ctx);
+        } else if (ctx instanceof Dart2Parser.BoolContext) {
+            exp = visitBool((Dart2Parser.BoolContext) ctx);
+        } else if (ctx instanceof Dart2Parser.BoolVariableContext) {
+            exp = visitBoolVariable((Dart2Parser.BoolVariableContext) ctx);
+        } else if (ctx instanceof Dart2Parser.BoolBetweenBracketContext) {
+            exp = visitBoolBetweenBracket((Dart2Parser.BoolBetweenBracketContext) ctx);
+        }
+        return exp;
+    }
+
+    @Override
+    public exp visitBetweenBracket(Dart2Parser.BetweenBracketContext ctx) {
+        exp exp = new exp();
+        exp.setBetweenBracket(visitExp(ctx.exp()));
+        return exp;
+    }
+
+    @Override
+    public exp visitVariable(Dart2Parser.VariableContext ctx) {
+        exp exp = new exp();
+        exp.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        return exp;
+    }
+
+    @Override
+    public exp visitNumber(Dart2Parser.NumberContext ctx) {
+        exp exp = new exp();
+        exp.setNUMBER(Integer.parseInt(ctx.NUMBER().getText()));
+        return exp;
+    }
+
+    @Override
+    public exp visitMathematicsLogic(Dart2Parser.MathematicsLogicContext ctx) {
+        exp exp = visitExp(ctx.exp(0));
+        exp exp2 = visitExp(ctx.exp(1));
+        exp exp3 = new exp();
+        exp3.setMathMaticalSign(ctx.MathMaticalSign().getText());
+        exp3.setExp(exp);
+        exp3.setExp2(exp2);
+        return exp3;
+    }
+
+    @Override
+    public exp visitDOUBLE(Dart2Parser.DOUBLEContext ctx) {
+        exp exp = new exp();
+        exp.setDOUBLE(Double.parseDouble(ctx.DOUBLE().getText()));
+        return exp;
+    }
+
+    @Override
+    public exp visitString(Dart2Parser.StringContext ctx) {
+        exp exp = new exp();
+        exp.setSingleLineString(ctx.SingleLineString().getText());
+        return exp;
+    }
+
+
+    @Override
+    public boolExp visitBoolMathematicsLogic(Dart2Parser.BoolMathematicsLogicContext ctx) {
+        boolExp exp = new boolExp();
+        exp.setBoolExp(visitBoolExp(ctx.boolExp(0)));
+        exp.setBoolExp2(visitBoolExp(ctx.boolExp(1)));
+        exp.setBooleanSign(ctx.BooleanSign().getText());
+        return exp;
+    }
+
+    @Override
+    public boolExp visitBool(Dart2Parser.BoolContext ctx) {
+        boolExp exp = new boolExp();
+        exp.setBool_value(ctx.getText());
+        return exp;
+    }
+
+    @Override
+    public boolExp visitBoolVariable(Dart2Parser.BoolVariableContext ctx) {
+        boolExp exp = new boolExp();
+        exp.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        return exp;
+    }
+
+    @Override
+    public boolExp visitBoolBetweenBracket(Dart2Parser.BoolBetweenBracketContext ctx) {
+        boolExp exp = new boolExp();
+        exp.setBoolBetweenBracket(visitBoolExp(ctx.boolExp()));
+        return exp;
     }
 
     @Override
     public def_if visitDef_if(Dart2Parser.Def_ifContext ctx) {
         def_if def_if = new def_if();
-        /////////////
-
-        ///////////
+        def_if.setIfCondition(visitCondition(ctx.condition()));
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            contentList.add(visitContent(ctx.content(i)));
+        }
+        def_if.setContentList(contentList);
         return def_if;
     }
 
     @Override
+    public def_else_if visitDef_else_if(Dart2Parser.Def_else_ifContext ctx) {
+
+        def_else_if def_if = new def_else_if();
+        def_if.setElseIFCondition(visitCondition(ctx.condition()));
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            contentList.add(visitContent(ctx.content(i)));
+        }
+        def_if.setContentList(contentList);
+        return def_if;
+    }
+
+    @Override
+    public def_else visitDef_else(Dart2Parser.Def_elseContext ctx) {
+        def_else def_if = new def_else();
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            contentList.add(visitContent(ctx.content(i)));
+        }
+        def_if.setContentList(contentList);
+        return def_if;
+    }
+
+
+    @Override
     public def_for visitDef_for(Dart2Parser.Def_forContext ctx) {
         def_for def_for = new def_for();
-        /////////////
-
-        ///////////
+        if (ctx.condition() != null)
+            def_for.setCondition(visitCondition(ctx.condition()));
+        if (ctx.for_Increment() != null) {
+            for_Increment for_increment = visitFor_Increment(ctx.for_Increment());
+            def_for.setFor_Increment(for_increment);
+        }
+        if (ctx.varDefinition() != null)
+            def_for.setVarDefinition(visitVarDefinition(ctx.varDefinition()));
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            contentList.add(visitContent(ctx.content(i)));
+        }
+        def_for.setContent(contentList);
         return def_for;
+    }
+
+    for_Increment visitFor_Increment(Dart2Parser.For_IncrementContext ctx) {
+        for_Increment for_increment = new for_Increment();
+        if (ctx instanceof Dart2Parser.For_Int_IncrementContext) {
+            for_increment.setFor_Int_Increment(visitFor_Int_Increment((Dart2Parser.For_Int_IncrementContext) ctx));
+        } else if (ctx instanceof Dart2Parser.For_var_EqContext) {
+            for_increment.setFor_var_Eq(visitFor_var_Eq((Dart2Parser.For_var_EqContext) ctx));
+        }
+        return for_increment;
+    }
+
+    @Override
+    public for_Int_Increment visitFor_Int_Increment(Dart2Parser.For_Int_IncrementContext ctx) {
+        for_Int_Increment for_Int_Increment = new for_Int_Increment();
+        if (ctx.MM() != null) for_Int_Increment.setType(IncrementType.Minus);
+        else for_Int_Increment.setType(IncrementType.PL);
+        for_Int_Increment.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        return for_Int_Increment;
+    }
+
+    @Override
+    public for_var_Eq visitFor_var_Eq(Dart2Parser.For_var_EqContext ctx) {
+        for_var_Eq for_var_Eq = new for_var_Eq();
+        for_var_Eq.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        if (ctx.EQFORNORMALMATH() != null)
+            for_var_Eq.setEQFORNORMALMATH(ctx.EQFORNORMALMATH().getText());
+        if (ctx.EQ() != null)
+            for_var_Eq.setEQFORNORMALMATH(ctx.EQ().getText());
+        if (ctx.exp() != null) {
+            for_var_Eq.setExp(visitExp(ctx.exp()));
+        }
+        return for_var_Eq;
     }
 
     @Override
     public def_while visitDef_while(Dart2Parser.Def_whileContext ctx) {
         def_while def_while = new def_while();
-        /////////////
-
-        ///////////
+        def_while.setCondition(visitCondition(ctx.condition()));
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            contentList.add(visitContent(ctx.content(i)));
+        }
+        def_while.setContent(contentList);
         return def_while;
+    }
+
+    public condition visitCondition(Dart2Parser.ConditionContext ctx) {
+        condition condition = new condition();
+        if (ctx instanceof Dart2Parser.ConditionBoolContext) {
+            condition = visitConditionBool((Dart2Parser.ConditionBoolContext) ctx);
+        } else if (ctx instanceof Dart2Parser.ComparisonBetweenTwoNormalVarContext) {
+            condition = visitComparisonBetweenTwoNormalVar((Dart2Parser.ComparisonBetweenTwoNormalVarContext) ctx);
+        } else if (ctx instanceof Dart2Parser.MultiConditionContext) {
+            condition = visitMultiCondition((Dart2Parser.MultiConditionContext) ctx);
+        }
+        return condition;
+    }
+
+    @Override
+    public condition visitConditionBool(Dart2Parser.ConditionBoolContext ctx) {
+        condition condition = new condition();
+        condition.setBoolExp(visitBoolExp(ctx.boolExp()));
+        return condition;
+    }
+
+    @Override
+    public condition visitComparisonBetweenTwoNormalVar(Dart2Parser.ComparisonBetweenTwoNormalVarContext ctx) {
+        condition condition = new condition();
+        condition.setExp(visitExp(ctx.exp(0)));
+        condition.setExp2(visitExp(ctx.exp(1)));
+        condition.setComparisonNormalVarSign(ctx.ComparisonNormalVarSign().getText());
+        return condition;
+    }
+
+    @Override
+    public condition visitMultiCondition(Dart2Parser.MultiConditionContext ctx) {
+        condition condition = new condition();
+        condition.setCondition(visitCondition(ctx.condition(0)));
+        condition.setCondition(visitCondition(ctx.condition(1)));
+        condition.setComparisonSign(ctx.ComparisonSign().getText());
+        return condition;
     }
 
     @Override
     public def_object visitDef_object(Dart2Parser.Def_objectContext ctx) {
         def_object def_object = new def_object();
-        /////////////
-
-        ///////////
+        if(ctx.IDENTIFIER() != null) {
+            List<String> stringList = new ArrayList<>();
+            ctx.IDENTIFIER().forEach(terminalNode -> {
+                stringList.add(terminalNode.getText());
+            });
+            def_object.setIDENTIFIER(stringList);
+        }if(ctx.exp() != null) {
+            List<exp> stringList = new ArrayList<>();
+            ctx.exp().forEach(terminalNode -> {
+                stringList.add(visitExp(terminalNode));
+            });
+            def_object.setExps(stringList);
+        }
         return def_object;
+    }
+
+    @Override
+    public def_switch visitDef_switch(Dart2Parser.Def_switchContext ctx) {
+        def_switch def_switch = new def_switch();
+        if (ctx.switch_case() != null) {
+            List<def_case> def_caseList = new ArrayList<>();
+            for (int i = 0; i < ctx.switch_case().size(); i++) {
+                def_caseList.add(visitSwitch_case(ctx.switch_case().get(i)));
+            }
+            def_switch.setDef_caseList(def_caseList);
+        }
+        if (ctx.switch_defult() != null) {
+            def_switch.setDef_defult(visitSwitch_defult(ctx.switch_defult()));
+        }
+        if (ctx.IDENTIFIER() != null)
+            def_switch.setIDENTIFIER(ctx.IDENTIFIER().getText());
+        return def_switch;
+    }
+
+    @Override
+    public def_case visitSwitch_case(Dart2Parser.Switch_caseContext ctx) {
+        def_case def_case = new def_case();
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            Content content = visitContent(ctx.content(i));
+            contentList.add(content);
+        }
+        def_case.setContentList(contentList);
+        value value = visitValue(ctx.value());
+        def_case.setValue(value);
+        return def_case;
+    }
+
+    @Override
+    public def_defult visitSwitch_defult(Dart2Parser.Switch_defultContext ctx) {
+        def_defult def_defult = new def_defult();
+        List<Content> contentList = new ArrayList<>();
+        for (int i = 0; i < ctx.content().size(); i++) {
+            Content content = visitContent(ctx.content(i));
+            contentList.add(content);
+        }
+        def_defult.setContentList(contentList);
+        return def_defult;
     }
 
     @Override
@@ -285,12 +584,9 @@ public class myVisitor extends Base {
             boolVarDefnition.setIDENTIFIER(ctx.IDENTIFIER().getText());
         }
         if (ctx.boolExp() != null) {
-            boolVarDefnition.setBoolExp(ctx.boolExp().getText());
+            boolVarDefnition.setBoolExp(visitBoolExp(ctx.boolExp()));
         }
-
         return boolVarDefnition;
-
-
     }
 
 
@@ -314,6 +610,16 @@ public class myVisitor extends Base {
 
 
         return value;
+    }
+
+    @Override
+    public Object visitPrint(Dart2Parser.PrintContext ctx) {
+        return super.visitPrint(ctx);
+    }
+
+    @Override
+    public Object visitElements(Dart2Parser.ElementsContext ctx) {
+        return super.visitElements(ctx);
     }
 
     @Override
@@ -461,11 +767,11 @@ public class myVisitor extends Base {
 
     @Override
     public InkWellBody visitInkWellBody(Dart2Parser.InkWellBodyContext ctx) {
-        if(ctx.widget() != null){
+        if (ctx.widget() != null) {
             InkWellChild bodyItem = new InkWellChild();
             bodyItem.setWidget(visitWidget(ctx.widget()));
-            return  bodyItem;
-        }else if(ctx.ONPRESSED() != null){
+            return bodyItem;
+        } else if (ctx.ONPRESSED() != null) {
             InkWellOnPressed bodyItem = new InkWellOnPressed();
             List<Content> contentList = new ArrayList<>();
             ctx.content().forEach(contentContext -> {
@@ -667,7 +973,7 @@ public class myVisitor extends Base {
     @Override
     public NavigationRule visitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) {
         NavigationRule navigationRule = new NavigationRule();
-        navigationRule.setRouteName(ctx.IDENTIFIER().get(0).getText());
+        navigationRule.setDef_object(visitDef_object(ctx.def_object()));
         return navigationRule;
     }
 

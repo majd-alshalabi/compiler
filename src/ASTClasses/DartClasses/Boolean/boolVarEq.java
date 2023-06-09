@@ -3,7 +3,7 @@ package ASTClasses.DartClasses.Boolean;
 public class boolVarEq {
 //    boolVarEq : IDENTIFIER ((EQFORBOOLEANMATH | EQ) boolExp | ) SC;
     private String IDENTIFIER;
-    private String boolExp;
+    private boolExp boolExp;
 
     public String getIDENTIFIER() {
         return IDENTIFIER;
@@ -13,11 +13,11 @@ public class boolVarEq {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public String getBoolExp() {
+    public boolExp getBoolExp() {
         return boolExp;
     }
 
-    public void setBoolExp(String boolExp) {
+    public void setBoolExp(boolExp boolExp) {
         this.boolExp = boolExp;
     }
 }

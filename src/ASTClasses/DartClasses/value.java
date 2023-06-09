@@ -1,10 +1,10 @@
 package ASTClasses.DartClasses;
 
 public class value {
-//    value : SingleLineString |  DOUBLE | NUMBER  ;
-private String SingleLineString;
-private String DOUBLE;
-private String NUMBER;
+    //    value : SingleLineString |  DOUBLE | NUMBER  ;
+    private String SingleLineString;
+    private String DOUBLE;
+    private String NUMBER;
 
     public String getSingleLineString() {
         return SingleLineString;
@@ -28,5 +28,12 @@ private String NUMBER;
 
     public void setNUMBER(String NUMBER) {
         this.NUMBER = NUMBER;
+    }
+
+    public String print() {
+        if (SingleLineString != null)return SingleLineString;
+        else if(NUMBER != null)return NUMBER;
+        else if(DOUBLE != null)return DOUBLE;
+        return "";
     }
 }

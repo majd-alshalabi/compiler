@@ -5,7 +5,7 @@ public class boolVarDefnition {
     private String Bool_type;
     private String IDENTIFIER;
 //    private boolExp boolExp;
-    private String boolExp;
+    private boolExp boolExp;
 
     public String getBool_type() {
         return Bool_type;
@@ -23,11 +23,11 @@ public class boolVarDefnition {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public String getBoolExp() {
+    public boolExp getBoolExp() {
         return boolExp;
     }
 
-    public void setBoolExp(String boolExp) {
+    public void setBoolExp(boolExp boolExp) {
         this.boolExp = boolExp;
     }
 }

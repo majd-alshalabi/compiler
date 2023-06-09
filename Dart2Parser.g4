@@ -6,30 +6,21 @@ options { tokenVocab=Dart2Lexer; }
 //program : def_class def_function_void def_function_datatype import
 program : (def_class)* ;
 
-content: varDefinition
-        | varEQ
-        | intIncrease
-        | boolVarDefnition
-        | boolVarEq
-        | def_if
-        | def_for
-        | def_while
-//        | defArray
-        | def_switch
-        | def_object
-        | def_function_void
-        | def_function_datatype
-//        | defSet
-//        | defMap
-//        | assignOneElement
-//        | defConst
-//        | defFinal
-//        | defLate
-//        | defDynamic
-//        | defEnum
-        |print
-        | widget
-        | navigatorRule
+content: varDefinition      // done
+        | varEQ             // done
+        | intIncrease       // done
+        | boolVarDefnition  // done
+        | boolVarEq     // done
+        | def_else      // done
+        | def_else_if   // done
+        | def_if        // done
+        | def_for       // done
+        | def_while     // done
+        | def_switch    // done
+        | def_function_void     // done
+        | def_function_datatype // done
+        | print              // done
+        | navigatorRule         // done
         ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
 varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
@@ -42,8 +33,7 @@ exp : exp MathMaticalSign exp # MathematicsLogic /// math between expression
     | IDENTIFIER # Variable /// variable
     | NUMBER # Number
     |  DOUBLE #  DOUBLE
-    | SingleLineString # String  /// number
-    | NULL_ # Null // NULL
+    | SingleLineString # String
      ;
 
 boolExp : boolExp BooleanSign boolExp # BoolMathematicsLogic
@@ -58,17 +48,19 @@ print: PRINT OP (elements C*)* CP SC;
 elements : value | IDENTIFIER;
 
 //////////////////////////////////////
-def_class:CLASS_ IDENTIFIER ( | EXTENDS_ IDENTIFIER ) ( | WITH_ (IDENTIFIER C*)*) OBC class_body*  CBC
+def_class:CLASS_ IDENTIFIER ( EXTENDS_ IDENTIFIER )? OBC class_body*  CBC
 
 ;
 
 class_body:varDefinition
          |boolVarDefnition
+         |def_build_function
          |def_function_datatype
          |def_function_void
          ;
 
 def_function_void:VOID_ IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC content* CBC;
+def_build_function:VOID_ Build OP CP OBC RETURN_ widget SC CBC;
 
 
 def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC content* RETURN_ exp SC CBC;
@@ -77,10 +69,9 @@ def_function_datatype:DataType IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC co
 
 
 
-def_if:IF_ OP condition CP  OBC ifContent CBC (ELSE_ IF_ OP condition CP  OBC elseIfContent CBC)* (ELSE_ OBC elseContent CBC)?;
-ifContent : content*;
-elseIfContent : content*;
-elseContent : content*;
+def_if:IF_ OP condition CP  OBC content* CBC;
+def_else_if:ELSE_ IF_ OP condition CP  OBC content* CBC;
+def_else: ELSE_ OBC content* CBC;
 
 
 
@@ -104,18 +95,12 @@ condition: condition ComparisonSign condition # MultiCondition
 // -- Object / Switch / Array / Set / Map / Const / Final / Late -- //
 // -- Date :  1/1/2023 -- //
 
-def_object : (DataType IDENTIFIER EQ NEW_ DataType OP (DataType IDENTIFIER C*)* CP SC)
-           | (DataType IDENTIFIER EQ DataType OP (DataType IDENTIFIER C*)* CP SC)
-           | (WIDGET IDENTIFIER EQ widget SC)
-            ;
+def_object : IDENTIFIER OP (IDENTIFIER CO exp C*)* CP ;
 
 def_switch:
-    SWITCH_ OP IDENTIFIER CP OBC (CASE_ value CO switch_body BREAK_ SC)*  (DEFAULT_ CO switch_body)* CBC;
-
-switch_body:varDefinition
-            |boolVarDefnition
-            |intIncrease
-            ;
+    SWITCH_ OP IDENTIFIER CP OBC switch_case* switch_defult? CBC;
+switch_case:CASE_ value CO content* BREAK_ SC;
+switch_defult : DEFAULT_ CO content*;
 //
 //defArray:
 //    DataType IDENTIFIER OB NUMBER CB EQ NEW_ DataType OB NUMBER* CB
@@ -151,8 +136,14 @@ switch_body:varDefinition
 //;
 
 
-widget : listView | defColumn | defRow | textField | text
-| defContainer | image | defInkWell
+widget : listView |
+        defColumn |  // done
+           defRow |  // done
+        textField |  // done
+             text |  // done
+     defContainer |  // done
+            image |  // done
+       defInkWell    // done
 ;
 
 defColumn : COLUMN_ OP layoutBody* CP C?;
@@ -224,9 +215,9 @@ imageBody :  (WIDTH_ CO NUMBER C*)
  ;
  //Navigator.push(
  //    context,
- //    MaterialPageRoute(builder: (context) => const SecondRoute()),
+ //    MaterialPageRoute(builder: (context) => SecondRoute())
  //  );
-navigatorRule : Navigator OP Context_ C MaterialPageRoute_ OP Builder CO OP Context_ CP EG IDENTIFIER OP (DataType IDENTIFIER C*)* CP CP CP SC;
+navigatorRule : Navigator OP Context_ C MaterialPageRoute_ OP Builder CO OP Context_ CP EG def_object CP CP SC;
 
 
 
