@@ -46,8 +46,6 @@ class MainApp extends StatelessWidget  {
     );
   }
 }
-class MainApp5  {
-}
 
 class MainApp2 extends StatelessWidget  {
   void build() {
@@ -72,7 +70,9 @@ class MainApp3 extends StatelessWidget  {
 }
 
 class majd{
-  int x = 1;
-  void hi(int x , int y){}
-  double majdss(int x , int xxx){return "majd" ;}
+  void hi(int x , int y){
+  }
+  int sdf(int x , int xxx){
+    return 10 ;
+  }
 }

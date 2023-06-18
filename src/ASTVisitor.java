@@ -88,7 +88,7 @@ public class ASTVisitor {
 
     public void visit(boolVarDefnition boolVarDefnition, int parentId, int scope) {
         final int id = ThreadLocalRandom.current().nextInt();
-        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.BoolVarDefinition, boolVarDefnition.getIDENTIFIER(), new SymbolTableObjectBoolVarDefinitionValue(scope + 1, id, parentId, boolVarDefnition.getBoolExp())));
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.BoolVarDefinition, boolVarDefnition.getIDENTIFIER(), new SymbolTableObjectBoolVarDefinitionValue(scope + 1, id, parentId, boolVarDefnition)));
 
     }
 
@@ -193,7 +193,7 @@ public class ASTVisitor {
 
     public void visit(varEQ varEQ, int parentId, int scope) {
         final int id = ThreadLocalRandom.current().nextInt();
-        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.VarEqual, varEQ.getIDENTIFIER(), new SymbolTableObjectVarEqualValue(scope, id, parentId, varEQ.getExp())));
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.VarEqual, varEQ.getIDENTIFIER(), new SymbolTableObjectVarEqualValue(scope, id, parentId, varEQ)));
 //        if (varEQ.getExp()  != null) {
 //            visit(varEQ.getExp());
 //        }
@@ -207,7 +207,7 @@ public class ASTVisitor {
     public void visit(boolVarEq boolVarEq, int parentId, int scope) {
         final int id = ThreadLocalRandom.current().nextInt();
 
-        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.BoolVarEqual, boolVarEq.getIDENTIFIER(), new SymbolTableObjectBoolVarEqualValue(scope, id, parentId, boolVarEq.getBoolExp())));
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.BoolVarEqual, boolVarEq.getIDENTIFIER(), new SymbolTableObjectBoolVarEqualValue(scope, id, parentId, boolVarEq)));
     }
 
     public void visit(def_if def_if, int parentId, int scope) {

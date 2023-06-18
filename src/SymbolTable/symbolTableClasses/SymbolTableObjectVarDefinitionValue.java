@@ -21,7 +21,7 @@ public class SymbolTableObjectVarDefinitionValue extends SymbolTableObjectValue 
     }
 
     public String print(String name){
-        String res = "var " + name + (value != null ? (" = " +  value.getExp().print()) : "")+ ";\n";
+        String res = "var " + name + (value.getExp() != null ? (" = " +  value.getExp().print()) : "")+ ";\n";
         return  res;
     }
 }
