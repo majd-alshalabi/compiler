@@ -55,10 +55,17 @@ public class CodeGeneration {
                 List<CodeGenerationModel> codeGenerationModelList = new ArrayList<>();
                 for(int i = 0 ; i < ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().size() ;i ++)
                 {
-                    String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
-                    String dataType = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getDataType().get(i);
-                    CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
-                    codeGenerationModelList.add(model1);
+                    if(i == 0){
+                        String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
+                        CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel("void",value,type);
+                        codeGenerationModelList.add(model1);
+                    }else {
+                        String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
+                        String dataType = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getDataType().get(i - 1);
+                        CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
+                        codeGenerationModelList.add(model1);
+                    }
+
                 }
                 boolean res = semanticCheck.checkForRepetition(codeGenerationModelList);
                 if (!res) {
@@ -75,7 +82,7 @@ public class CodeGeneration {
 
             } else if (type == SymbolTableRowType.FunctionDatatype) {
                 List<CodeGenerationModel> codeGenerationModelList = new ArrayList<>();
-                for(int i = 0 ; i < ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().size() ;i ++)
+                for(int i = 0 ; i < ((SymbolTableObjectDataTypeFunctionValue) object.getValue()).def_function_datatype.getIDENTIFIER().size() ;i ++)
                 {
                     String value = ((SymbolTableObjectDataTypeFunctionValue) object.getValue()).def_function_datatype.getIDENTIFIER().get(i);
                     String dataType = ((SymbolTableObjectDataTypeFunctionValue) object.getValue()).def_function_datatype.getDataType().get(i);

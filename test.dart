@@ -72,7 +72,8 @@ class MainApp3 extends StatelessWidget  {
 class majd{
   void hi(int x , int y){
   }
-  int sdf(int x , int xxx){
+  int hi(int x , int xxx){
+    int x = 1;
     return 10 ;
   }
 }
