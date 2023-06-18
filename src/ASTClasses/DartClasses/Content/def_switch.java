@@ -1,19 +1,31 @@
 package ASTClasses.DartClasses.Content;
 
+import java.util.List;
+
 public class def_switch {
 //    def_switch:
-//    SWITCH_ OP IDENTIFIER CP OBC (CASE_ (SingleLineString |  DOUBLE | NUMBER) CO switch_body BREAK_ SC)*  (DEFAULT_ CO switch_body)* CBC;
-    private String SWITCH_;
+//    SWITCH_ OP IDENTIFIER CP OBC (CASE_ (SingleLineString | DOUBLE | NUMBER) CO switch_body BREAK_ SC)*  (DEFAULT_ CO switch_body)* CBC;
     private String IDENTIFIER;
-    private String CASE_;
 
-    public String getSWITCH_() {
-        return SWITCH_;
+    List<def_case> def_caseList ;
+
+    public List<def_case> getDef_caseList() {
+        return def_caseList;
     }
 
-    public void setSWITCH_(String SWITCH_) {
-        this.SWITCH_ = SWITCH_;
+    public void setDef_caseList(List<def_case> def_caseList) {
+        this.def_caseList = def_caseList;
     }
+
+    public ASTClasses.DartClasses.Content.def_defult getDef_defult() {
+        return def_defult;
+    }
+
+    public void setDef_defult(ASTClasses.DartClasses.Content.def_defult def_defult) {
+        this.def_defult = def_defult;
+    }
+
+    def_defult def_defult;
 
     public String getIDENTIFIER() {
         return IDENTIFIER;
@@ -21,13 +33,5 @@ public class def_switch {
 
     public void setIDENTIFIER(String IDENTIFIER) {
         this.IDENTIFIER = IDENTIFIER;
-    }
-
-    public String getCASE_() {
-        return CASE_;
-    }
-
-    public void setCASE_(String CASE_) {
-        this.CASE_ = CASE_;
     }
 }

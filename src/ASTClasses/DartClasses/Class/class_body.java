@@ -2,6 +2,7 @@ package ASTClasses.DartClasses.Class;
 
 import ASTClasses.DartClasses.Boolean.boolVarDefnition;
 import ASTClasses.DartClasses.Content.varDefinition;
+import ASTClasses.DartClasses.Function.def_build_function;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
 
@@ -15,6 +16,16 @@ public class class_body {
     private boolVarDefnition boolVarDefnition;
     private def_function_datatype def_function_datatype;
     private def_function_void def_function_void;
+
+    public ASTClasses.DartClasses.Function.def_build_function getDef_build_function() {
+        return def_build_function;
+    }
+
+    public void setDef_build_function(ASTClasses.DartClasses.Function.def_build_function def_build_function) {
+        this.def_build_function = def_build_function;
+    }
+
+    private def_build_function def_build_function;
 
     public ASTClasses.DartClasses.Content.varDefinition getVarDefinition() {
         return varDefinition;

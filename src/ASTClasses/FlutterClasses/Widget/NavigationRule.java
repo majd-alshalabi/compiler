@@ -1,29 +1,20 @@
 package ASTClasses.FlutterClasses.Widget;
 
+import ASTClasses.DartClasses.Content.def_object;
 import ASTClasses.DartClasses.Content.varDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationRule {
-    private String routeName ;
-
-    private List<varDefinition> list = new ArrayList<>();
-
-
-    public String getRouteName() {
-        return routeName;
+    public ASTClasses.DartClasses.Content.def_object getDef_object() {
+        return def_object;
     }
 
-    public void setRouteName(String routeName) {
-        this.routeName = routeName;
+    public void setDef_object(ASTClasses.DartClasses.Content.def_object def_object) {
+        this.def_object = def_object;
     }
 
-    public List<varDefinition> getList() {
-        return list;
-    }
+    private ASTClasses.DartClasses.Content.def_object def_object;
 
-    public void setList(List<varDefinition> list) {
-        this.list = list;
-    }
 }

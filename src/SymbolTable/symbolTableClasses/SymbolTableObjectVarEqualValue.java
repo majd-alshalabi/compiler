@@ -1,19 +1,29 @@
 package SymbolTable.symbolTableClasses;
 
-public class SymbolTableObjectVarEqualValue extends SymbolTableObjectValue {
-    private String value;
+import ASTClasses.DartClasses.Boolean.boolExp;
+import ASTClasses.DartClasses.Content.varEQ;
+import ASTClasses.DartClasses.exp;
 
-    public SymbolTableObjectVarEqualValue(int scope, int id, int parentId, String value) {
+public class SymbolTableObjectVarEqualValue extends SymbolTableObjectValue {
+    private varEQ value;
+
+    public SymbolTableObjectVarEqualValue(int scope, int id, int parentId, varEQ value) {
         super(scope, id, parentId);
         this.value = value;
     }
 
-    public String getValue() {
+    public varEQ getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(varEQ value) {
         this.value = value;
     }
+
+    public String print(String name){
+        String res =  name + " = " + value.getExp().print() + ";\n";
+        return  res;
+    }
+
 }
 

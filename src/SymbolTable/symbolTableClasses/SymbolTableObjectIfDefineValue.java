@@ -1,20 +1,32 @@
 package SymbolTable.symbolTableClasses;
 
-import ASTClasses.DartClasses.Boolean.boolExp;
+import ASTClasses.DartClasses.Content.IF.def_else_if;
+import ASTClasses.DartClasses.Content.IF.def_if;
 
 public class SymbolTableObjectIfDefineValue extends SymbolTableObjectValue {
-    private boolExp condition;
+    private def_if def_if;
 
-    public SymbolTableObjectIfDefineValue(int scope, int id, int parentId, boolExp condition) {
+    public SymbolTableObjectIfDefineValue(int scope, int id, int parentId, def_if condition) {
         super(scope, id, parentId);
-        this.condition = condition;
+        this.def_if = condition;
     }
 
-    public boolExp  isCondition() {
-        return condition;
+    public def_if isCondition() {
+        return def_if;
     }
 
-    public void setCondition(boolExp condition) {
-        this.condition = condition;
+    public void setCondition(def_if condition) {
+        this.def_if = condition;
+    }
+
+    public String openIf() {
+        String res = "";
+        res += "if(" + def_if.getIfCondition().print() + "){";
+        return res;
+    }
+
+    public String closeIf() {
+        return "}";
     }
 }
+

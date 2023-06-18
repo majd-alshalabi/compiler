@@ -7,20 +7,10 @@ import ASTClasses.DartClasses.Content.varDefinition;
 import java.util.List;
 
 public class def_for {
-//    def_for:FOR_ OP varDefinition  condition? SC for_Increment? CP OBC content* CBC;
-    private String FOR_;
     private varDefinition varDefinition;
     private condition condition;
     private for_Increment for_Increment;
     private List<Content> content;
-
-    public String getFOR_() {
-        return FOR_;
-    }
-
-    public void setFOR_(String FOR_) {
-        this.FOR_ = FOR_;
-    }
 
     public ASTClasses.DartClasses.Content.varDefinition getVarDefinition() {
         return varDefinition;

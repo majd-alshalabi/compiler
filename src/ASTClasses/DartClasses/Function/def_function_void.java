@@ -1,23 +1,14 @@
 package ASTClasses.DartClasses.Function;
 
 import ASTClasses.DartClasses.Content.Content;
+import ASTClasses.FlutterClasses.widget;
 
 import java.util.List;
 
 public class def_function_void {
-//def_function_void:VOID_ IDENTIFIER OP (DataType IDENTIFIER C*)* CP OBC content* CBC;
-    private String VOID_;
     private List<String> IDENTIFIER;
     private List<String> DataType ;
     private List<Content> content ;
-
-    public String getVOID_() {
-        return VOID_;
-    }
-
-    public void setVOID_(String VOID_) {
-        this.VOID_ = VOID_;
-    }
 
     public List<String> getIDENTIFIER() {
         return IDENTIFIER;
@@ -43,3 +34,4 @@ public class def_function_void {
         this.content = content;
     }
 }
+

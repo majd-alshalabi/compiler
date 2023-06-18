@@ -4,25 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class exp {
-/*
-* exp : exp MathMaticalSign exp # MathematicsLogic /// math between expression
-    | OP exp CP # BetweenBracket /// expression in brackets
-    | IDENTIFIER # Variable /// variable
-    | NUMBER # Number
-    |  DOUBLE #  DOUBLE
-    | SingleLineString # String  /// number
-    | NULL_ # Null // NULL
-     ;
 
-* */
-    private exp exp ;
+    public void setExp2(ASTClasses.DartClasses.exp exp2) {
+        this.exp2 = exp2;
+    }
+
+
+    public void setBetweenBracket(ASTClasses.DartClasses.exp betweenBracket) {
+        BetweenBracket = betweenBracket;
+    }
+
+    private exp BetweenBracket;
+    private exp exp;
+    private exp exp2;
     private String MathMaticalSign;
     private String IDENTIFIER;
-    private String NUMBER;
-    private String DOUBLE;
-    private String  SingleLineString;
-    private String NULL_;
 
+    public Integer getNUMBER() {
+        return NUMBER;
+    }
+
+    public void setNUMBER(Integer NUMBER) {
+        this.NUMBER = NUMBER;
+    }
+
+    public Double getDOUBLE() {
+        return DOUBLE;
+    }
+
+    public void setDOUBLE(Double DOUBLE) {
+        this.DOUBLE = DOUBLE;
+    }
+
+    private Integer NUMBER;
+    private Double DOUBLE;
+    private String SingleLineString;
 
     public ASTClasses.DartClasses.exp getExp() {
         return exp;
@@ -32,9 +48,6 @@ public class exp {
         this.exp = exp;
     }
 
-    public String getMathMaticalSign() {
-        return MathMaticalSign;
-    }
 
     public void setMathMaticalSign(String mathMaticalSign) {
         MathMaticalSign = mathMaticalSign;
@@ -48,22 +61,6 @@ public class exp {
         this.IDENTIFIER = IDENTIFIER;
     }
 
-    public String getNUMBER() {
-        return NUMBER;
-    }
-
-    public void setNUMBER(String NUMBER) {
-        this.NUMBER = NUMBER;
-    }
-
-    public String getDOUBLE() {
-        return DOUBLE;
-    }
-
-    public void setDOUBLE(String DOUBLE) {
-        this.DOUBLE = DOUBLE;
-    }
-
     public String getSingleLineString() {
         return SingleLineString;
     }
@@ -71,12 +68,47 @@ public class exp {
     public void setSingleLineString(String singleLineString) {
         SingleLineString = singleLineString;
     }
-
-    public String getNULL_() {
-        return NULL_;
+    public String print() {
+        if (BetweenBracket != null) {
+            return "(" + BetweenBracket.print() + ")";
+        }
+        else if (exp != null && exp2 != null && MathMaticalSign != null) {
+            return exp.print() + MathMaticalSign + exp2.print();
+        }
+        else if (DOUBLE != null) {
+            return DOUBLE.toString();
+        }
+        else if (SingleLineString != null) {
+            return '\'' + SingleLineString.substring(1,SingleLineString.length() -1) + '\'';
+        }
+        else if (NUMBER != null) {
+            return NUMBER.toString();
+        }
+        else if (IDENTIFIER != null) {
+            return IDENTIFIER;
+        }
+        return "";
     }
 
-    public void setNULL_(String NULL_) {
-        this.NULL_ = NULL_;
+    public String getDataForSemantic(){
+        if (BetweenBracket != null) {
+            return BetweenBracket.getDataForSemantic();
+        }
+        else if (exp != null && exp2 != null && MathMaticalSign != null) {
+            return exp.getDataForSemantic() + MathMaticalSign + exp2.getDataForSemantic();
+        }
+        else if (DOUBLE != null) {
+            return DOUBLE.toString();
+        }
+        else if (SingleLineString != null) {
+            return '\'' + SingleLineString.substring(1,SingleLineString.length() -1) + '\'';
+        }
+        else if (NUMBER != null) {
+            return NUMBER.toString();
+        }
+        else if (IDENTIFIER != null) {
+            return IDENTIFIER;
+        }
+        return  "";
     }
 }

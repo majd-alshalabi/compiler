@@ -42,11 +42,6 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitNull(Dart2Parser.NullContext ctx) {
-        return super.visitNull(ctx);
-    }
-
-    @Override
     public Object visitVariable(Dart2Parser.VariableContext ctx) {
         return super.visitVariable(ctx);
     }
@@ -122,6 +117,11 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
+    public Object visitDef_build_function(Dart2Parser.Def_build_functionContext ctx) {
+        return super.visitDef_build_function(ctx);
+    }
+
+    @Override
     public Object visitDef_function_datatype(Dart2Parser.Def_function_datatypeContext ctx) {
         return super.visitDef_function_datatype(ctx);
     }
@@ -136,18 +136,13 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitIfContent(Dart2Parser.IfContentContext ctx) {
-        return super.visitIfContent(ctx);
+    public Object visitDef_else_if(Dart2Parser.Def_else_ifContext ctx) {
+        return super.visitDef_else_if(ctx);
     }
 
     @Override
-    public Object visitElseIfContent(Dart2Parser.ElseIfContentContext ctx) {
-        return super.visitElseIfContent(ctx);
-    }
-
-    @Override
-    public Object visitElseContent(Dart2Parser.ElseContentContext ctx) {
-        return super.visitElseContent(ctx);
+    public Object visitDef_else(Dart2Parser.Def_elseContext ctx) {
+        return super.visitDef_else(ctx);
     }
 
     @Override
@@ -196,9 +191,15 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitSwitch_body(Dart2Parser.Switch_bodyContext ctx) {
-        return super.visitSwitch_body(ctx);
+    public Object visitSwitch_case(Dart2Parser.Switch_caseContext ctx) {
+        return super.visitSwitch_case(ctx);
     }
+
+    @Override
+    public Object visitSwitch_defult(Dart2Parser.Switch_defultContext ctx) {
+        return super.visitSwitch_defult(ctx);
+    }
+
     @Override
     public Object visitWidget(Dart2Parser.WidgetContext ctx) {
         return super.visitWidget(ctx);

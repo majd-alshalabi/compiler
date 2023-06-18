@@ -7,22 +7,22 @@ public class for_Increment {
 //            | IDENTIFIER ((EQFORNORMALMATH | EQ) exp | )  # for_var_Eq
 //            ;
 
-    private String IDENTIFIER;
-    private exp exp;
+    private for_var_Eq for_var_Eq;
+    private for_Int_Increment for_Int_Increment;
 
-    public String getIDENTIFIER() {
-        return IDENTIFIER;
+    public ASTClasses.DartClasses.Content.For.for_var_Eq getFor_var_Eq() {
+        return for_var_Eq;
     }
 
-    public void setIDENTIFIER(String IDENTIFIER) {
-        this.IDENTIFIER = IDENTIFIER;
+    public void setFor_var_Eq(ASTClasses.DartClasses.Content.For.for_var_Eq for_var_Eq) {
+        this.for_var_Eq = for_var_Eq;
     }
 
-    public ASTClasses.DartClasses.exp getExp() {
-        return exp;
+    public ASTClasses.DartClasses.Content.For.for_Int_Increment getFor_Int_Increment() {
+        return for_Int_Increment;
     }
 
-    public void setExp(ASTClasses.DartClasses.exp exp) {
-        this.exp = exp;
+    public void setFor_Int_Increment(ASTClasses.DartClasses.Content.For.for_Int_Increment for_Int_Increment) {
+        this.for_Int_Increment = for_Int_Increment;
     }
 }

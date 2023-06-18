@@ -1,30 +1,37 @@
 package SymbolTable.symbolTableClasses;
 
+import ASTClasses.FlutterClasses.Widget.NavigationRule;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SymbolTableObjectNavigatorValue extends SymbolTableObjectValue {
-    private String routeName ;
 
-    public SymbolTableObjectNavigatorValue(int scope, int id, int parentId , String routeName) {
-        super(scope, id, parentId);
-        this.routeName = routeName;
+    public NavigationRule getNavigationRule() {
+        return navigationRule;
     }
 
-//    public String openColumn(boolean isParentColumn) {
-//        if (isParentColumn) return "<div style=\"display: block;\">";
-//        return "<div>";
-//    }
-//
-//    public String closeColumn() {
-//        return "</div>";
-//    }
+    public void setNavigationRule(NavigationRule navigationRule) {
+        this.navigationRule = navigationRule;
+    }
+
+    private NavigationRule navigationRule;
+
+    public SymbolTableObjectNavigatorValue(int scope, int id, int parentId , NavigationRule routeName) {
+        super(scope, id, parentId);
+        this.navigationRule = routeName;
+    }
 
     public String getRouteName() {
-        return "window.location.href='" + routeName + ".html';"  ;
-    }
-
-    public void setRouteName(String routeName) {
-        this.routeName = routeName;
+        StringBuilder res = new StringBuilder("window.location.href='" + navigationRule.getDef_object().getIDENTIFIER().get(0) + ".html");
+        for(int i = 0 ; i < navigationRule.getDef_object().getExps().size() ; i++)
+        {
+            if(i == 0) res.append("?");
+            else res.append("&");
+            res.append(navigationRule.getDef_object().getIDENTIFIER().get(i + 1)).append(":");
+            res.append(navigationRule.getDef_object().getExps().get(i).print());
+        }
+        res.append("';");
+        return res.toString();
     }
 }

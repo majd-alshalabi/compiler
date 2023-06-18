@@ -89,18 +89,6 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitBetweenBracket(Dart2Parser.BetweenBracketContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Null}
-	 * labeled alternative in {@link Dart2Parser#exp}.
-	 * @param ctx the parse tree
-	 */
-	void enterNull(Dart2Parser.NullContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Null}
-	 * labeled alternative in {@link Dart2Parser#exp}.
-	 * @param ctx the parse tree
-	 */
-	void exitNull(Dart2Parser.NullContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Variable}
 	 * labeled alternative in {@link Dart2Parser#exp}.
 	 * @param ctx the parse tree
@@ -269,6 +257,16 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDef_function_void(Dart2Parser.Def_function_voidContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#def_build_function}.
+	 * @param ctx the parse tree
+	 */
+	void enterDef_build_function(Dart2Parser.Def_build_functionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#def_build_function}.
+	 * @param ctx the parse tree
+	 */
+	void exitDef_build_function(Dart2Parser.Def_build_functionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#def_function_datatype}.
 	 * @param ctx the parse tree
 	 */
@@ -289,35 +287,25 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDef_if(Dart2Parser.Def_ifContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * Enter a parse tree produced by {@link Dart2Parser#def_else_if}.
 	 * @param ctx the parse tree
 	 */
-	void enterIfContent(Dart2Parser.IfContentContext ctx);
+	void enterDef_else_if(Dart2Parser.Def_else_ifContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * Exit a parse tree produced by {@link Dart2Parser#def_else_if}.
 	 * @param ctx the parse tree
 	 */
-	void exitIfContent(Dart2Parser.IfContentContext ctx);
+	void exitDef_else_if(Dart2Parser.Def_else_ifContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * Enter a parse tree produced by {@link Dart2Parser#def_else}.
 	 * @param ctx the parse tree
 	 */
-	void enterElseIfContent(Dart2Parser.ElseIfContentContext ctx);
+	void enterDef_else(Dart2Parser.Def_elseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * Exit a parse tree produced by {@link Dart2Parser#def_else}.
 	 * @param ctx the parse tree
 	 */
-	void exitElseIfContent(Dart2Parser.ElseIfContentContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#elseContent}.
-	 * @param ctx the parse tree
-	 */
-	void enterElseContent(Dart2Parser.ElseContentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#elseContent}.
-	 * @param ctx the parse tree
-	 */
-	void exitElseContent(Dart2Parser.ElseContentContext ctx);
+	void exitDef_else(Dart2Parser.Def_elseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#def_for}.
 	 * @param ctx the parse tree
@@ -419,15 +407,25 @@ public interface Dart2ParserListener extends ParseTreeListener {
 	 */
 	void exitDef_switch(Dart2Parser.Def_switchContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Dart2Parser#switch_body}.
+	 * Enter a parse tree produced by {@link Dart2Parser#switch_case}.
 	 * @param ctx the parse tree
 	 */
-	void enterSwitch_body(Dart2Parser.Switch_bodyContext ctx);
+	void enterSwitch_case(Dart2Parser.Switch_caseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link Dart2Parser#switch_body}.
+	 * Exit a parse tree produced by {@link Dart2Parser#switch_case}.
 	 * @param ctx the parse tree
 	 */
-	void exitSwitch_body(Dart2Parser.Switch_bodyContext ctx);
+	void exitSwitch_case(Dart2Parser.Switch_caseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Dart2Parser#switch_defult}.
+	 * @param ctx the parse tree
+	 */
+	void enterSwitch_defult(Dart2Parser.Switch_defultContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Dart2Parser#switch_defult}.
+	 * @param ctx the parse tree
+	 */
+	void exitSwitch_defult(Dart2Parser.Switch_defultContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Dart2Parser#widget}.
 	 * @param ctx the parse tree

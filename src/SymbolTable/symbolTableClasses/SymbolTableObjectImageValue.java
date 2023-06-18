@@ -23,7 +23,8 @@ public class SymbolTableObjectImageValue extends SymbolTableObjectValue {
     }
 
     public String getAssetImageName() {
-        return assetImageName;
+
+        return "./" + assetImageName;
     }
 
     public void setAssetImageName(String assetImageName) {
@@ -31,7 +32,7 @@ public class SymbolTableObjectImageValue extends SymbolTableObjectValue {
     }
 
     public String openImage(boolean isParentColumn){
-        if (isParentColumn)return "<img style=\"display: block;\" src=\"" + this.getAssetImageName() + "\">";
+        if (isParentColumn)return "<img style=\"display: block;\" src=\"" + this.getAssetImageName() + "\"width=\"200\" height=\"200\">";
         return "<img src\"" + this.getAssetImageName() + "\">";
     }
 

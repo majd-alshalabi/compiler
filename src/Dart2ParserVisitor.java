@@ -59,13 +59,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBetweenBracket(Dart2Parser.BetweenBracketContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Null}
-	 * labeled alternative in {@link Dart2Parser#exp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNull(Dart2Parser.NullContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Variable}
 	 * labeled alternative in {@link Dart2Parser#exp}.
 	 * @param ctx the parse tree
@@ -165,6 +158,12 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDef_function_void(Dart2Parser.Def_function_voidContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#def_build_function}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDef_build_function(Dart2Parser.Def_build_functionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#def_function_datatype}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -177,23 +176,17 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDef_if(Dart2Parser.Def_ifContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#ifContent}.
+	 * Visit a parse tree produced by {@link Dart2Parser#def_else_if}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIfContent(Dart2Parser.IfContentContext ctx);
+	T visitDef_else_if(Dart2Parser.Def_else_ifContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#elseIfContent}.
+	 * Visit a parse tree produced by {@link Dart2Parser#def_else}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitElseIfContent(Dart2Parser.ElseIfContentContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#elseContent}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElseContent(Dart2Parser.ElseContentContext ctx);
+	T visitDef_else(Dart2Parser.Def_elseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#def_for}.
 	 * @param ctx the parse tree
@@ -254,11 +247,17 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDef_switch(Dart2Parser.Def_switchContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#switch_body}.
+	 * Visit a parse tree produced by {@link Dart2Parser#switch_case}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSwitch_body(Dart2Parser.Switch_bodyContext ctx);
+	T visitSwitch_case(Dart2Parser.Switch_caseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#switch_defult}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitch_defult(Dart2Parser.Switch_defultContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#widget}.
 	 * @param ctx the parse tree
