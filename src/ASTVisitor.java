@@ -182,9 +182,6 @@ public class ASTVisitor {
         if (content.getDef_function_datatype() != null) {
             visit(content.getDef_function_datatype(), parentId, scope);
         }
-        if (content.getWidget() != null) {
-            visit(content.getWidget(), parentId, scope);
-        }
         if (content.getNavigatorRule() != null) {
             visit(content.getNavigatorRule(), parentId, scope);
         }

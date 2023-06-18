@@ -18,7 +18,6 @@ content: varDefinition      // done
         | def_switch    // done
         | def_function_void     // done
         | def_function_datatype // done
-        | print              // done
         | navigatorRule         // done
         ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
@@ -41,10 +40,6 @@ boolExp : boolExp BooleanSign boolExp # BoolMathematicsLogic
         | IDENTIFIER # BoolVariable ;
 
 value : SingleLineString |  DOUBLE | NUMBER  ;
-
-
-print: PRINT OP (elements C*)* CP SC;
-elements : value | IDENTIFIER;
 
 //////////////////////////////////////
 def_class:CLASS_ IDENTIFIER ( EXTENDS_ IDENTIFIER )? OBC class_body*  CBC

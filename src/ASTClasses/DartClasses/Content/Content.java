@@ -12,30 +12,6 @@ import ASTClasses.FlutterClasses.Widget.NavigationRule;
 import ASTClasses.FlutterClasses.widget;
 
 public class Content {
-//    content: varDefinition
-//        | varEQ
-//        | intIncrease
-//        | boolVarDefnition
-//        | boolVarEq
-//        | def_if
-//        | def_for
-//        | def_while
-//        | defArray
-//        | def_switch
-//        | def_object
-//        | def_function_void
-//        | def_function_datatype
-//        | defSet
-//        | defMap
-//        | assignOneElement
-//        | defConst
-//        | defFinal
-//        | defLate
-//        | defDynamic
-//        | defEnum
-//        | widget
-//        ;
-
     private varDefinition varDefinition;
     private varEQ varEQ;
     private intIncrease intIncrease;
@@ -67,18 +43,8 @@ public class Content {
     private def_object def_object;
     private def_function_void def_function_void;
     private def_function_datatype def_function_datatype;
-
-    private assignOneElement assignOneElement;
     private NavigationRule navigatorRule;
-    private widget widget;
 
-    public ASTClasses.FlutterClasses.widget getWidget() {
-        return widget;
-    }
-
-    public void setWidget(widget widget) {
-        this.widget = widget;
-    }
 
     public ASTClasses.DartClasses.Content.varDefinition getVarDefinition() {
         return varDefinition;
@@ -156,10 +122,6 @@ public class Content {
         return def_object;
     }
 
-    public void setDef_object(ASTClasses.DartClasses.Content.def_object def_object) {
-        this.def_object = def_object;
-    }
-
     public def_function_void getDef_function_void() {
         return def_function_void;
     }
@@ -174,14 +136,6 @@ public class Content {
 
     public void setDef_function_datatype(def_function_datatype def_function_datatype) {
         this.def_function_datatype = def_function_datatype;
-    }
-
-    public ASTClasses.DartClasses.Content.assignOneElement getAssignOneElement() {
-        return assignOneElement;
-    }
-
-    public void setAssignOneElement(ASTClasses.DartClasses.Content.assignOneElement assignOneElement) {
-        this.assignOneElement = assignOneElement;
     }
 
     public NavigationRule getNavigatorRule() {
