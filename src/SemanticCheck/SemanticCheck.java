@@ -11,12 +11,12 @@ public class SemanticCheck {
 
     public boolean checkForRepetitionForOneVar(CodeGenerationModel newVarName) {
         AtomicBoolean res = new AtomicBoolean(true);
-        List<CodeGenerationModel> alreadyDefineString = new ArrayList<>();
+        List<String> alreadyDefineString = new ArrayList<>();
             map.forEach((s, o) -> {
                 o.forEach((s1, o1) -> {
                     if(s1.getName().equals(newVarName.getName())) {
                         res.set(false);
-                        alreadyDefineString.add(newVarName);
+                        alreadyDefineString.add(newVarName.getName());
                     }
                 });
             });
@@ -30,13 +30,13 @@ public class SemanticCheck {
     }
 public boolean checkForRepetition(List<CodeGenerationModel> newVarName) {
         AtomicBoolean res = new AtomicBoolean(true);
-        List<CodeGenerationModel> alreadyDefineString = new ArrayList<>();
+        List<String> alreadyDefineString = new ArrayList<>();
         newVarName.forEach(name -> {
             map.forEach((s, o) -> {
                 o.forEach((s1, o1) -> {
                     if(s1.getName().equals(name.getName())) {
                         res.set(false);
-                        alreadyDefineString.add(name);
+                        alreadyDefineString.add(name.getName());
                     }
                 });
             });
@@ -54,7 +54,7 @@ public boolean checkForRepetition(List<CodeGenerationModel> newVarName) {
         AtomicBoolean res = new AtomicBoolean(false);
         map.forEach((s, o) -> {
             o.forEach((s1, o1) -> {
-                if(s1.equals(newVarName))res.set(true);
+                if(s1.getName().equals(newVarName))res.set(true);
             });
         });
         if(!res.get()){
