@@ -231,30 +231,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrint(Dart2Parser.PrintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrint(Dart2Parser.PrintContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterElements(Dart2Parser.ElementsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitElements(Dart2Parser.ElementsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDef_class(Dart2Parser.Def_classContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -579,18 +555,6 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListViewBody(Dart2Parser.ListViewBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitListViewBody(Dart2Parser.ListViewBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLayoutBody(Dart2Parser.LayoutBodyContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -802,6 +766,18 @@ public class Dart2ParserBaseListener implements Dart2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGetData(Dart2Parser.GetDataContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGetData(Dart2Parser.GetDataContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

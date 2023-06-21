@@ -1,2 +1,3 @@
-class majd{function hi(x,y){}function sdf(x,xxx){return 10; 
+class majd{function hi(x,y){var qaq = 1;
+var z = qaq;
 }}

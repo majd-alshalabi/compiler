@@ -22,6 +22,8 @@ public class CodeGenerationModel{final SymbolTableRowType type;final  String nam
 
         }else if(Objects.equals(dataType, "bool")){
             typeEnum = DataTypeEnum.BOOLEAN;
+        }else if(Objects.equals(dataType, "class")) {
+            typeEnum = DataTypeEnum.Class;
         }
         CodeGenerationModel codeGenerationModel = new CodeGenerationModel(type,name, typeEnum);
         return codeGenerationModel;

@@ -33,6 +33,7 @@ Double_type : 'double';
 Bool_type: 'bool';
 Widget_type : 'Widget';
 Navigator: 'Navigator.push';
+GetData: 'GetData';
 Context_:'context';
 MaterialPageRoute_:'MaterialPageRoute';
 Builder:'builder';

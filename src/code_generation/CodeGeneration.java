@@ -1,5 +1,6 @@
 package code_generation;
 
+import ASTClasses.DartClasses.exp;
 import SemanticCheck.SemanticCheck;
 import SymbolTable.symbolTableClasses.*;
 
@@ -47,6 +48,16 @@ public class CodeGeneration {
             final SymbolTableRowType type = object.getType();
             String addedValue = "";
             if (type == SymbolTableRowType.Class) {
+                String value = ((SymbolTableObjectClassValue) object.getValue()).getDef_class().getIDENTIFIER().get(0);
+                String dataType = "class";
+                CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
+                CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
+                boolean res = semanticCheck.checkForRepetitionForOneVar(model1);
+                if (!res) {
+                    write = false;
+                }
+                semanticCheck.addOneObjectToList(object.getValue().getParentId(), model1, null);
+
                 addedValue = ((SymbolTableObjectClassValue) object.getValue()).openHtml();
                 model = new FileCreationModel(object.getName(), ((SymbolTableObjectClassValue) object.getValue()).isHtml() ? "html" : "js");
             } else if (type == SymbolTableRowType.Column) {
@@ -55,12 +66,11 @@ public class CodeGeneration {
                 List<CodeGenerationModel> codeGenerationModelList = new ArrayList<>();
                 for(int i = 0 ; i < ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().size() ;i ++)
                 {
+                    String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
                     if(i == 0){
-                        String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
                         CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel("void",value,type);
                         codeGenerationModelList.add(model1);
                     }else {
-                        String value = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getIDENTIFIER().get(i);
                         String dataType = ((SymbolTableObjectFunctionValue) object.getValue()).def_void_function.getDataType().get(i - 1);
                         CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
                         codeGenerationModelList.add(model1);
@@ -104,6 +114,10 @@ public class CodeGeneration {
 
             } else if (type == SymbolTableRowType.Row) {
                 addedValue = ((SymbolTableObjectRowValue) object.getValue()).openRow(isParentColumn);
+            } else if (type == SymbolTableRowType.GetData) {
+                addedValue = ((SymbolTableObjectGetDataValue) object.getValue()).getRouteName();
+            } else if (type == SymbolTableRowType.ListView) {
+                addedValue = ((SymbolTableObjectListViewValue) object.getValue()).openColumn(isParentColumn);
             } else if (type == SymbolTableRowType.Text) {
                 addedValue = ((SymbolTableObjectTextValue) object.getValue()).openText(isParentColumn);
             } else if (type == SymbolTableRowType.TextField) {
@@ -117,23 +131,29 @@ public class CodeGeneration {
             } else if (type == SymbolTableRowType.InkWellBody) {
                 addedValue = ((SymbolTableObjectInkWellBodyValue) object.getValue()).open();
             } else if (type == SymbolTableRowType.VarDefinition) {
+                exp exp = ((SymbolTableObjectVarDefinitionValue) object.getValue()).getValue().getExp();
                 String value = ((SymbolTableObjectVarDefinitionValue) object.getValue()).getValue().getIDENTIFIER();
                 String dataType = ((SymbolTableObjectVarDefinitionValue) object.getValue()).getValue().getDataType();
-                CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
                 CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
 
                 boolean res = semanticCheck.checkForRepetitionForOneVar(model1);
-                if (!res) {
+                boolean res2 = semanticCheck.checkForNotCorrectValue(exp,((SymbolTableObjectVarDefinitionValue) object.getValue()).getValue().getDataTypeAsEnum(),value);
+                if (!res || !res2) {
                     write = false;
                 }
-                semanticCheck.addOneObjectToList(object.getValue().getParentId(), model1, null);
+                semanticCheck.addOneObjectToList(object.getValue().getParentId(), model1,exp );
                 addedValue = ((SymbolTableObjectVarDefinitionValue) object.getValue()).print(object.getName());
             } else if (type == SymbolTableRowType.VarEqual) {
+                String value = ((SymbolTableObjectVarEqualValue) object.getValue()).getValue().getIDENTIFIER();
+                exp exp = ((SymbolTableObjectVarEqualValue) object.getValue()).getValue().getExp();
                 boolean res = semanticCheck.existenceCheck(((SymbolTableObjectVarEqualValue) object.getValue()).getValue().getIDENTIFIER());
-                if (!res) {
+                boolean res2 = semanticCheck.checkForNotCorrectValueForEqual(exp,value);
+
+                if (!res || !res2) {
                     write = false;
                 }
                 addedValue = ((SymbolTableObjectVarEqualValue) object.getValue()).print(object.getName());
+
             } else if (type == SymbolTableRowType.BoolVarDefinition) {
                 String value = ((SymbolTableObjectBoolVarDefinitionValue) object.getValue()).getValue().getIDENTIFIER();
                 String dataType = ((SymbolTableObjectBoolVarDefinitionValue) object.getValue()).getValue().getBool_type();
@@ -141,6 +161,7 @@ public class CodeGeneration {
                 CodeGenerationModel model1 = CodeGenerationModel.getCodeGenerationModel(dataType,value,type);
 
                 boolean res = semanticCheck.checkForRepetitionForOneVar(model1);
+
                 if (!res) {
                     write = false;
                 }
@@ -182,10 +203,16 @@ public class CodeGeneration {
             }
             else if (type == SymbolTableRowType.FunctionDatatype) {
                 res.put(model, res.get(model) + ((SymbolTableObjectDataTypeFunctionValue) object.getValue()).closeFunction());
-            } else if (type == SymbolTableRowType.Column) {
+            } else if (type == SymbolTableRowType.Image) {
+                res.put(model, res.get(model) + ((SymbolTableObjectImageValue) object.getValue()).closeImage());
+            }  else if (type == SymbolTableRowType.TextField) {
+                res.put(model, res.get(model) + ((SymbolTableObjectTextFieldValue) object.getValue()).closeTextFiled());
+            }  else if (type == SymbolTableRowType.Column) {
                 res.put(model, res.get(model) + ((SymbolTableObjectColumnValue) object.getValue()).closeColumn());
             } else if (type == SymbolTableRowType.Row) {
                 res.put(model, res.get(model) + ((SymbolTableObjectRowValue) object.getValue()).closeRow());
+            }else if (type == SymbolTableRowType.ListView) {
+                res.put(model, res.get(model) + ((SymbolTableObjectListViewValue) object.getValue()).closeColumn());
             } else if (type == SymbolTableRowType.Text) {
                 res.put(model, res.get(model) + ((SymbolTableObjectTextValue) object.getValue()).closeText());
             } else if (type == SymbolTableRowType.InkWell) {
@@ -208,6 +235,12 @@ public class CodeGeneration {
                 res.put(model, res.get(model) + ((SymbolTableObjectSwitchCaseDefineValue) object.getValue()).closeIf());
             } else if (type == SymbolTableRowType.SwitchDefault) {
                 res.put(model, res.get(model) + ((SymbolTableObjectSwitchDefultDefineValue) object.getValue()).closeIf());
+            }else if (type == SymbolTableRowType.VarDefinition) {
+                String value = ((SymbolTableObjectVarDefinitionValue) object.getValue()).getValue().getIDENTIFIER();
+                semanticCheck.deleteOneVarValueToList(value);
+            }else if (type == SymbolTableRowType.BoolVarDefinition) {
+                String value = ((SymbolTableObjectBoolVarDefinitionValue) object.getValue()).getValue().getIDENTIFIER();
+                semanticCheck.deleteOneVarValueToList(value);
             }
             semanticCheck.removeFromList(object.getValue().getId());
         }

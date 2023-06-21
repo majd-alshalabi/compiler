@@ -19,6 +19,7 @@ content: varDefinition      // done
         | def_function_void     // done
         | def_function_datatype // done
         | navigatorRule         // done
+        | getData
         ;
 // (varDefnition | varEq | boolVarDefnition | boolVarEq)*;
 varDefinition: DataType IDENTIFIER (EQ exp |) SC ;
@@ -118,18 +119,9 @@ containerBody : CHILD_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSig
 inkWellBody : CHILD_ CO (widget C*)?
                | ONPRESSED CO OP CP OBC content* CBC C*
 ;
+listView : LISTVIEW_  OP layoutBody CP C?;
 
-
-listView : LISTVIEW_  OP listViewBody* CP C?;
-
-listViewBody : layoutBody+
-            | CONTROLLER CO IDENTIFIER C*
-;
-
-
-layoutBody : CHILDREN_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? OB (widget C*)* CB C*
-
-;
+layoutBody : CHILDREN_ CO (ComparisonNormalVarSign WIDGET ComparisonNormalVarSign)? OB (widget C*)* CB C*;
 
 text: TEXT_ OP SingleLineString  CP C?;
 
@@ -171,6 +163,7 @@ imageBody :  (WIDTH_ CO NUMBER C*)
            | (HEIGHT_ CO NUMBER C*)
  ;
 navigatorRule : Navigator OP Context_ C MaterialPageRoute_ OP Builder CO OP Context_ CP EG def_object CP CP SC;
+getData : GetData OP IDENTIFIER CP SC;
 
 
 

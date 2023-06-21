@@ -1,25 +1,17 @@
 package ASTClasses.FlutterClasses.Widget.ListView;
 
+import ASTClasses.FlutterClasses.Widget.layoutBody;
+
 import java.util.List;
 
 public class listView {
-//    listView : LISTVIEW_  OP listViewBody* CP (C | SC)?;
-    private String  LISTVIEW_;
-    private List<listViewBody> listViewBody;
-
-    public String getLISTVIEW_() {
-        return LISTVIEW_;
+    public ASTClasses.FlutterClasses.Widget.layoutBody getLayoutBody() {
+        return layoutBody;
     }
 
-    public void setLISTVIEW_(String LISTVIEW_) {
-        this.LISTVIEW_ = LISTVIEW_;
+    public void setLayoutBody(ASTClasses.FlutterClasses.Widget.layoutBody layoutBody) {
+        this.layoutBody = layoutBody;
     }
 
-    public List<ASTClasses.FlutterClasses.Widget.ListView.listViewBody> getListViewBody() {
-        return listViewBody;
-    }
-
-    public void setListViewBody(List<ASTClasses.FlutterClasses.Widget.ListView.listViewBody> listViewBody) {
-        this.listViewBody = listViewBody;
-    }
+    private ASTClasses.FlutterClasses.Widget.layoutBody layoutBody;
 }

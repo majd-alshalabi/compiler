@@ -5,6 +5,14 @@ import ASTClasses.DartClasses.Class.def_class;
 import java.util.Objects;
 
 public class SymbolTableObjectClassValue extends SymbolTableObjectValue {
+    public ASTClasses.DartClasses.Class.def_class getDef_class() {
+        return def_class;
+    }
+
+    public void setDef_class(ASTClasses.DartClasses.Class.def_class def_class) {
+        this.def_class = def_class;
+    }
+
     private def_class def_class;
     public SymbolTableObjectClassValue(int scope, int id , int parentId,def_class def_class) {
         super(scope, id,parentId);

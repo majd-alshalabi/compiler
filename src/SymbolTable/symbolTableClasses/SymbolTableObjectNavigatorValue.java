@@ -23,7 +23,15 @@ public class SymbolTableObjectNavigatorValue extends SymbolTableObjectValue {
     }
 
     public String getRouteName() {
-        StringBuilder res = new StringBuilder("window.location.href='" + navigationRule.getDef_object().getIDENTIFIER().get(0) + ".html");
+        StringBuilder res = new StringBuilder("");
+
+        for(int i = 0 ; i < navigationRule.getDef_object().getExps().size() ; i++)
+        {
+            String name = navigationRule.getDef_object().getIDENTIFIER().get(i + 1);
+            String value = navigationRule.getDef_object().getExps().get(i).print();
+            res.append("localStorage.setItem(" + "'" + name + "'" + "," + value + ");");
+        }
+        res.append("window.location.href='" + navigationRule.getDef_object().getIDENTIFIER().get(0) + ".html");
         for(int i = 0 ; i < navigationRule.getDef_object().getExps().size() ; i++)
         {
             if(i == 0) res.append("?");
@@ -35,3 +43,5 @@ public class SymbolTableObjectNavigatorValue extends SymbolTableObjectValue {
         return res.toString();
     }
 }
+
+

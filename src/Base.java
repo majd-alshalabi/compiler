@@ -92,16 +92,6 @@ public class Base extends Dart2ParserBaseVisitor
     }
 
     @Override
-    public Object visitPrint(Dart2Parser.PrintContext ctx) {
-        return super.visitPrint(ctx);
-    }
-
-    @Override
-    public Object visitElements(Dart2Parser.ElementsContext ctx) {
-        return super.visitElements(ctx);
-    }
-
-    @Override
     public Object visitDef_class(Dart2Parser.Def_classContext ctx) {
         return super.visitDef_class(ctx);
     }
@@ -239,12 +229,6 @@ public class Base extends Dart2ParserBaseVisitor
     public Object visitListView(Dart2Parser.ListViewContext ctx) {
         return super.visitListView(ctx);
     }
-
-    @Override
-    public Object visitListViewBody(Dart2Parser.ListViewBodyContext ctx) {
-        return super.visitListViewBody(ctx);
-    }
-
     @Override
     public Object visitLayoutBody(Dart2Parser.LayoutBodyContext ctx) {
         return super.visitLayoutBody(ctx);
@@ -333,5 +317,10 @@ public class Base extends Dart2ParserBaseVisitor
     @Override
     public Object visitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx) {
         return super.visitNavigatorRule(ctx);
+    }
+
+    @Override
+    public Object visitGetData(Dart2Parser.GetDataContext ctx) {
+        return super.visitGetData(ctx);
     }
 }

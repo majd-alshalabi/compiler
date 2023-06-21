@@ -128,18 +128,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValue(Dart2Parser.ValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#print}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPrint(Dart2Parser.PrintContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#elements}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElements(Dart2Parser.ElementsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#def_class}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -307,12 +295,6 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitListView(Dart2Parser.ListViewContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Dart2Parser#listViewBody}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListViewBody(Dart2Parser.ListViewBodyContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Dart2Parser#layoutBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -420,4 +402,10 @@ public interface Dart2ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNavigatorRule(Dart2Parser.NavigatorRuleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Dart2Parser#getData}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetData(Dart2Parser.GetDataContext ctx);
 }

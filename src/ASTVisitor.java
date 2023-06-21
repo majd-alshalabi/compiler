@@ -15,6 +15,7 @@ import ASTClasses.DartClasses.Function.def_function_void;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import ASTClasses.DartClasses.GetDataAst;
 import ASTClasses.DartClasses.exp;
 import ASTClasses.FlutterClasses.Widget.*;
 import ASTClasses.FlutterClasses.Widget.Container.containerBody;
@@ -131,7 +132,7 @@ public class ASTVisitor {
 
 
         if (def_build_function.getWidget() != null) {
-            visit(def_build_function.getWidget(), id, scope + 1);
+            visit(def_build_function.getWidget(), id, scope + 1, false);
         }
     }
 
@@ -173,9 +174,6 @@ public class ASTVisitor {
         if (content.getDef_switch() != null) {
             visit(content.getDef_switch(), parentId, scope);
         }
-        if (content.getDef_object() != null) {
-            visit(content.getDef_object());
-        }
         if (content.getDef_function_void() != null) {
             visit(content.getDef_function_void(), parentId, scope);
         }
@@ -184,6 +182,8 @@ public class ASTVisitor {
         }
         if (content.getNavigatorRule() != null) {
             visit(content.getNavigatorRule(), parentId, scope);
+        }if (content.getGetDataAst() != null) {
+            visit(content.getGetDataAst(), parentId, scope);
         }
 
     }
@@ -294,45 +294,37 @@ public class ASTVisitor {
         addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.SwitchDefault, "SwitchDefault", new SymbolTableObjectSwitchDefultDefineValue(scope, id, parentId, def_defult)));
     }
 
-
-    public void visit(def_object def_object) {
-    }
-    //EndDart ----------------------------------------------------------------------
-
-
     //FlutterClasses ----------------------------------------------------------------------
-    public void visit(widget widget, int parentId, int scope) {
+    public void visit(widget widget, int parentId, int scope, boolean isParentList) {
         if (widget.getDefColumn() != null) {
-            visit(widget.getDefColumn(), parentId, scope + 1);
+            visit(widget.getDefColumn(), parentId, scope + 1, isParentList);
         }
         if (widget.getDefContainer() != null) {
-            visit(widget.getDefContainer(), parentId, scope + 1);
+            visit(widget.getDefContainer(), parentId, scope + 1, isParentList);
         }
         if (widget.getText() != null) {
-            visit(widget.getText(), parentId, scope + 1);
+            visit(widget.getText(), parentId, scope + 1, isParentList);
         }
         if (widget.getDefRow() != null) {
-            visit(widget.getDefRow(), parentId, scope + 1);
+            visit(widget.getDefRow(), parentId, scope + 1, isParentList);
         }
         if (widget.getImage() != null) {
-            visit(widget.getImage(), parentId, scope + 1);
+            visit(widget.getImage(), parentId, scope + 1, isParentList);
         }
         if (widget.getListView() != null) {
-            visit(widget.getListView(), parentId, scope + 1);
+            visit(widget.getListView(), parentId, scope + 1, isParentList);
         }
         if (widget.getTextField() != null) {
-            visit(widget.getTextField(), parentId, scope + 1);
+            visit(widget.getTextField(), parentId, scope + 1, isParentList);
         }
         if (widget.getInkWell() != null) {
-            visit(widget.getInkWell(), parentId, scope + 1);
+            visit(widget.getInkWell(), parentId, scope + 1, isParentList);
         }
     }
 
 
     //Container ----------------------------------------------------------------------
-    public void visit(defContainer defContainer, int parentId, int scope) {
-        if (defContainer.getCONTAINER_() != null) {
-        }
+    public void visit(defContainer defContainer, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
 
         if (defContainer.getContainerBody() != null) {
@@ -343,97 +335,37 @@ public class ASTVisitor {
     }
 
     public void visit(containerBody containerBody, int parentId, int scope) {
-        if (containerBody.getCHILD_() != null) {
-        }
-        if (containerBody.getNUMBER() != null) {
-        }
-        if (containerBody.getPADDING_() != null) {
-        }
-        if (containerBody.getPADDING_value() != null) {
-        }
-        if (containerBody.getWIDGET() != null) {
-        }
         if (containerBody.getWidget() != null) {
-            visit(containerBody.getWidget(), parentId, scope);
-        }
-        if (containerBody.getWIDTH_() != null) {
+            visit(containerBody.getWidget(), parentId, scope, false);
         }
     }
     //End Container ----------------------------------------------------------------------
 
     //Image ----------------------------------------------------------------------
-    public void visit(image image, int parentId, int scope) {
+    public void visit(image image, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
 
         if (image.getIMAGE_() != null) {
-            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Image, "Image", new SymbolTableObjectImageValue(scope, id, parentId)));
-        }
-
-        if (image.getAssetImage() != null) {
-            visit(image.getAssetImage(), id, parentId);
-        }
-
-
-        if (image.getImageBody() != null) {
-            for (int i = 0; i < image.getImageBody().size(); i++) {
-                visit(image.getImageBody().get(i), id, scope);
-            }
+            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Image, "Image", new SymbolTableObjectImageValue(scope, id, parentId, image, isParentList)));
         }
     }
 
-    public void visit(assetImage assetImage, int id, int parentId) {
-        if (assetImage.getIMAGE() != null) {
-        }
-
-        if (assetImage.getASSETIMAGE_() != null) {
-        }
-        if (assetImage.getSingleLineString() != null) {
-            updateAlreadyAddedImageValue(id, parentId, assetImage.getSingleLineString().substring(1, assetImage.getSingleLineString().length() - 1));
-        }
-    }
-
-    public void visit(imageBody imageBody, int parentId, int scope) {
-        if (imageBody.getHEIGHT_() != null) {
-        }
-
-        if (imageBody.getNUMBER() != null) {
-        }
-        if (imageBody.getWIDTH_() != null) {
-        }
-    }
     //End Image ----------------------------------------------------------------------
 
     //ListView ----------------------------------------------------------------------
-    public void visit(listView listView, int parentId, int scope) {
-        if (listView.getLISTVIEW_() != null) {
-        }
+    public void visit(listView listView, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
-
-        if (listView.getListViewBody() != null) {
-            for (int i = 0; i < listView.getListViewBody().size(); i++) {
-                visit(listView.getListViewBody().get(i), id, scope);
-            }
-        }
-    }
-
-    public void visit(listViewBody listViewBody, int parentId, int scope) {
-        if (listViewBody.getCONTROLLER() != null) {
-        }
-
-        if (listViewBody.getIDENTIFIER() != null) {
-        }
-        if (listViewBody.getLayoutBody() != null) {
-            for (int i = 0; i < listViewBody.getLayoutBody().size(); i++) {
-                visit(listViewBody.getLayoutBody().get(i), parentId, scope);
-            }
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.ListView, "ListView", new SymbolTableObjectListViewValue(scope, id, parentId, listView, isParentList)));
+        if (listView.getLayoutBody() != null) {
+            visit(listView.getLayoutBody(), id, scope + 1, true);
         }
     }
     //EndListView ----------------------------------------------------------------------
 
     //textfield ----------------------------------------------------------------------
-    public void visit(InkWell inkWell, int parentId, int scope) {
+    public void visit(InkWell inkWell, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
-        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.InkWell, "InkWell", new SymbolTableObjectInkWellValue(scope, id, parentId)));
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.InkWell, "InkWell", new SymbolTableObjectInkWellValue(scope, id, parentId, inkWell, isParentList)));
         if (inkWell.getInkWellBodyList() != null) {
             for (int i = 0; i < inkWell.getInkWellBodyList().size(); i++) {
                 visit(inkWell.getInkWellBodyList().get(i), id, scope);
@@ -452,187 +384,52 @@ public class ASTVisitor {
             });
         } else if (inkWellBody instanceof InkWellChild) {
             addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.InkWellBody, "child", new SymbolTableObjectInkWellBodyValue(scope, id, parentId, InkWellBodyType.child)));
-            visit(((InkWellChild) inkWellBody).getWidget(), parentId, scope);
+            visit(((InkWellChild) inkWellBody).getWidget(), parentId, scope, false);
         }
 
     }
 
-    public void visit(textField textField, int parentId, int scope) {
+    public void visit(textField textField, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
 
         if (textField.getTExtField() != null) {
-            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.TextField, "TextField", new SymbolTableObjectTextFieldValue(scope, id, parentId)));
-        }
-
-        if (textField.getTextFieldProperties() != null) {
-            for (int i = 0; i < textField.getTextFieldProperties().size(); i++) {
-                visit(textField.getTextFieldProperties().get(i), id, parentId, scope);
-            }
-
-        }
-
-    }
-
-    public void visit(textFieldProperties textFieldProperties, int id, int parentId, int scope) {
-        if (textFieldProperties.getTextFieldControllerProperty() != null) {
-            visit(textFieldProperties.getTextFieldControllerProperty(), id, parentId, scope);
-        }
-        if (textFieldProperties.getTextFieldDecorationProperty() != null) {
-            visit(textFieldProperties.getTextFieldDecorationProperty(), id, parentId, scope);
-        }
-
-        if (textFieldProperties.getTextFieldTextProperty() != null) {
-            visit(textFieldProperties.getTextFieldTextProperty(), id, parentId, scope);
-        }
-
-        if (textFieldProperties.getTextFieldOnChangedProperty() != null) {
-            visit(textFieldProperties.getTextFieldOnChangedProperty(), id, parentId, scope);
-        }
-
-        if (textFieldProperties.getTextFieldOnEditingCompleteProperty() != null) {
-            visit(textFieldProperties.getTextFieldOnEditingCompleteProperty(), id, parentId, scope);
+            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.TextField, "TextField", new SymbolTableObjectTextFieldValue(scope, id, parentId, textField, isParentList)));
         }
     }
-
-    public void visit(inputDecorationIconProperty inputDecorationIconProperty, int id, int parentId, int scope) {
-        if (inputDecorationIconProperty.getICON() != null) {
-        }
-
-        if (inputDecorationIconProperty.getIDENTIFIER() != null) {
-            addToAlreadyAddedValueSymbolTable(id, parentId, new SymbolTableColumnAttribute(inputDecorationIconProperty.getICON(), inputDecorationIconProperty.getIDENTIFIER()));
-        }
-    }
-
-    public void visit(inputDecorationLabelTextProperty inputDecorationLabelTextProperty, int id, int parentId, int scope) {
-        if (inputDecorationLabelTextProperty.getLABELTEXT() != null) {
-        }
-        if (inputDecorationLabelTextProperty.getSingleLineString() != null) {
-            addToAlreadyAddedValueSymbolTable(id, parentId, new SymbolTableColumnAttribute(inputDecorationLabelTextProperty.getLABELTEXT(), inputDecorationLabelTextProperty.getSingleLineString()));
-
-        }
-
-    }
-
-    public void visit(inputDecorationProperties inputDecorationProperties, int id, int parentId, int scope) {
-        if (inputDecorationProperties.getInputDecorationHelperTextProperty() != null) {
-            visit(inputDecorationProperties.getInputDecorationLabelTextProperty(), id, parentId, scope);
-        }
-
-        if (inputDecorationProperties.getInputDecorationIconProperty() != null) {
-            visit(inputDecorationProperties.getInputDecorationIconProperty(), id, parentId, scope);
-        }
-
-        if (inputDecorationProperties.getInputDecorationHelperTextProperty() != null) {
-            visit(inputDecorationProperties.getInputDecorationHelperTextProperty(), id, parentId, scope);
-        }
-
-        if (inputDecorationProperties.getInputDecorationLabelTextProperty() != null) {
-            visit(inputDecorationProperties.getInputDecorationHintTextProperty(), id, parentId, scope);
-        }
-    }
-
-    public void visit(textFieldControllerProperty textFieldControllerProperty, int id, int parentId, int scope) {
-        if (textFieldControllerProperty.getCONTROLLER() != null) {
-        }
-        if (textFieldControllerProperty.getIDENTIFIER() != null) {
-            addToAlreadyAddedValueSymbolTable(id, parentId, new SymbolTableColumnAttribute(textFieldControllerProperty.getCONTROLLER(), textFieldControllerProperty.getIDENTIFIER()));
-
-        }
-    }
-
-    public void visit(textFieldDecorationProperty textFieldDecorationProperty, int id, int parentId, int scope) {
-        if (textFieldDecorationProperty.getDECORATION() != null) {
-        }
-
-        if (textFieldDecorationProperty.getInputDecorationProperties() != null) {
-            visit(textFieldDecorationProperty.getInputDecorationProperties(), id, parentId, scope);
-
-        }
-    }
-
-    public void visit(textFieldOnChangedProperty textFieldOnChangedProperty, int id, int parentId, int scope) {
-        if (textFieldOnChangedProperty.getIDENTIFIER() != null) {
-        }
-
-        if (textFieldOnChangedProperty.getONCHANGED() != null) {
-        }
-    }
-
-    public void visit(textFieldOnEditingCompleteProperty textFieldOnEditingCompleteProperty, int id, int parentId, int scope) {
-        if (textFieldOnEditingCompleteProperty.getIDENTIFIER() != null) {
-        }
-
-        if (textFieldOnEditingCompleteProperty.getONEDITINGCOMPLETE() != null) {
-        }
-    }
-
-    public void visit(textFieldTextProperty textFieldTextProperty, int id, int parentId, int scope) {
-        if (textFieldTextProperty.getText() != null) {
-        }
-
-        if (textFieldTextProperty.getSingleLineString() != null) {
-        }
-    }
-
-    public void visit(inputDecorationHelperTextProperty inputDecorationHelperTextProperty, int id, int parentId, int scope) {
-        if (inputDecorationHelperTextProperty.getHELPERTEXT() != null) {
-        }
-
-        if (inputDecorationHelperTextProperty.getSingleLineString() != null) {
-        }
-    }
-
-    public void visit(inputDecorationHintTextProperty inputDecorationHintTextProperty, int id, int parentId, int scope) {
-        if (inputDecorationHintTextProperty.getHINTTEXT() != null) {
-        }
-
-        if (inputDecorationHintTextProperty.getSingleLineString() != null) {
-        }
-    }
-
     //Endtextfield ----------------------------------------------------------------------
 
 
-    public void visit(layoutBody layoutBody, int parentId, int scope) {
-        if (layoutBody.getCHILDREN_() != null) {
-        }
-
-        if (layoutBody.getWIDGET() != null) {
-        }
-
+    public void visit(layoutBody layoutBody, int parentId, int scope, boolean isParenList) {
         if (layoutBody.getWidget() != null) {
             for (int i = 0; i < layoutBody.getWidget().size(); i++) {
-                visit(layoutBody.getWidget().get(i), parentId, scope);
+                visit(layoutBody.getWidget().get(i), parentId, scope, isParenList);
             }
-        }
-        if (layoutBody.getCHILDREN_() != null) {
         }
     }
 
-    public void visit(defRow defRow, int parentId, int scope) {
+    public void visit(defRow defRow, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
 
         if (defRow.getROW_() != null) {
-            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Row, "Row", new SymbolTableObjectRowValue(scope, id, parentId)));
+            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Row, "Row", new SymbolTableObjectRowValue(scope, id, parentId, defRow, isParentList)));
         }
 
         if (defRow.getLayoutBody() != null) {
             for (int i = 0; i < defRow.getLayoutBody().size(); i++) {
-                visit(defRow.getLayoutBody().get(i), id, scope);
+                visit(defRow.getLayoutBody().get(i), id, scope, false);
             }
         }
     }
 
-    public void visit(defColumn defColumn, int parentId, int scope) {
+    public void visit(defColumn defColumn, int parentId, int scope, boolean isParentList) {
         final int id = ThreadLocalRandom.current().nextInt();
         if (defColumn.getCOLUMN_() != null) {
-            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Column, "Column", new SymbolTableObjectColumnValue(scope, id, parentId)));
-
+            addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Column, "Column", new SymbolTableObjectColumnValue(scope, id, parentId, defColumn, isParentList)));
         }
 
         if (defColumn.getLayoutBody() != null) {
             for (int i = 0; i < defColumn.getLayoutBody().size(); i++) {
-                visit(defColumn.getLayoutBody().get(i), id, scope);
+                visit(defColumn.getLayoutBody().get(i), id, scope, false);
             }
         }
 
@@ -643,15 +440,14 @@ public class ASTVisitor {
         addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Navigator, "Navigator", new SymbolTableObjectNavigatorValue(scope, id, parentId, navigationRule)));
     }
 
-    public void visit(text text, int parentId, int scope) {
+    public void visit(GetDataAst getDataAst, int parentId, int scope) {
         final int id = ThreadLocalRandom.current().nextInt();
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.GetData, "GetData", new SymbolTableObjectGetDataValue(scope, id, parentId, getDataAst)));
+    }
 
-        if (text.getTEXT_() != null) {
-        }
-
-        if (text.getSingleLineString() != null) {
-        }
-        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Text, "Text", new SymbolTableObjectTextValue(scope, id, parentId, text.getSingleLineString())));
+    public void visit(text text, int parentId, int scope, boolean isParentList) {
+        final int id = ThreadLocalRandom.current().nextInt();
+        addToSymbolTable(parentId, new SymbolTableObject(SymbolTableRowType.Text, "Text", new SymbolTableObjectTextValue(scope, id, parentId, text, isParentList)));
 
     }
 
@@ -661,16 +457,5 @@ public class ASTVisitor {
         symbolTable.addToList(parentId, object);
     }
 
-    public void addToAlreadyAddedValueSymbolTable(Integer id, Integer parentId, SymbolTableColumnAttribute object) {
-        symbolTable.addToAlreadyAddedValueSymbolTable(id, parentId, object);
-    }
-
-    public void addToAlreadyAddedValueSymbolTable(Integer id, Integer parentId, SymbolTableObjectInkWellBodyValue object) {
-        symbolTable.addToAlreadyAddedValueSymbolTable(id, parentId, object);
-    }
-
-    public void updateAlreadyAddedImageValue(Integer id, Integer parentId, String assetName) {
-        symbolTable.updateAlreadyAddedImageValue(id, parentId, assetName);
-    }
 
 }

@@ -11,6 +11,7 @@ import ASTClasses.DartClasses.Content.IF.def_if;
 import ASTClasses.DartClasses.Function.def_build_function;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import ASTClasses.DartClasses.GetDataAst;
 import ASTClasses.DartClasses.exp;
 import ASTClasses.DartClasses.value;
 import ASTClasses.FlutterClasses.Widget.*;
@@ -231,6 +232,8 @@ public class myVisitor extends Base {
         }
         if (ctx.def_switch() != null) {
             content.setDef_switch(visitDef_switch(ctx.def_switch()));
+        } if (ctx.getData() != null) {
+            content.setGetDataAst(visitGetData(ctx.getData()));
         }
 
         return content;
@@ -613,16 +616,6 @@ public class myVisitor extends Base {
     }
 
     @Override
-    public Object visitPrint(Dart2Parser.PrintContext ctx) {
-        return super.visitPrint(ctx);
-    }
-
-    @Override
-    public Object visitElements(Dart2Parser.ElementsContext ctx) {
-        return super.visitElements(ctx);
-    }
-
-    @Override
     public widget visitWidget(Dart2Parser.WidgetContext ctx) {
 
         widget widget = new widget();
@@ -786,45 +779,9 @@ public class myVisitor extends Base {
     @Override
     public listView visitListView(Dart2Parser.ListViewContext ctx) {
         listView listView = new listView();
-
-        if (ctx.LISTVIEW_() != null) {
-            listView.setLISTVIEW_(ctx.LISTVIEW_().getText());
-
-        }
-        if (ctx.listViewBody() != null) {
-            List<listViewBody> listViewBody = new ArrayList<>();
-            for (int i = 0; i < ctx.listViewBody().size(); i++) {
-                listViewBody.add(visitListViewBody(ctx.listViewBody(i)));
-            }
-            listView.setListViewBody(listViewBody);
-        }
-
+        if(ctx.layoutBody() != null)listView.setLayoutBody(visitLayoutBody(ctx.layoutBody()));
         return listView;
     }
-
-    @Override
-    public listViewBody visitListViewBody(Dart2Parser.ListViewBodyContext ctx) {
-
-        listViewBody listViewBody = new listViewBody();
-
-        if (ctx.layoutBody() != null) {
-            List<layoutBody> layoutBody = new ArrayList<>();
-            for (int i = 0; i < ctx.layoutBody().size(); i++) {
-                layoutBody.add(visitLayoutBody(ctx.layoutBody(i)));
-            }
-            listViewBody.setLayoutBody(layoutBody);
-        }
-        if (ctx.CONTROLLER() != null) {
-            listViewBody.setCONTROLLER(ctx.CONTROLLER().getText());
-
-        }
-        if (ctx.IDENTIFIER() != null) {
-            listViewBody.setIDENTIFIER(ctx.IDENTIFIER().getText());
-
-        }
-        return listViewBody;
-    }
-
     @Override
     public layoutBody visitLayoutBody(Dart2Parser.LayoutBodyContext ctx) {
 
@@ -975,6 +932,13 @@ public class myVisitor extends Base {
         NavigationRule navigationRule = new NavigationRule();
         navigationRule.setDef_object(visitDef_object(ctx.def_object()));
         return navigationRule;
+    }
+
+    @Override
+    public GetDataAst visitGetData(Dart2Parser.GetDataContext ctx) {
+        GetDataAst getDataAst = new GetDataAst();
+        getDataAst.setName(ctx.IDENTIFIER().getText());
+        return getDataAst;
     }
 
 }

@@ -1,31 +1,51 @@
 package SymbolTable.symbolTableClasses;
 
+import ASTClasses.FlutterClasses.Widget.text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SymbolTableObjectTextValue extends SymbolTableObjectValue {
-    private String value;
+    public ASTClasses.FlutterClasses.Widget.text getText() {
+        return text;
+    }
 
-    public SymbolTableObjectTextValue(int scope, int id, int parentId, String res) {
+    public void setText(ASTClasses.FlutterClasses.Widget.text text) {
+        this.text = text;
+    }
+
+    public boolean isParentList() {
+        return isParentList;
+    }
+
+    public void setParentList(boolean parentList) {
+        isParentList = parentList;
+    }
+
+    private ASTClasses.FlutterClasses.Widget.text text;
+
+    public SymbolTableObjectTextValue(int scope, int id, int parentId, ASTClasses.FlutterClasses.Widget.text text, boolean isParentList) {
         super(scope, id, parentId);
-        this.value = res;
+        this.text = text;
+        this.isParentList = isParentList;
     }
 
-    public String getValue() {
-        return value;
-    }
+    private boolean isParentList;
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 
     public String openText(boolean isParentColumn){
-        String sub = this.getValue().substring(1,this.getValue().length() - 1);
-        if (isParentColumn)return "<text style=\"display: block;\">" + sub;
-        return "<text>" + sub;
+        String res = "";
+//        if(isParentList)res += "<li>";
+        String sub = this.text.getSingleLineString().substring(1,this.text.getSingleLineString().length() - 1);
+        if (isParentColumn || isParentList)res += "<text style=\"display: block;\">" + sub;
+        else res += "<text>" + sub;
+        return res;
     }
     public String closeText(){
-        return "</text>";
+        String res = "";
+        res += "</text>";
+//        if(isParentList)res += "</li>";
+        return res;
     }
 }
 

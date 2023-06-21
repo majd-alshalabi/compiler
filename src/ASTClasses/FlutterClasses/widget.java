@@ -53,12 +53,6 @@ public class widget {
     }
 
     public void setTextField(ASTClasses.FlutterClasses.Widget.textfield.textField textField) {
-        if(!textField.getTextFieldProperties().isEmpty()) {
-            for(int i = 0 ; i < textField.getTextFieldProperties().size() ; i ++)
-            {
-                System.out.println(textField.getTextFieldProperties().get(i).getTextFieldControllerProperty());
-            }
-        }
         this.textField = textField;
     }
 

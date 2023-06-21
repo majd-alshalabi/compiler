@@ -1,79 +1,84 @@
-class MainApp extends StatelessWidget  {
+class Login extends StatelessWidget {
   void build() {
-    return Row(
+    return Column(
       children: [
-        Column(
-          children: [
-            Image(image: AssetImage("ttt.png")),
-            TextField(controller: controlle1r),
-            InkWell(onPressed: () {
-              int x = 2;
-              if (x == 1) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainApp2())
-                );
-              } else {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainApp3(x : 10))
-                );
-              }
-            }, child: Text("click me.")),
-            Text("click the upper button"),
-          ],
-        ),
-        Column(
-          children: [
-            Column(
-              children: [
-                Text("hi."),
-              ],
-            ),
-            Column(
-              children: [
-                Text("how are you ? "),
-              ],
-            ),
-            Column(
-              children: [
-                Text("fine ?!!"),
-              ],
-            ),
-          ],
-        ),
+        Image(image: AssetImage("ttt.png")),
+        Text("Login"),
+        Row(children: [Text("email:"), TextField(controller: controlle1r),]),
+        Row(children: [Text("password:"), TextField(controller: controlle1r),]),
+        InkWell(onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home(x:10))
+          );
+        }, child: Text("login")),
+        InkWell(onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Register())
+          );
+        }, child: Text("register")),
+
       ],
     );
   }
 }
 
-class MainApp2 extends StatelessWidget  {
+class Register extends StatelessWidget {
   void build() {
-    return Row(
+    return Column(
       children: [
-        Text("majd alshalabi"),
-        Text("majd alshalabi2"),
+        Image(image: AssetImage("ttt.png")),
+        Text("Register"),
+        Row(children: [Text("Email:"), TextField(controller: controlle1r),]),
+        Row(children: [Text("Name:"), TextField(controller: controlle1r),]),
+        Row(children: [Text("Password:"), TextField(controller: controlle1r),]),
+        InkWell(onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home())
+          );
+        }, child: Text("Register")),
       ],
     );
   }
 }
 
-class MainApp3 extends StatelessWidget  {
+class Home extends StatelessWidget {
   void build() {
-    return Row(
+    return ListView(
       children: [
-        Text("majd alshalabi"),
-        Text("majd alshalabi2"),
+        Row(children: [
+          Image(image: AssetImage("ttt.png")),
+          Column(children: [Text("majd"), Text("hi every body")])
+        ]),
+        Row(children: [
+          Image(image: AssetImage("ttt.png")),
+          Column(children: [Text("majd"), Text("hi every body")])
+        ]),
+        Row(children: [
+          Image(image: AssetImage("ttt.png")),
+          Column(children: [Text("majd"), Text("hi every body")])
+        ]),
+
+        InkWell(onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Login())
+          );
+        }, child: Text("logout")),
+        InkWell(onPressed: () {
+          GetData(x);
+        }, child: Text("show data")),
+
       ],
     );
   }
 }
 
-class majd{
-  void hi(int x , int y){
-  }
-  int hi(int x , int xxx){
-    int x = 1;
-    return 10 ;
+class majd {
+  void hi(int x, int y) {
+    int qaq = 1;
+    int z = qaq;
   }
 }

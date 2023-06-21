@@ -8,6 +8,7 @@ import ASTClasses.DartClasses.Content.IF.def_else_if;
 import ASTClasses.DartClasses.Content.IF.def_if;
 import ASTClasses.DartClasses.Function.def_function_datatype;
 import ASTClasses.DartClasses.Function.def_function_void;
+import ASTClasses.DartClasses.GetDataAst;
 import ASTClasses.FlutterClasses.Widget.NavigationRule;
 import ASTClasses.FlutterClasses.widget;
 
@@ -18,6 +19,16 @@ public class Content {
     private boolVarDefnition boolVarDefnition ;
     private boolVarEq boolVarEq;
     private def_if def_if;
+
+    public GetDataAst getGetDataAst() {
+        return getDataAst;
+    }
+
+    public void setGetDataAst(GetDataAst getDataAst) {
+        this.getDataAst = getDataAst;
+    }
+
+    private GetDataAst getDataAst;
 
     public ASTClasses.DartClasses.Content.IF.def_else_if getDef_else_if() {
         return def_else_if;

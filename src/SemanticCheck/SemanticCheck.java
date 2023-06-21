@@ -1,13 +1,17 @@
 package SemanticCheck;
+import ASTClasses.DartClasses.exp;
 import code_generation.CodeGenerationModel;
+import code_generation.DataTypeEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SemanticCheck {
     private final HashMap<Integer, HashMap<CodeGenerationModel,Object>> map = new HashMap<>();
+    private final HashMap<String , Object> mapValue = new HashMap<>();
 
     public boolean checkForRepetitionForOneVar(CodeGenerationModel newVarName) {
         AtomicBoolean res = new AtomicBoolean(true);
@@ -27,6 +31,58 @@ public class SemanticCheck {
             });
         }
         return res.get();
+    }
+    public boolean checkForNotCorrectValue(exp exp , DataTypeEnum dataType , String name) {
+        AtomicBoolean res = new AtomicBoolean(true);
+        if(exp == null)
+            return true ;
+        Object val = exp.getValue(dataType , mapValue);
+        if(val == null || !checkIfValid(val,dataType))
+        {
+            System.out.println("not valid datatype for " + name );
+            return false;
+        }
+        addOneVarValueToList(name,val);
+        return res.get();
+    }public boolean checkForNotCorrectValueForEqual(exp exp , String name) {
+        AtomicBoolean res = new AtomicBoolean(true);
+        DataTypeEnum dataTypeRes = getDataType(name);
+        if(dataTypeRes == null)
+        {
+            System.out.println("not define " + name );
+            return false;
+        }
+        if(exp == null)
+            return true ;
+        Object val = exp.getValue(dataTypeRes , mapValue);
+        if(val == null || !checkIfValid(val,dataTypeRes))
+        {
+            System.out.println("not valid datatype for " + name );
+            return false;
+        }
+        addOneVarValueToList(name,val);
+        return res.get();
+    }
+    private DataTypeEnum getDataType(String name){
+        if(mapValue.containsKey(name)) {
+            Object val = mapValue.get(name);
+
+            return  getDataTypeAsEnum(val);
+        }else return null;
+    }
+    private DataTypeEnum getDataTypeAsEnum(Object val){
+        if(val instanceof Integer)return DataTypeEnum.Integer;
+        if(val instanceof String)return DataTypeEnum.STRING;
+        if(val instanceof Double)return DataTypeEnum.Double;
+        return DataTypeEnum.Double;
+    }
+
+    private boolean checkIfValid(Object object, DataTypeEnum model) {
+        if (object instanceof String && model != DataTypeEnum.STRING) return false;
+        if (object instanceof Double && model != DataTypeEnum.Double) return false;
+        if (object instanceof Integer && model != DataTypeEnum.Integer) return false;
+        if (object instanceof Boolean && model != DataTypeEnum.BOOLEAN) return false;
+        return true;
     }
 public boolean checkForRepetition(List<CodeGenerationModel> newVarName) {
         AtomicBoolean res = new AtomicBoolean(true);
@@ -86,6 +142,12 @@ public boolean checkForRepetition(List<CodeGenerationModel> newVarName) {
         }
         temp.put(newVarName,val);
         map.put(parentId,temp);
+    }
+    public void addOneVarValueToList(String var,Object val) {
+        mapValue.put(var,val);
+    }
+    public void deleteOneVarValueToList(String var) {
+        map.remove(var);
     }
 
     public void removeFromList(int id) {

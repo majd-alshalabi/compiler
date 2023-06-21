@@ -1,37 +1,53 @@
 package SymbolTable.symbolTableClasses;
 
+import ASTClasses.FlutterClasses.Widget.inkWell.InkWell;
 import ASTClasses.FlutterClasses.Widget.inkWell.InkWellBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SymbolTableObjectInkWellValue extends SymbolTableObjectValue {
-    private List<SymbolTableObjectInkWellBodyValue> inkWellBodies;
+    public InkWell getInkWell() {
+        return inkWell;
+    }
 
-    public SymbolTableObjectInkWellValue(int scope, int id, int parentId) {
+    public void setInkWell(InkWell inkWell) {
+        this.inkWell = inkWell;
+    }
+
+    public boolean isParentList() {
+        return isParentList;
+    }
+
+    public void setParentList(boolean parentList) {
+        isParentList = parentList;
+    }
+
+    private InkWell inkWell;
+
+    public SymbolTableObjectInkWellValue(int scope, int id, int parentId, InkWell inkWell, boolean isParentList) {
         super(scope, id, parentId);
-        inkWellBodies = new ArrayList<>();
+        this.inkWell = inkWell;
+        this.isParentList = isParentList;
     }
 
-    public List<SymbolTableObjectInkWellBodyValue> getInkWellBodies() {
-        return inkWellBodies;
-    }
+    private boolean isParentList;
 
-    public void setInkWellBodies(List<SymbolTableObjectInkWellBodyValue> inkWellBodies) {
-        this.inkWellBodies = inkWellBodies;
-    }
-
-    public void addToList(SymbolTableObjectInkWellBodyValue inkWellBodies) {
-        this.inkWellBodies.add(inkWellBodies);
-    }
 
     public String openButton(boolean isParentColumn) {
-        if (isParentColumn)return "<button type=\"button\" class=\"btn btn-outline-success\" ";
-        return "<input type=\"text\">";
+        String res = "";
+        if(isParentList)
+            res += "<div style=\"display: block;\"><button type=\"button\" class=\"btn btn-outline-success\" ";
+        else
+        res += "<div><button type=\"button\" class=\"btn btn-outline-success\" ";
+        return  res ;
     }
 
     public String closeButton() {
-        return "</button>";
+        String res = "";
+        res += "</button></div>";
+//        if(isParentList)res += "</li>";
+        return res;
     }
 }
 
